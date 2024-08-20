@@ -11,13 +11,11 @@ export default function AccountLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
-      <body>
-        <div>
-          <h2>Stockmon World</h2>
-        </div>
-        {children}
-      </body>
-    </html>
+    <>
+      <div>
+        <h2>Stockmon World</h2>
+      </div>
+      {children}
+    </>
   );
 }
