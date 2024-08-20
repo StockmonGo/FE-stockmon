@@ -52,6 +52,9 @@ const config: Config = {
       },
     },
     extend: {
+      boxShadow: {
+        "btn-shadow": "-2px -4px 2px 0px rgba(47,0,255,0.17) inset",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
