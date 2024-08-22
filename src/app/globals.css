@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn-blue {
+  @apply py-2 px-4 bg-stock-blue-400 shadow-btn-blue-shadow enabled:hover:bg-stock-blue-500;
+}
+.btn-white {
+  @apply py-2 px-4 bg-white shadow-btn-white-shadow;
+  p {
+    @apply text-stock-dark-800;
+  }
+}
