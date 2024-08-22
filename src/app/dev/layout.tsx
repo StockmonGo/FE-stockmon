@@ -18,7 +18,7 @@ export default function DevLayout({
           style={{ backgroundImage: "url('/images/bg.jpg')" }}
         ></div>
       </div>
-      <div className="p-4 max-w-xl min-w-96 h-64 relative z-1">
+      <div className="p-4 max-w-xl min-w-96 h-64 relative z-1 m-auto">
         <div>
           <h2>[개발용 페이지] 필요한 컴포넌트 여기서 테스트</h2>
         </div>
