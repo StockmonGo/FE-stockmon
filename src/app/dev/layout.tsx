@@ -14,7 +14,7 @@ export default function DevLayout({
     <div className="w-full h-full overflow-x-hidden overflow-y-scroll">
       <div className="fixed w-full h-full overflow-hidden z-0">
         <div
-          className="bg-contain bg-center w-full h-full fixed scale-150 z-[-1]"
+          className="bg-cover bg-center w-full h-full fixed z-[-1]"
           style={{ backgroundImage: "url('/images/bg.jpg')" }}
         ></div>
       </div>
