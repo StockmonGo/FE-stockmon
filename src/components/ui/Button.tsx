@@ -1,9 +1,47 @@
-import React from "react";
+"use client";
 
-export default function Button() {
+import React from "react";
+import { AiOutlineLoading } from "react-icons/ai";
+
+type VARIANT = "blue" | "white";
+
+type Props = {
+  disabled?: boolean;
+  isLoading?: boolean;
+  click: () => void;
+  children?: React.ReactNode;
+  text: string;
+  variant?: VARIANT;
+};
+export default function Button({
+  disabled = false,
+  isLoading = false,
+  click,
+  children,
+  text,
+  variant = "blue",
+}: Props) {
   return (
-    <div className="bg-stock-blue-400 rounded-lg text-center py-2 mb-4 shadow-btn-shadow">
-      <p className="text-white text-stock-blue-50">버튼</p>
-    </div>
+    <button
+      className={` rounded-lg w-full text-center py-2 mb-4 min-h-9 transition ease-in-out delay-150 ${
+        disabled && "bg-stock-dark-300 shadow-none"
+      } ${!disabled && "btn-" + variant}`}
+      onClick={click}
+      disabled={disabled || isLoading}
+    >
+      {isLoading && (
+        <AiOutlineLoading className="animate-spin m-auto" color={"white"} />
+      )}
+      {!isLoading && children && children}
+      {!isLoading && !children && (
+        <p
+          className={`text-white text-stock-blue-50 ${
+            disabled && "text-stock-dark-500"
+          }`}
+        >
+          {text}
+        </p>
+      )}
+    </button>
   );
 }
