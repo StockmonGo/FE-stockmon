@@ -11,6 +11,7 @@ const config: Config = {
       "stock-slate": "#F8F4ED",
       "stock-red": "#FF0C81",
       "stock-green": "#D3FFB1",
+      white: "#ffffff",
       "stock-blue": {
         50: "#e8f7ff",
         100: "#d5f0ff",
@@ -53,7 +54,8 @@ const config: Config = {
     },
     extend: {
       boxShadow: {
-        "btn-shadow": "-2px -4px 2px 0px rgba(47,0,255,0.17) inset",
+        "btn-blue-shadow": "-2px -4px 2px 0px rgba(47,0,255,0.17) inset",
+        "btn-white-shadow": "-2px -4px 2px 0px rgba(0,0,0,0.18) inset",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
