@@ -7,6 +7,9 @@ export default function Dev() {
         <li>
           <a href="dev/ui">ui</a>
         </li>
+        <li>
+          <a href="dev/game">game</a>
+        </li>
       </ol>
     </div>
   );
