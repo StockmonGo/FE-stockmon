@@ -9,6 +9,8 @@ export default function UI() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isModalOpen3, setIsModalOpen3] = useState(false);
+  const [isModalDisabled3, setIsModalDisabled3] = useState(true);
+  const [isModalOpen4, setIsModalOpen4] = useState(false);
 
   return (
     <div>
@@ -47,9 +49,27 @@ export default function UI() {
             text="모달 3 : children 삽입"
             click={() => setIsModalOpen3(true)}
           />
-          <Modal open={isModalOpen3} onClose={() => setIsModalOpen3(false)}>
-            <div>자식 컴포넌트</div>
+          <Modal
+            open={isModalOpen3}
+            onClose={() => setIsModalOpen3(false)}
+            isDisabled={isModalDisabled3}
+            hasClose
+          >
+            <button
+              className={`${!isModalDisabled3 && "bg-stock-blue-100"}`}
+              onClick={() => setIsModalDisabled3((pre) => !pre)}
+            >
+              여기 클릭하면 버튼 활성화 바뀜
+            </button>
           </Modal>
+        </div>
+        <div>
+          <Button text="모달 4 : 로딩" click={() => setIsModalOpen4(true)} />
+          <Modal
+            open={isModalOpen4}
+            onClose={() => setIsModalOpen4(false)}
+            isLoading
+          ></Modal>
         </div>
       </DevContainer>
       <DevContainer title="폰트">
