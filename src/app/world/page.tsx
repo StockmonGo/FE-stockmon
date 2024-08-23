@@ -1,4 +1,5 @@
 "use client";
+import BottomNavBar from "@/components/ui/world/BottomNavBar";
 import React, { useEffect } from "react";
 
 declare global {
@@ -67,6 +68,7 @@ export default function World() {
   return (
     <div>
       <div id="map" className="w-screen h-screen max-w-xl"></div>
+      <BottomNavBar />
     </div>
   );
 }
