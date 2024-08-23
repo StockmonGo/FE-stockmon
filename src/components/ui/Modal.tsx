@@ -7,7 +7,7 @@ type Props = {
   isDisabled?: boolean;
   hasClose?: boolean;
   onClose: () => void;
-  onClickOk?: () => void;
+  onConfirm?: () => void;
   children?: React.ReactNode;
   title?: string;
   describe?: string;
@@ -19,7 +19,7 @@ export default function Modal({
   isDisabled = false,
   hasClose = false,
   onClose,
-  onClickOk = onClose,
+  onConfirm = onClose,
   children,
   title = "제목",
   describe = "내용",
@@ -41,14 +41,14 @@ export default function Modal({
           {isLoading && (
             <AiOutlineLoading className="animate-spin m-auto" color={"white"} />
           )}
-          {!isLoading && children && children}
+          {!isLoading && children}
           <footer className="flex justify-center gap-16">
             {hasClose && (
               <button onClick={onClose}>
                 <img src="/icons/button-close.svg" alt="close" />
               </button>
             )}
-            <button onClick={onClickOk} disabled={isDisabled || isLoading}>
+            <button onClick={onConfirm} disabled={isDisabled || isLoading}>
               {isDisabled || isLoading ? (
                 <img src="/icons/button-ok-off.svg" alt="ok-off" />
               ) : (
