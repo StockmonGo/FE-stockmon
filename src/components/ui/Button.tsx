@@ -8,7 +8,7 @@ type VARIANT = "blue" | "white";
 type Props = {
   disabled?: boolean;
   isLoading?: boolean;
-  click: () => void;
+  onClick: () => void;
   children?: React.ReactNode;
   text: string;
   variant?: VARIANT;
@@ -16,7 +16,7 @@ type Props = {
 export default function Button({
   disabled = false,
   isLoading = false,
-  click,
+  onClick: click,
   children,
   text,
   variant = "blue",
@@ -32,7 +32,7 @@ export default function Button({
       {isLoading && (
         <AiOutlineLoading className="animate-spin m-auto" color={"white"} />
       )}
-      {!isLoading && children && children}
+      {!isLoading && children}
       {!isLoading && !children && (
         <p
           className={`text-white text-stock-blue-50 ${

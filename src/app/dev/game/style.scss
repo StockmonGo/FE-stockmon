@@ -1,26 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800");
 
 $bg-colour: #efefef;
-$text-colour: #2C3E50;
-$green: #2ECC71;
-$red: #E74C3C;
-$grey: #34495E;
+$text-colour: #2c3e50;
+$green: #2ecc71;
+$red: #e74c3c;
+$grey: #34495e;
 $grey-light: #596f85;
 $white: #fefefe;
 
-body {
-  font-family: 'Open Sans', sans-serif;
-  background: $bg-colour;
-  display: flex;
-  margin: 0;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  color: $text-colour;
-}
-
 button {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 .TimingGame {
