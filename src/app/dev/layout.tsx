@@ -12,18 +12,10 @@ export default function DevLayout({
 }>) {
   return (
     <div className="w-full h-full overflow-x-hidden overflow-y-scroll">
-      <div className="fixed w-full h-full overflow-hidden z-0">
-        <div
-          className="bg-cover bg-center w-full h-full fixed z-[-1]"
-          style={{ backgroundImage: "url('/images/bg.jpg')" }}
-        ></div>
+      <div>
+        <h2>[개발용 페이지] 필요한 컴포넌트 여기서 테스트</h2>
       </div>
-      <div className="p-4 max-w-xl min-w-96 h-64 relative z-1 m-auto">
-        <div>
-          <h2>[개발용 페이지] 필요한 컴포넌트 여기서 테스트</h2>
-        </div>
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

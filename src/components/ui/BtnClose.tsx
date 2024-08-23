@@ -13,8 +13,8 @@ export default function BtnClose() {
 
   return (
     <button
-      className="w-10 h-10"
-      style={{ backgroundImage: "url('/images/icons/btn-close.png')" }}
+      className="w-10 h-10 z-100"
+      style={{ backgroundImage: "url('/icons/CloseButton.svg')" }}
       onClick={goBack}
     ></button>
   );
