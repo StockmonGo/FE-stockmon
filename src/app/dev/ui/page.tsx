@@ -34,6 +34,7 @@ export default function UI() {
           <Modal
             open={isModalOpen1}
             onClose={() => setIsModalOpen1(false)}
+            onClickOk={() => setIsModalOpen1(false)}
             hasClose
           ></Modal>
         </div>
@@ -52,6 +53,7 @@ export default function UI() {
           <Modal
             open={isModalOpen3}
             onClose={() => setIsModalOpen3(false)}
+            onClickOk={() => setIsModalOpen3(false)}
             isDisabled={isModalDisabled3}
             hasClose
           >
@@ -68,6 +70,8 @@ export default function UI() {
           <Modal
             open={isModalOpen4}
             onClose={() => setIsModalOpen4(false)}
+            onClickOk={() => setIsModalOpen4(false)}
+            hasClose
             isLoading
           ></Modal>
         </div>
