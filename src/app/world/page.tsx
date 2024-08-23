@@ -16,23 +16,57 @@ export default function World() {
 
     const onLoadKakaoAPI = () => {
       window.kakao.maps.load(() => {
-        var container = document.getElementById("map");
-        var options = {
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-          level: 3,
-        };
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            const lat = position.coords.latitude; // 위도
+            const lon = position.coords.longitude; // 경도
+            const myLocation = new window.kakao.maps.LatLng(lat, lon);
 
-        var map = new window.kakao.maps.Map(container, options);
+            const container = document.getElementById("map");
+            const options = {
+              center: myLocation,
+              level: 3,
+              draggable: false,
+            };
+
+            const map = new window.kakao.maps.Map(container, options);
+
+            const imageSrc = "images/tempPerson.svg";
+            const imageSize = new window.kakao.maps.Size(100, 100);
+            const imageOption = { offset: new window.kakao.maps.Point(27, 69) };
+            const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+            const marker = new window.kakao.maps.Marker({
+              position: myLocation,
+              image: markerImage,
+            });
+
+            marker.setMap(map);
+          });
+        } else {
+          const container = document.getElementById("map");
+          const options = {
+            center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+            level: 3,
+            draggable: false,
+          };
+
+          const map = new window.kakao.maps.Map(container, options);
+        }
       });
     };
 
     kakaoMapScript.addEventListener("load", onLoadKakaoAPI);
+
+    return () => {
+      kakaoMapScript.removeEventListener("load", onLoadKakaoAPI);
+      document.head.removeChild(kakaoMapScript);
+    };
   }, []);
 
   return (
     <div>
-      <h1>월드!!!!</h1>
-      <div id="map" className="w-96 h-96"></div>
+      <div id="map" className="w-screen h-screen max-w-xl"></div>
     </div>
   );
 }
