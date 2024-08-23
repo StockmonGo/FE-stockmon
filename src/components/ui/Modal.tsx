@@ -7,15 +7,22 @@ type Props = {
   isDisabled?: boolean;
   hasClose?: boolean;
   onClose: () => void;
+  onClickOk?: () => void;
   children?: React.ReactNode;
+  title?: string;
+  describe?: string;
 };
+
 export default function Modal({
   open,
   isLoading = false,
   isDisabled = false,
   hasClose = false,
   onClose,
+  onClickOk = onClose,
   children,
+  title = "제목",
+  describe = "내용",
 }: Props) {
   return (
     open && (
@@ -24,35 +31,31 @@ export default function Modal({
         onClick={onClose}
       >
         <div
-          className="flex flex-col gap-4 justify-center items-center bg-gradient-to-b from-[#F9F0FF] to-[#E8F7FF] p-4 min-w-[360px] rounded-lg"
+          className="flex flex-col gap-4 justify-center items-center bg-somsatang-gradient p-4 min-w-[360px] rounded-lg"
           onClick={(e) => e.stopPropagation()}
         >
+          <header className="w-full py-3 flex flex-col gap-2 text-center text-stock-blue-950 bg-white  rounded-lg">
+            {title && <h2 className="font-ptb text-lg">{title}</h2>}
+            {describe && <p className="font-ptr text-sm">{describe}</p>}
+          </header>
           {isLoading && (
             <AiOutlineLoading className="animate-spin m-auto" color={"white"} />
           )}
-          {!isLoading && (
-            <>
-              <header className="w-full flex flex-col gap-2 py-3 bg-white text-center rounded-lg">
-                <h2 className="text-lg font-ptb">제목</h2>
-                <p>내용</p>
-              </header>
-              {children && children}
-              <footer className="flex justify-center gap-16">
-                {hasClose && (
-                  <button onClick={onClose}>
-                    <img src="/icons/ButtonCloseActiveOn.svg" alt="close" />
-                  </button>
-                )}
-                <button onClick={onClose} disabled={isDisabled}>
-                  {isDisabled ? (
-                    <img src="/icons/ButtonOkActiveOff.svg" alt="ok-off" />
-                  ) : (
-                    <img src="/icons/ButtonOkActiveOn.svg" alt="ok-on" />
-                  )}
-                </button>
-              </footer>
-            </>
-          )}
+          {!isLoading && children && children}
+          <footer className="flex justify-center gap-16">
+            {hasClose && (
+              <button onClick={onClose}>
+                <img src="/icons/button-close.svg" alt="close" />
+              </button>
+            )}
+            <button onClick={onClickOk} disabled={isDisabled || isLoading}>
+              {isDisabled || isLoading ? (
+                <img src="/icons/button-ok-off.svg" alt="ok-off" />
+              ) : (
+                <img src="/icons/button-ok-on.svg" alt="ok-on" />
+              )}
+            </button>
+          </footer>
         </div>
       </div>
     )
