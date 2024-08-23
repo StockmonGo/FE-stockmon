@@ -52,6 +52,13 @@ export default function UI() {
           </Modal>
         </div>
       </DevContainer>
+      <DevContainer title="폰트">
+        <div>
+          <p>기본 폰트입니다.</p>
+          <p className="font-ptb">평택반도체입니다. font-ptb 로 사용하세요</p>
+          <p className="font-ptr">평택반도체입니다. font-ptr 로 사용하세요</p>
+        </div>
+      </DevContainer>
     </div>
   );
 }

@@ -7,10 +7,15 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      ptb: ["PTBandocheB"],
+      ptr: ["PTBandocheR"],
+    },
     colors: {
       "stock-slate": "#F8F4ED",
       "stock-red": "#FF0C81",
       "stock-green": "#D3FFB1",
+      "stock-border": "#96A7FF",
       white: "#ffffff",
       "stock-blue": {
         50: "#e8f7ff",
