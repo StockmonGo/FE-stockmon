@@ -25,7 +25,7 @@ export default function MessageLayout({
             알림
           </h2>
         </div>
-        <div className="main flex-1 w-full">{children}</div>
+        <div className="main flex-1 w-full overflow-hidden">{children}</div>
         <div className="footer">
           <BtnClose />
         </div>
