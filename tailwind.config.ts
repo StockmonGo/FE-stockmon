@@ -7,10 +7,16 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      ptb: ["PTBandocheB"],
+      ptr: ["PTBandocheR"],
+    },
     colors: {
       "stock-slate": "#F8F4ED",
       "stock-red": "#FF0C81",
       "stock-green": "#D3FFB1",
+      "stock-purple": "#D6A7FF",
+      "stock-border": "#96A7FF",
       white: "#ffffff",
       "stock-blue": {
         50: "#e8f7ff",
@@ -61,6 +67,7 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "somsatang-gradient": "linear-gradient(to bottom, #F9F0FF, #E8F7FF)",
       },
     },
   },
