@@ -3,34 +3,65 @@ import CountHeader from "@/components/ui/books/CountHeader";
 import StockmonList from "@/components/ui/books/StockmonList";
 import CommonLayout from "@/components/ui/CommonLayout";
 import SearchBar from "@/components/ui/SearchBar";
-import { Skeleton } from "@/components/ui/Skeleton";
-import React, { useState } from "react";
+import React from "react";
 import useSWR from "swr";
 
-// const dummy = {
-//   stockmons: [
-//     {
-//       id: 1,
-//       name: "신한지주몬",
-//       imgUrl: "http~",
-//       count: 10,
-//       stockCode: 124125,
-//       stockAveragePrice: 145400,
-//     },
-//     {
-//       id: 2,
-//       name: "하나금융지주몬",
-//       imgUrl: "http~",
-//       count: 12,
-//       stockCode: 141125,
-//       stockAveragePrice: 235400,
-//     },
-//   ],
-// };
-
 const dummy = {
-  stockmons: [],
+  stockmons: [
+    {
+      id: 1,
+      name: "신한지주몬1",
+      imgUrl: "http~",
+      count: 10,
+      stockCode: 124125,
+      stockAveragePrice: 145400,
+    },
+    {
+      id: 2,
+      name: "하나금융지주몬2",
+      imgUrl: "http~",
+      count: 12,
+      stockCode: 141125,
+      stockAveragePrice: 235400,
+    },
+    {
+      id: 3,
+      name: "신한지주몬3",
+      imgUrl: "http~",
+      count: 10,
+      stockCode: 124125,
+      stockAveragePrice: 145400,
+    },
+    {
+      id: 4,
+      name: "하나금융지주몬4",
+      imgUrl: "http~",
+      count: 12,
+      stockCode: 141125,
+      stockAveragePrice: 235400,
+    },
+    {
+      id: 5,
+      name: "신한지주몬5",
+      imgUrl: "http~",
+      count: 10,
+      stockCode: 124125,
+      stockAveragePrice: 145400,
+    },
+    {
+      id: 6,
+      name: "하나금융지주몬6",
+      imgUrl: "http~",
+      count: 12,
+      stockCode: 141125,
+      stockAveragePrice: 235400,
+    },
+  ],
 };
+
+// const dummy = {
+//   stockmons: [],
+// };
 
 const fetcher = (url: string) => {
   // TODO: api 요청
