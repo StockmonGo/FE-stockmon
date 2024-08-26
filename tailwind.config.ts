@@ -13,7 +13,7 @@ const config: Config = {
     },
     colors: {
       "stock-slate": "#F8F4ED",
-      "stock-red": "#FF0C81",
+      "stock-red": "#FF9ECD",
       "stock-green": "#D3FFB1",
       "stock-border": "#96A7FF",
       white: "#ffffff",
@@ -64,8 +64,7 @@ const config: Config = {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "somsatang-gradient": "linear-gradient(to bottom, #F9F0FF, #E8F7FF)",
       },
     },
