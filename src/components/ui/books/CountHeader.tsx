@@ -12,7 +12,7 @@ export default function CountHeader({ isLoading, count }: Props) {
   return (
     <div className="w-full h-full flex justify-center items-center font-ptb text-2xl">
       {isLoading ? (
-        <Skeleton className="w-1/4 h-8" />
+        <Skeleton className="w-1/4 h-8 rounded-lg" />
       ) : (
         <>
           {count}/{STOCKMON_MAX}

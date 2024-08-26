@@ -22,7 +22,7 @@ export default function CommonLayout({ children, header, title }: Props) {
           </h2>
           {header}
         </header>
-        <main className="flex-1 w-full overflow-scroll">{children}</main>
+        <main className="flex-1 w-full h-full overflow-scroll">{children}</main>
         <footer className="w-full flex justify-center">
           <BtnClose />
         </footer>

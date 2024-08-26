@@ -56,12 +56,56 @@ const dummy = {
       stockCode: 141125,
       stockAveragePrice: 235400,
     },
+    {
+      id: 7,
+      name: "신한지주몬1",
+      imgUrl: "http~",
+      count: 10,
+      stockCode: 124125,
+      stockAveragePrice: 145400,
+    },
+    {
+      id: 8,
+      name: "하나금융지주몬2",
+      imgUrl: "http~",
+      count: 12,
+      stockCode: 141125,
+      stockAveragePrice: 235400,
+    },
+    {
+      id: 9,
+      name: "신한지주몬3",
+      imgUrl: "http~",
+      count: 10,
+      stockCode: 124125,
+      stockAveragePrice: 145400,
+    },
+    {
+      id: 10,
+      name: "하나금융지주몬4",
+      imgUrl: "http~",
+      count: 12,
+      stockCode: 141125,
+      stockAveragePrice: 235400,
+    },
+    {
+      id: 11,
+      name: "신한지주몬5",
+      imgUrl: "http~",
+      count: 10,
+      stockCode: 124125,
+      stockAveragePrice: 145400,
+    },
+    {
+      id: 12,
+      name: "하나금융지주몬6",
+      imgUrl: "http~",
+      count: 12,
+      stockCode: 141125,
+      stockAveragePrice: 235400,
+    },
   ],
 };
-
-// const dummy = {
-//   stockmons: [],
-// };
 
 const fetcher = (url: string) => {
   // TODO: api 요청
@@ -82,7 +126,6 @@ export default function Books() {
     <CommonLayout
       title={"도감"}
       header={
-        /* TODO: api 연결 */
         <div className="flex flex-col gap-2">
           {countHeader}
           <SearchBar placeholder="어떤 스톡몬을 찾으시나요?" />
