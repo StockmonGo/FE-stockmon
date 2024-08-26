@@ -5,15 +5,15 @@ import NavButton from "./NavButton";
 
 export default function BottomNavBar() {
   return (
-    <div className="w-screen max-w-xl min-h-16">
+    <div className="flex w-screen max-w-xl min-h-16 bg-stock-blue-950 absolute bottom-0 left-0 z-10">
       <NavButton type="profile">
-        <BsPersonCircle />
+        <BsPersonCircle size={36} color="#E8F7FF" />
       </NavButton>
       <NavButton type="books">
-        <BsBackpack />
+        <BsBackpack size={36} color="#E8F7FF" />
       </NavButton>
       <NavButton type="alliances">
-        <IoPeopleCircleOutline />
+        <IoPeopleCircleOutline size={44} color="#E8F7FF" />
       </NavButton>
     </div>
   );

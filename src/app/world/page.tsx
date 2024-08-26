@@ -66,8 +66,7 @@ export default function World() {
   }, []);
 
   return (
-    <div>
-      <div id="map" className="w-screen h-screen max-w-xl"></div>
+    <div id="map" className="w-screen h-screen max-w-xl static">
       <BottomNavBar />
     </div>
   );
