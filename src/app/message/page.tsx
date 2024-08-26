@@ -30,7 +30,7 @@ import StockExchangeModal from "@/components/ui/message/StockExchangeModal";
 // 	     ...
 // 	  ],
 export interface INotice {
-  noticeId:number;
+  noticeId: number;
   type: number; // 1:동맹 2:교환
   optionType: number; //1. 수락/거절 있는경우. 동맹 교환 모두 이경우
   travelerId: number;
