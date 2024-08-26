@@ -2,7 +2,7 @@
 import BottomNavBar from "@/components/ui/world/BottomNavBar";
 import StockTowerModal from "@/components/ui/world/StockTowerModal";
 import TopNavBar from "@/components/ui/world/TopNavBar";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 declare global {
   interface Window {
@@ -11,6 +11,7 @@ declare global {
 }
 
 export default function World() {
+  const [towerModalSee, setTowerModalSee] = useState(false);
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
@@ -31,6 +32,7 @@ export default function World() {
               level: 3,
               draggable: false,
             };
+            console.log(myLocation);
 
             const map = new window.kakao.maps.Map(container, options);
 
@@ -42,6 +44,20 @@ export default function World() {
             const marker = new window.kakao.maps.Marker({
               position: myLocation,
               image: markerImage,
+            });
+
+            // 임시 스톡타워
+            const imageSrc2 = "images/peachTower.svg";
+            const imageSize2 = new window.kakao.maps.Size(80, 80);
+            const markerImage2 = new window.kakao.maps.MarkerImage(imageSrc2, imageSize2, imageOption);
+            var markerPosition = new window.kakao.maps.LatLng(37.5345653, 127.0661841);
+            var stockTower = new window.kakao.maps.Marker({
+              position: markerPosition,
+              image: markerImage2,
+            });
+            stockTower.setMap(map);
+            window.kakao.maps.event.addListener(stockTower, "click", () => {
+              setTowerModalSee(true);
             });
 
             marker.setMap(map);
@@ -68,11 +84,22 @@ export default function World() {
   }, []);
 
   return (
-    <div className="static">
-      <div id="map" className="w-screen h-screen max-w-xl opacity-75"></div>
-      <TopNavBar />
-      <BottomNavBar />
-      <StockTowerModal />
+    <div className="static grid justify-items-center">
+      <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
+      {towerModalSee ? (
+        <>
+          <StockTowerModal />
+          <div
+            className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
+            onClick={() => setTowerModalSee(false)}
+          ></div>
+        </>
+      ) : (
+        <>
+          <TopNavBar />
+          <BottomNavBar />
+        </>
+      )}
     </div>
   );
 }
