@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { INotice } from "../../../app/message/page";
+import { INotice } from "@/app/message/page";
 type Props = {
   noticeInfo: INotice;
-  handleConfirm: () => void;
+  handleConfirm: (noticeInfo: INotice) => void;
   handleCancel: () => void;
 };
 export default function MessageItem({
@@ -31,7 +31,7 @@ export default function MessageItem({
               height={28}
             />
           </div>
-          <div onClick={handleConfirm}>
+          <div onClick={()=>handleConfirm(noticeInfo)}>
             <Image
               src={"/images/icons/btn-confirm.png"}
               alt={"확인"}
