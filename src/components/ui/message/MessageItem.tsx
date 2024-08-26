@@ -14,7 +14,7 @@ export default function MessageItem({
 }: Props) {
   const type = noticeInfo.type === 1 ? "동맹" : "교환";
   return (
-    <div className="w-full bg-somsatang border border-stock-blue-900 rounded-lg p-2  my-2">
+    <div className="w-full bg-somsatang-gradient border border-stock-blue-900 rounded-lg p-2  my-2">
       <div className="w-full bg-white rounded-lg px-1 py-3 flex flex-row justify-between items-center">
         <div className="message text-stock-blue-950">
           <p className="font-ptb pb-1">{noticeInfo.nickname}</p>
