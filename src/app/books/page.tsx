@@ -1,6 +1,7 @@
 "use client";
 import CountHeader from "@/components/ui/books/CountHeader";
 import CommonLayout from "@/components/ui/CommonLayout";
+import SearchBar from "@/components/ui/SearchBar";
 import { Skeleton } from "@/components/ui/Skeleton";
 import React, { useState } from "react";
 import useSWR from "swr";
@@ -42,29 +43,34 @@ const fetcher = (url: string) => {
 
 export default function Books() {
   const { data, error } = useSWR("/api/user", fetcher);
+  let countHeader: React.ReactNode;
 
   if (error) return <div>failed to load</div>;
-  if (!data)
-    return (
-      <CommonLayout title={"도감"} header={<CountHeader isLoading />}>
-        <div></div>
-      </CommonLayout>
-    );
+  if (!data) {
+    countHeader = <CountHeader isLoading />;
+  } else {
+    countHeader = <CountHeader count={data.stockmons.length} />;
+  }
+
   return (
     <CommonLayout
       title={"도감"}
       header={
         /* TODO: api 연결 */
-        <CountHeader count={data.stockmons.length} />
+        <div className="flex flex-col gap-2">
+          {countHeader}
+          <SearchBar placeholder="어떤 스톡몬을 찾으시나요?" />
+        </div>
       }
     >
-      <ul>
+      <div></div>
+      {/* <ul>
         {data.stockmons.map((stockmon) => (
           <li key={stockmon.id}>
             <a href={`/books/${stockmon.id}`}>{stockmon.name}</a>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </CommonLayout>
   );
 }
