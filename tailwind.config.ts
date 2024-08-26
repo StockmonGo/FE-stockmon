@@ -15,6 +15,7 @@ const config: Config = {
       "stock-slate": "#F8F4ED",
       "stock-red": "#FF0C81",
       "stock-green": "#D3FFB1",
+      "stock-purple": "#D6A7FF",
       "stock-border": "#96A7FF",
       white: "#ffffff",
       "stock-blue": {
