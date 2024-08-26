@@ -1,34 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import MessageItem from "../../components/ui/message/MessageItem";
-import dummyNotice from "../../../dummy/notices.json";
+import dummyNotice from "../../../dummy/notice/notices.json";
 import { TbMessageDots } from "react-icons/tb";
 import StockExchangeModal from "@/components/ui/message/StockExchangeModal";
-//알림이 있을경우&없을경우 + 팝업
-//TODO: 더미데이터 만들어서 띄우기. 없을경우 없는 UI 노출
-//type:1 동맹 type:2 스톡몬 교환
-// "notices": [
-// 	    {
-// 		    "noticeId": 1,
-// 		    "type": 2,
-// 		    "optionType": 1,
-// 	      "travelerId": 1,
-// 	      "stockmonId" : 9,
-// 	      "stockmonName":"삼성전자몬",
-// 	      "nickname": "채윤인천사",
-// 	      "imageUrl" : "https://~~~"
-// 	      "timestamp" : "2024-08-20T08:42:00",
-// 	     },
-// 	     {
-// 	     "noticeId": 2,
-// 		    "type": 1,
-// 		    "optionType": 1,
-// 	      "travelerId": 1,
-// 	      "nickname": "채윤인천사",
-// 	      "timestamp" : "2024-08-20T08:42:00",
-// 	     },
-// 	     ...
-// 	  ],
 export interface INotice {
   noticeId: number;
   type: number; // 1:동맹 2:교환
