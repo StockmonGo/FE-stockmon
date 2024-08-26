@@ -1,5 +1,6 @@
 "use client";
 import BottomNavBar from "@/components/ui/world/BottomNavBar";
+import StockTowerModal from "@/components/ui/world/StockTowerModal";
 import TopNavBar from "@/components/ui/world/TopNavBar";
 import React, { useEffect } from "react";
 
@@ -71,6 +72,7 @@ export default function World() {
       <div id="map" className="w-screen h-screen max-w-xl opacity-75"></div>
       <TopNavBar />
       <BottomNavBar />
+      <StockTowerModal />
     </div>
   );
 }
