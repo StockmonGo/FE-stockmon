@@ -16,16 +16,16 @@ export default function CommonLayout({ children, header, title }: Props) {
         ></div>
       </div>
       <div className="p-6 max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
-        <div className="header">
+        <header className="w-full">
           <h2 className="text-center text-stock-dark-800 text-xl font-bold py-2">
             {title}
           </h2>
           {header}
-        </div>
-        <div className="main flex-1 w-full overflow-scroll">{children}</div>
-        <div className="footer">
+        </header>
+        <main className="flex-1 w-full overflow-scroll">{children}</main>
+        <footer className="w-full flex justify-center">
           <BtnClose />
-        </div>
+        </footer>
       </div>
     </div>
   );
