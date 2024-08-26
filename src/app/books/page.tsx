@@ -1,3 +1,5 @@
+import CountHeader from "@/components/ui/books/CountHeader";
+import CommonLayout from "@/components/ui/CommonLayout";
 import React from "react";
 
 export default function Books() {
@@ -8,8 +10,13 @@ export default function Books() {
   ];
 
   return (
-    <div>
-      <h1>Book List</h1>
+    <CommonLayout
+      title={"도감"}
+      header={
+        /* TODO: api 연결 */
+        <CountHeader count={1000} />
+      }
+    >
       <ul>
         {books.map((book) => (
           <li key={book.id}>
@@ -17,6 +24,6 @@ export default function Books() {
           </li>
         ))}
       </ul>
-    </div>
+    </CommonLayout>
   );
 }
