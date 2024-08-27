@@ -24,7 +24,9 @@ export default function World() {
           navigator.geolocation.getCurrentPosition(function (position) {
             const lat = position.coords.latitude; // 위도
             const lon = position.coords.longitude; // 경도
-            const myLocation = new window.kakao.maps.LatLng(lat, lon);
+            // const myLocation = new window.kakao.maps.LatLng(lat, lon);
+            // 성수로 일단 고정
+            const myLocation = new window.kakao.maps.LatLng(37.5451626, 127.0568792);
 
             const container = document.getElementById("map");
             const options = {
@@ -50,7 +52,7 @@ export default function World() {
             const imageSrc2 = "images/peachTower.svg";
             const imageSize2 = new window.kakao.maps.Size(80, 80);
             const markerImage2 = new window.kakao.maps.MarkerImage(imageSrc2, imageSize2, imageOption);
-            var markerPosition = new window.kakao.maps.LatLng(37.5345653, 127.0661841);
+            var markerPosition = new window.kakao.maps.LatLng(37.5461626, 127.0568792);
             var stockTower = new window.kakao.maps.Marker({
               position: markerPosition,
               image: markerImage2,
