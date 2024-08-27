@@ -1,0 +1,152 @@
+{
+  "result": "success",
+  "message": "성공",
+  "data": {
+    "notices": [
+      {
+        "noticeId": 1,
+        "type": 2,
+        "optionType": 1,
+        "travelerId": 1,
+        "stockmonId": 9,
+        "stockmonName": "삼성전자몬",
+        "imageUrl": "https://localhost:3000/images/dummy-stockmon.png",
+        "nickname": "채윤인천사",
+        "timestamp": "2024-08-20T08:42:00"
+      },
+      {
+        "noticeId": 2,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤인천사",
+        "timestamp": "2024-08-20T08:43:00"
+      },
+      {
+        "noticeId": 21,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤.인천.사",
+        "timestamp": "2024-08-20T08:44:00"
+      },
+      {
+        "noticeId": 3,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤.인천.사",
+        "timestamp": "2024-08-20T08:45:00"
+      },
+      {
+        "noticeId": 4,
+        "type": 2,
+        "optionType": 1,
+        "travelerId": 1,
+        "stockmonId": 9,
+        "stockmonName": "삼성전자몬",
+        "imageUrl": "https://localhost:3000/images/dummy-stockmon.png",
+
+        "nickname": "채윤인천사",
+        "timestamp": "2024-08-20T08:42:00"
+      },
+      {
+        "noticeId": 5,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤인천사",
+        "timestamp": "2024-08-20T08:43:00"
+      },
+      {
+        "noticeId": 6,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤.인천.사",
+        "timestamp": "2024-08-20T08:44:00"
+      },
+      {
+        "noticeId": 7,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤.인천.사",
+        "timestamp": "2024-08-20T08:48:00"
+      },
+      {
+        "noticeId": 8,
+        "type": 2,
+        "optionType": 1,
+        "travelerId": 1,
+        "stockmonId": 9,
+        "stockmonName": "삼성전자몬",
+        "imageUrl": "https://localhost:3000/images/dummy-stockmon.png",
+
+        "nickname": "채윤인천사",
+        "timestamp": "2024-08-20T08:42:00"
+      },
+      {
+        "noticeId": 9,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤인천사",
+        "timestamp": "2024-08-20T08:43:00"
+      },
+      {
+        "noticeId": 10,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤.인천.사",
+        "timestamp": "2024-08-20T08:14:00"
+      },
+      {
+        "noticeId": 11,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤.인천.사",
+        "timestamp": "2024-08-20T08:35:00"
+      },
+      {
+        "noticeId": 12,
+        "type": 2,
+        "optionType": 1,
+        "travelerId": 1,
+        "stockmonId": 9,
+        "stockmonName": "삼성전자몬",
+        "imageUrl": "https://localhost:3000/images/dummy-stockmon.png",
+
+        "nickname": "채윤인천사",
+        "timestamp": "2024-08-20T08:32:00"
+      },
+      {
+        "noticeId": 13,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤인천사",
+        "timestamp": "2024-08-20T08:33:00"
+      },
+      {
+        "noticeId": 14,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤.인천.사",
+        "timestamp": "2024-08-20T08:54:00"
+      },
+      {
+        "noticeId": 15,
+        "type": 1,
+        "optionType": 1,
+        "travelerId": 1,
+        "nickname": "채윤.인천.사",
+        "timestamp": "2024-08-20T08:55:00"
+      }
+    ]
+  },
+  "timestamp": "2024-08-20T08:42:00"
+}
