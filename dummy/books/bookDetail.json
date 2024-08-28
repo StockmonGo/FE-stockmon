@@ -1,0 +1,26 @@
+{
+  "result": "success",
+  "message": "스톡몬 상세 조회 성공",
+  "data": {
+    "stockmonId": 1,
+    "stockmonName": "희을을",
+    "description": "신한금융그룹을 ~~~",
+    "imageUrl": "https/~~",
+    "type": 12,
+    "stockName": "삼성전자",
+    "currentStockPrice": 345000,
+    "stockTotalPrice": 34500000,
+    "stockMarket": "코스피",
+    "chart": [
+      {
+        "date": "2024-08-01",
+        "price": 20000
+      },
+      {
+        "date": "2024-08-02",
+        "price": 30000
+      }
+    ]
+  },
+  "timestamp": "2024-08-20T08:42:00"
+}
