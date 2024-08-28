@@ -13,7 +13,7 @@ const config: Config = {
     },
     colors: {
       "stock-slate": "#F8F4ED",
-      "stock-red": "#FF0C81",
+      "stock-red": "#FF9ECD",
       "stock-green": "#D3FFB1",
       "stock-purple": "#D6A7FF",
       "stock-border": "#96A7FF",
@@ -65,8 +65,7 @@ const config: Config = {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "somsatang-gradient": "linear-gradient(to bottom, #F9F0FF, #E8F7FF)",
         "border-custom-dotted-thin": `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%2396A7FFFF' stroke-width='4' stroke-dasharray='18%2c18' stroke-dashoffset='73' stroke-linecap='square'/%3e%3c/svg%3e")`,
         "border-custom-dotted": `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%2396A7FFFF' stroke-width='6' stroke-dasharray='18%2c18' stroke-dashoffset='78' stroke-linecap='square'/%3e%3c/svg%3e")`,
