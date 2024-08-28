@@ -11,11 +11,11 @@ export default function AccountLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="w-screen max-w-xl h-screen bg-[url('/images/bg.jpg')] flex flex-col items-center px-4 py-9 space-y-6 font-ptr">
       <div>
-        <h2>Stockmon World</h2>
+        <img src="/images/logo-160x160.png" alt="로고" />
       </div>
       {children}
-    </>
+    </div>
   );
 }
