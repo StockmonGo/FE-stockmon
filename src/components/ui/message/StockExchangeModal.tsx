@@ -23,7 +23,7 @@ export default function StockExchangeModal({
   stockmonName,
   stockmonImageUrl,
 }: Props) {
-  const [stockmons, setStockmons] = useState<IStockmon[]>([]); //내가 보유한 스톡몬들
+  const [stockmons, setStockmons] = useState<IStockmon[]>(dummyStock.stockmons); //내가 보유한 스톡몬들
   const [isDisabled, setIsDisabled] = useState(true);
   const [choiceStockmon, setChoiceStockmon] = useState<number>();
   const handleStockmonClick = (id: number) => {
