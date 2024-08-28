@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-
+import dummyStock from "@/../dummy/books/books.json";
 type Props = {
   open: boolean;
   onClose: () => void;
@@ -23,18 +23,7 @@ export default function StockExchangeModal({
   stockmonName,
   stockmonImageUrl,
 }: Props) {
-  const [stockmons, setStockmons] = useState<IStockmon[]>([
-    { id: 1, imgUrl: "/images/dummy-stockmon.png" },
-    { id: 2, imgUrl: "/images/dummy-stockmon.png" },
-    { id: 3, imgUrl: "/images/dummy-stockmon.png" },
-    { id: 4, imgUrl: "/images/dummy-stockmon.png" },
-    { id: 5, imgUrl: "/images/dummy-stockmon.png" },
-    { id: 6, imgUrl: "/images/dummy-stockmon.png" },
-    { id: 7, imgUrl: "/images/dummy-stockmon.png" },
-    { id: 8, imgUrl: "/images/dummy-stockmon.png" },
-    { id: 9, imgUrl: "/images/dummy-stockmon.png" },
-    { id: 10, imgUrl: "/images/dummy-stockmon.png" },
-  ]); //내가 보유한 스톡몬들
+  const [stockmons, setStockmons] = useState<IStockmon[]>(dummyStock.stockmons); //내가 보유한 스톡몬들
   const [isDisabled, setIsDisabled] = useState(true);
   const [choiceStockmon, setChoiceStockmon] = useState<number>();
   const handleStockmonClick = (id: number) => {
