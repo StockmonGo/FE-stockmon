@@ -1,5 +1,8 @@
 "use client";
-import React, { useEffect } from "react";
+import BottomNavBar from "@/components/ui/world/BottomNavBar";
+import StockTowerModal from "@/components/ui/world/StockTowerModal";
+import TopNavBar from "@/components/ui/world/TopNavBar";
+import React, { useEffect, useState } from "react";
 
 declare global {
   interface Window {
@@ -8,6 +11,7 @@ declare global {
 }
 
 export default function World() {
+  const [towerModalSee, setTowerModalSee] = useState(false);
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
@@ -20,7 +24,9 @@ export default function World() {
           navigator.geolocation.getCurrentPosition(function (position) {
             const lat = position.coords.latitude; // 위도
             const lon = position.coords.longitude; // 경도
-            const myLocation = new window.kakao.maps.LatLng(lat, lon);
+            // const myLocation = new window.kakao.maps.LatLng(lat, lon);
+            // 성수로 일단 고정
+            const myLocation = new window.kakao.maps.LatLng(37.5451626, 127.0568792);
 
             const container = document.getElementById("map");
             const options = {
@@ -28,6 +34,7 @@ export default function World() {
               level: 3,
               draggable: false,
             };
+            console.log(myLocation);
 
             const map = new window.kakao.maps.Map(container, options);
 
@@ -39,6 +46,20 @@ export default function World() {
             const marker = new window.kakao.maps.Marker({
               position: myLocation,
               image: markerImage,
+            });
+
+            // 임시 스톡타워
+            const imageSrc2 = "images/peachTower.svg";
+            const imageSize2 = new window.kakao.maps.Size(80, 80);
+            const markerImage2 = new window.kakao.maps.MarkerImage(imageSrc2, imageSize2, imageOption);
+            var markerPosition = new window.kakao.maps.LatLng(37.5461626, 127.0568792);
+            var stockTower = new window.kakao.maps.Marker({
+              position: markerPosition,
+              image: markerImage2,
+            });
+            stockTower.setMap(map);
+            window.kakao.maps.event.addListener(stockTower, "click", () => {
+              setTowerModalSee(true);
             });
 
             marker.setMap(map);
@@ -65,8 +86,22 @@ export default function World() {
   }, []);
 
   return (
-    <div>
-      <div id="map" className="w-screen h-screen max-w-xl"></div>
+    <div className="static grid justify-items-center">
+      <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
+      {towerModalSee ? (
+        <>
+          <StockTowerModal />
+          <div
+            className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
+            onClick={() => setTowerModalSee(false)}
+          ></div>
+        </>
+      ) : (
+        <>
+          <TopNavBar />
+          <BottomNavBar />
+        </>
+      )}
     </div>
   );
 }
