@@ -1,7 +1,6 @@
 "use client";
-import CommonLayout from "@/components/ui/CommonLayout";
 import { useParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import useSWR from "swr";
 import data from "@/../dummy/books/bookDetail.json";
 import Error from "@/components/ui/Error";
@@ -16,8 +15,8 @@ const fetcher = (url: string) => {
 };
 
 export default function Detail() {
-  const { data, error } = useSWR("/api/user", fetcher);
   const router = useParams();
+  const { data, error } = useSWR(`/api/stockmons/${router.id}`, fetcher);
 
   if (error) return <Error />;
   if (!data) {
@@ -25,12 +24,10 @@ export default function Detail() {
   }
 
   return (
-    <CommonLayout>
-      <div className="flex flex-col justify-center items-center">
-        <StockmonCard />
-        <StockmonStock />
-        <StockmonChart />
-      </div>
-    </CommonLayout>
+    <div className="flex flex-col gap-5 items-center">
+      <StockmonCard />
+      <StockmonStock />
+      <StockmonChart />
+    </div>
   );
 }
