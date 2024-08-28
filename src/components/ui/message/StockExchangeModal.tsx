@@ -23,7 +23,7 @@ export default function StockExchangeModal({
   stockmonName,
   stockmonImageUrl,
 }: Props) {
-  const [stockmons, setStockmons] = useState<IStockmon[]>(dummyStock.stockmons); //내가 보유한 스톡몬들
+  const [stockmons, setStockmons] = useState<IStockmon[]>([]); //내가 보유한 스톡몬들
   const [isDisabled, setIsDisabled] = useState(true);
   const [choiceStockmon, setChoiceStockmon] = useState<number>();
   const handleStockmonClick = (id: number) => {
@@ -65,28 +65,42 @@ export default function StockExchangeModal({
               aspectRatio: "1/1",
             }}
           >
-            <div
-              className="w-full h-full overflow-y-scroll grid grid-cols-3 gap-2 px-3 py-6"
-              style={{
-                aspectRatio: "1/1",
-              }}
-            >
-              {stockmons.map((stockmon) => {
-                return (
-                  <div
-                    key={stockmon.id}
-                    className={`m-auto p-1 ${
-                      choiceStockmon === stockmon.id && "bg-stock-lemon-100"
-                    }`}
-                    onClick={() => {
-                      handleStockmonClick(stockmon.id);
-                    }}
-                  >
-                    <img src="/images/dummy-stockmon.png" alt="" />
-                  </div>
-                );
-              })}
-            </div>
+            {stockmons.length > 0 && (
+              <div
+                className="w-full h-full overflow-y-scroll grid grid-cols-3 gap-2 px-3 py-6"
+                style={{
+                  aspectRatio: "1/1",
+                }}
+              >
+                {stockmons.map((stockmon) => {
+                  return (
+                    <div
+                      key={stockmon.id}
+                      className={`m-auto p-1 ${
+                        choiceStockmon === stockmon.id && "bg-stock-lemon-100"
+                      }`}
+                      onClick={() => {
+                        handleStockmonClick(stockmon.id);
+                      }}
+                    >
+                      <img src="/images/dummy-stockmon.png" alt="" />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {stockmons.length === 0 && (
+              <div className="flex items-center justify-center h-full">
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-lg text-stock-blue-400 font-ptr">
+                    교환할 스톡몬이 없습니다!
+                  </p>
+                  <p className="text-lg text-stock-blue-400 font-ptr">
+                    스톡몬을 잡아봐요.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
           <footer className="flex justify-center gap-16">
             <button onClick={onClose}>
