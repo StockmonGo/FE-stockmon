@@ -1,4 +1,4 @@
-import CommonLayout from "@/components/ui/CommonLayout";
+import BtnClose from "@/components/ui/BtnClose";
 import { Metadata } from "next";
 import React from "react";
 
@@ -12,5 +12,15 @@ export default function BookDetailLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <CommonLayout>{children}</CommonLayout>;
+  return (
+    <div
+      className="p-6 overflow-scroll bg-cover bg-center w-full h-full fixed z-[-1]"
+      style={{ backgroundImage: "url('/images/bg.jpg')" }}
+    >
+      {children}
+      <footer className="fixed left-0 right-0 bottom-6 w-full flex justify-center z-10">
+        <BtnClose />
+      </footer>
+    </div>
+  );
 }

@@ -3,12 +3,12 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 export default function Collection() {
-  const router = useParams();
-  console.log(router);
+  const params = useParams();
+  console.log(params);
   return (
     <div>
-      <a href={`/books/${router.id}`}>back</a>
-      <div>Collection {router.id}</div>
+      <a href={`/books/${params.id}`}>back</a>
+      <div>Collection {params.id}</div>
     </div>
   );
 }
