@@ -15,11 +15,14 @@ export interface INotice {
   imageUrl?: string;
   timestamp: string;
 }
-export interface IStockExchangeInfo {
-  noticeId?: number;
+export interface IStockmonInfo {
   stockmonId?: number;
   stockmonName?: string;
   stockmonImageUrl?: string;
+}
+export interface IStockExchangeInfo {
+  noticeId?: number;
+  stockmon?: IStockmonInfo;
 }
 
 interface IStockExchangeModalInfo extends IStockExchangeInfo {
@@ -42,7 +45,9 @@ export default function Message() {
   const handleExchangeClose = () => {
     setStockExchange({ isOpen: false });
   };
-
+  const handleConfirmStockExchange = (stockmonId: number) => {
+    //TODO: 교환요청 수락. 해당 스톡몬 보내기
+  };
   const handleConfirm = (noticeInfo: INotice) => {
     console.log("confirm: ", noticeInfo);
     //TODO: 교환팝업이면 handleExchangeOpen 실행, 동맹팝업이면 동맹요청 실행
@@ -89,10 +94,12 @@ export default function Message() {
       <StockExchangeModal
         open={stockExchange.isOpen}
         onClose={handleExchangeClose}
-        noticeId={0}
-        stockmonId={0}
-        stockmonName={"삼성전자몬"}
-        stockmonImageUrl={"/images/dummy-stockmon.png"}
+        onConfirm={handleConfirmStockExchange}
+        stockmon={{
+          name: "삼성전자몬",
+          id: 1,
+          imgUrl: "/images/dummy-stockmon.png",
+        }}
       />
     </>
   );
