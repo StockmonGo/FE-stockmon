@@ -1,0 +1,22 @@
+{
+  "data": {
+    "alliances": [
+      {
+        "travelerId": 1,
+        "nickname": "4채윤인천사"
+      },
+      {
+        "travelerId": 2,
+        "nickname": "3채윤인천사"
+      },
+      {
+        "travelerId": 3,
+        "nickname": "2채윤인천사"
+      },
+      {
+        "travelerId": 4,
+        "nickname": "1채윤인천사"
+      }
+    ]
+  }
+}
