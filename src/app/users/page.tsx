@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export default function Account() {
+export default function Users() {
   const router = useRouter();
   return (
     <div className="grid justify-items-center space-y-12">
