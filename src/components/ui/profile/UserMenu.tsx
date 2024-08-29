@@ -1,13 +1,24 @@
+"use client";
+import { useState } from "react";
+import Modal from "../Modal";
+
 type Props = {
   nickname?: string;
 };
 
 export default function UserMenu({}: Props) {
+  const [accountModalSee, setAccountModalSee] = useState(false);
+  const connectAccount = () => {
+    setAccountModalSee(true);
+  };
+  const onClose = () => {
+    setAccountModalSee(false);
+  };
   // TODO 각자의 함수 생성하기
   const menuItems = [
     {
       text: "계좌 연결하기",
-      onClick: () => {},
+      onClick: connectAccount,
     },
     {
       text: "설정",
@@ -34,6 +45,13 @@ export default function UserMenu({}: Props) {
           {item.text}
         </p>
       ))}
+      <Modal
+        onClose={onClose}
+        open={accountModalSee}
+        title="계좌를 연동하시겠습니까?"
+        onConfirm={() => {}}
+        hasClose={true}
+      ></Modal>
     </div>
   );
 }
