@@ -49,7 +49,7 @@ export default function StockmonCard({ data }: Props) {
       </figure>
       <figcaption className="relative mt-10 p-4 rounded-lg bg-yellow-50">
         <img
-          className="absolute inset-0 scale-[1.2] -top-7 z-1"
+          className="absolute w-full max-h-10 inset-0 scale-[1.2] -top-7 z-1"
           src="/images/ribbon.png"
           alt="ribbon"
         />
