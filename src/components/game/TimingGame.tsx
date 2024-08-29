@@ -88,37 +88,12 @@ export default function TimingGame() {
     generateTarget();
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("keypress", onTargetClick);
-    return () => {
-      window.removeEventListener("keypress", onTargetClick);
-    };
-  }, [aimPosition]);
-
   return (
-    <div className="TimingGame">
-      <h2>Timing Game: Level {level}</h2>
-      <h3>
-        Press any key or click when red line is within the green target area
-      </h3>
-      <div className="TimingGame__bar">
-        <div
-          className="TimingGame__aim"
-          style={{
-            left: `${aimPosition - AIM_WIDTH / 2}%`,
-            width: `${AIM_WIDTH}%`,
-          }}
-        />
-        <div
-          className="TimingGame__target"
-          style={{
-            left: `${targetPosition - targetSize / 2}%`,
-            width: `${targetSize}%`,
-          }}
-        />
-      </div>
-      <div className="TimingGame__actions">
-        <button onClick={onTargetClick}>Click</button>
+    <div
+      onClick={() => onTargetClick()}
+      className="flex justify-end flex-col h-full"
+    >
+      <div>
         {status && (
           <span
             className={`TimingGame__status TimingGame__status--${String(
@@ -128,6 +103,25 @@ export default function TimingGame() {
             {status}!
           </span>
         )}
+      </div>
+      <div className="TimingGame">
+        <div className="TimingGame__bar ">
+          <div className="TimingGame__lemon"></div>
+          <div
+            className="TimingGame__aim"
+            style={{
+              left: `${aimPosition - AIM_WIDTH / 2}%`,
+              width: `${AIM_WIDTH}%`,
+            }}
+          />
+          <div
+            className="TimingGame__target"
+            style={{
+              left: `${targetPosition - targetSize / 2}%`,
+              width: `${targetSize}%`,
+            }}
+          />
+        </div>
       </div>
     </div>
   );

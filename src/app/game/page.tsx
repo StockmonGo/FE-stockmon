@@ -5,8 +5,8 @@ import React from "react";
 
 export default function Game() {
   return (
-    <div>
-      <div className="relative flex items-end min-w-28 justify-end">
+    <div className="h-full">
+      <div className="fixed flex items-end min-w-28 justify-end right-[20px]">
         <Image
           alt="peach"
           src="/images/peach.svg"

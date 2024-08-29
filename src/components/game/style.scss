@@ -19,11 +19,29 @@ button {
   justify-content: center;
   &__bar {
     height: 20px;
-    background: $grey;
+    background: linear-gradient(
+      135deg,
+      rgba(242, 141, 214, 1) 0%,
+      rgba(255, 83, 176, 1) 100%
+    );
     width: 300px;
     position: relative;
     margin: 0 auto;
-    border: 6px solid $grey-light;
+    border-radius: 12px;
+    position: relative;
+  }
+  &__lemon {
+    position: absolute;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 243, 80, 1) 0%,
+      rgba(254, 223, 101, 1) 100%
+    );
+    left: 4px;
+    top: 4px;
+    border-radius: 12px;
+    height: 12px;
+    width: calc(100% - 8px);
   }
   &__aim {
     height: 150%;
@@ -34,8 +52,13 @@ button {
     z-index: 5;
   }
   &__target {
-    height: 100%;
-    background: $green;
+    height: 58%;
+    top: 4px;
+    background: radial-gradient(
+      circle,
+      rgba(252, 90, 18, 1) 0%,
+      rgba(247, 53, 53, 1) 50%
+    );
     position: absolute;
     left: 0;
     z-index: 4;
