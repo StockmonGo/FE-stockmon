@@ -18,7 +18,6 @@ export type StockmonDetailType = {
   stockCode: string;
   catchCount: number;
   stockmonAveragePrice: number;
-  currentStockPrice: number;
   stockTotalPrice: number;
   stockMarket: string;
   chart: {

@@ -2,8 +2,9 @@ import { StockmonDetailType } from "@/types/stockmons";
 import React from "react";
 import "@/app/books/books.css";
 import StockTag from "./StockTag";
-import { AiFillBank } from "react-icons/ai";
+
 import { STOCK_ICONS } from "@/types/stocks";
+import Row from "./Row";
 
 type InfoType = "detail" | "summary";
 
@@ -27,19 +28,30 @@ export default function StockmonStock({ data, type }: Props) {
       </section>
       <section className="flex flex-col gap-3 px-7 py-5 bg-white bg-opacity-50 font-ptb text-[#715EB7] text-lg">
         {type !== "summary" && (
-          <div className="flex justify-between">
+          <Row>
             <p>포획 평균가</p>
             <p>{data.stockmonAveragePrice} \</p>
-          </div>
+          </Row>
         )}
-        <div className="flex justify-between">
+        <Row>
+          {/*TODO: 소켓 연결하기*/}
           <p>현재 주가</p>
-          <p>{data.currentStockPrice} \</p>
-        </div>
-        <div className="flex justify-between">
+          <div className="flex flex-col gpa-1 items-end">
+            <div className="flex gap-1">
+              <p className="text-red-600">{3400}</p>
+              <p className="">\</p>
+            </div>
+            <div className="flex gap-1 text-sm opacity-60">
+              <p>(어제보다 </p>
+              <p className="text-red-600">+{1200}</p>
+              <p>\)</p>
+            </div>
+          </div>
+        </Row>
+        <Row>
           <p>종족치</p>
           <p>{data.stockTotalPrice} \</p>
-        </div>
+        </Row>
       </section>
     </article>
   );
