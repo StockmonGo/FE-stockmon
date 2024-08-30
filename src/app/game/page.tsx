@@ -2,9 +2,7 @@
 import NewStockmon from "@/components/game/NewStockmon";
 import TimingGame from "@/components/game/TimingGame";
 import PeachCount from "@/components/ui/game/PeachCount";
-import Image from "next/image";
 import React, { useState } from "react";
-import Avatar from "boring-avatars";
 
 type GAME_STATUS = "playing" | "done";
 export default function Game() {
@@ -18,8 +16,6 @@ export default function Game() {
   return (
     <div className="h-full">
       <PeachCount />
-      {/* marble, beam, pixel, sunset, ring and bauhaus. */}
-      <Avatar name="Margaret Brent" variant="marble" />
       {<TimingGame catchStockmon={catchStockmon} />}
       {gameStatus === "done" && <NewStockmon />}
     </div>
