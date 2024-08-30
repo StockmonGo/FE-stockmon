@@ -13,18 +13,18 @@ button {
 }
 
 .TimingGame {
-  width: 400px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   &__bar {
-    height: 20px;
+    height: 30px;
     background: linear-gradient(
       135deg,
       rgba(242, 141, 214, 1) 0%,
       rgba(255, 83, 176, 1) 100%
     );
-    width: 300px;
+    width: 100%;
     position: relative;
     margin: 0 auto;
     border-radius: 12px;
@@ -32,28 +32,42 @@ button {
   }
   &__lemon {
     position: absolute;
+    overflow: hidden;
     background: linear-gradient(
       180deg,
       rgba(255, 243, 80, 1) 0%,
       rgba(254, 223, 101, 1) 100%
     );
     left: 4px;
-    top: 4px;
+    top: 5px;
     border-radius: 12px;
-    height: 12px;
+    height: 20px;
     width: calc(100% - 8px);
   }
   &__aim {
-    height: 150%;
-    background: $red;
+    height: 128%;
+    background: #2ecc71;
     position: absolute;
     left: 0;
     top: -25%;
     z-index: 5;
+    background-image: url("/icons/game-target.svg");
   }
+  &__aim::after {
+    background: url("/icons/game-target.svg") no-repeat 0px 0px;
+    content: "";
+    position: relative;
+    height: 68px;
+    width: 62px;
+    background-size: 80%;
+    top: -38px;
+    left: -24px;
+    display: inline-block;
+  }
+
   &__target {
-    height: 58%;
-    top: 4px;
+    height: 20px;
+    top: 0px;
     background: radial-gradient(
       circle,
       rgba(252, 90, 18, 1) 0%,
@@ -84,16 +98,42 @@ button {
       }
     }
   }
-  &__status {
-    font-weight: bold;
-    padding: 8px;
-    width: 40px;
-    height: 20px;
-    &--miss {
-      color: $red;
-    }
-    &--hit {
-      color: $green;
-    }
+}
+
+.bounce-in-up {
+  animation: bounce-in-up 1s ease;
+}
+
+@keyframes bounce-in-up {
+  0% {
+    opacity: 0;
+    transform: scale(0.1) translateY(200px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-30px);
+  }
+  80% {
+    transform: scale(1.1) translateY(0px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes bounce-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(2000px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-30px);
+  }
+  80% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
