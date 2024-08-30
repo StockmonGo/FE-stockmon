@@ -1,6 +1,7 @@
 import { AiOutlineLoading } from "react-icons/ai";
 import ExchangeAllianceList from "./ExchangeAllianceList";
 import dummyAlliances from "@/../dummy/alliance/alliances.json";
+import { useState } from "react";
 
 type Props = {
   open: boolean;
@@ -17,6 +18,10 @@ export default function StockmonExchangeModal({
   isDisabled = false,
 }: Props) {
   const alliances = dummyAlliances.data.alliances;
+  const [selectedAlliance, setSelectedAlliance] = useState(0);
+  const onClickAliance = (travelerId: number) => {
+    setSelectedAlliance(travelerId);
+  };
   return (
     open && (
       <div
@@ -24,7 +29,7 @@ export default function StockmonExchangeModal({
         onClick={onClose}
       >
         <div
-          className="flex flex-col gap-4 justify-center items-center bg-white p-4 w-full rounded-lg"
+          className="flex flex-col gap-4 justify-between items-center bg-white p-4 w-full rounded-lg h-3/5"
           onClick={(e) => e.stopPropagation()}
         >
           <header className="w-full py-3 flex flex-col gap-2 text-center text-stock-blue-950 bg-white  rounded-lg">
@@ -32,7 +37,13 @@ export default function StockmonExchangeModal({
             <p className="font-ptr text-sm">스톡몬을 받을 모험가를 선택하세요.</p>
           </header>
           {isLoading && <AiOutlineLoading className="animate-spin m-auto" color={"white"} />}
-          {!isLoading && <ExchangeAllianceList alliances={alliances} />}
+          {!isLoading && (
+            <ExchangeAllianceList
+              alliances={alliances}
+              onClickAliance={onClickAliance}
+              selectedAlliance={selectedAlliance}
+            />
+          )}
           <footer className="flex justify-center gap-16">
             <button onClick={onClose}>
               <img src="/icons/button-close.svg" alt="close" />
