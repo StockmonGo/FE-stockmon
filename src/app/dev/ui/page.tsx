@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import DevContainer from "@/components/dev/DevContainer";
 import Background from "./Background";
 import Modal from "@/components/ui/Modal";
+import Avatar from "boring-avatars";
 
 export default function UI() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -14,6 +15,59 @@ export default function UI() {
 
   return (
     <div>
+      <DevContainer title="프로필">
+        <>
+          <div className="flex flex-rows justify-evenly">
+            {/* marble, beam, pixel, sunset, ring and bauhaus. */}
+            <div>
+              <Avatar name="Margaret Brent" variant="marble" />
+              <p>marble</p>
+            </div>
+            <div>
+              <Avatar name="Margaret Brent" variant="beam" />
+              <p>beam</p>
+            </div>
+            <div>
+              <Avatar name="Margaret Brent" variant="sunset" />
+              <p>sunset</p>
+            </div>
+            <div>
+              <Avatar name="Margaret Brent" variant="ring" />
+              <p>ring</p>
+            </div>
+            <div>
+              <Avatar name="Margaret Brent" variant="bauhaus" />
+              <p>bauhaus</p>
+            </div>
+          </div>
+          <div className="flex flex-rows justify-evenly">
+            <div>
+              <Avatar name="현아" variant="beam" />
+              <p>bean - 현아 </p>
+            </div>
+            <div>
+              <Avatar name="소연" variant="beam" />
+              <p>bean - 소연 </p>
+            </div>
+            <div>
+              <Avatar name="경륜" variant="beam" />
+              <p>bean - 경륜 </p>
+            </div>
+            <div>
+              <Avatar name="민증" variant="beam" />
+              <p>bean - 민중 </p>
+            </div>
+            <div>
+              <Avatar name="희을" variant="beam" />
+              <p>bean - 희을 </p>
+            </div>
+            <div>
+              <Avatar name="채윤" variant="beam" />
+              <p>bean - 채윤 </p>
+            </div>
+          </div>
+        </>
+      </DevContainer>
       <DevContainer title="버튼">
         <div className="button-container w-5/12">
           <Button text="버튼" onClick={() => {}} />
