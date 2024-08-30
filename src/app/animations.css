@@ -17,3 +17,17 @@
     transform: scale(0.95, 1.05);
   }
 }
+
+.fade-out-right {
+  animation: fade-out-right 2s ease infinite;
+}
+@keyframes fade-out-right {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}

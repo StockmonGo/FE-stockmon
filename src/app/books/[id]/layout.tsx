@@ -14,7 +14,7 @@ export default function BookDetailLayout({
 }>) {
   return (
     <div
-      className="p-6 overflow-scroll bg-cover bg-center w-full h-full fixed z-[-1]"
+      className="p-6 pb-24 overflow-scroll bg-cover bg-center w-full h-full fixed z-[-1]"
       style={{ backgroundImage: "url('/images/bg.jpg')" }}
     >
       {children}
