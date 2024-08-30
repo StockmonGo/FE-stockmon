@@ -6,6 +6,10 @@
 ::-webkit-scrollbar {
   display: none;
 }
+textarea:focus,
+input:focus {
+  outline: none;
+}
 
 .btn-blue {
   @apply py-2 px-4 bg-stock-blue-400 shadow-btn-blue-shadow enabled:hover:bg-stock-blue-500;

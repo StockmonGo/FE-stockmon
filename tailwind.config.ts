@@ -14,9 +14,10 @@ const config: Config = {
     extend: {
       colors: {
         "stock-slate": "#F8F4ED",
-        "stock-red": "#FF9ECD",
+        "stock-red": "#FF0C81",
         "stock-green": "#D3FFB1",
         "stock-purple": "#D6A7FF",
+        "stock-purple-79": "#794BE4",
         "stock-border": "#96A7FF",
         white: "#ffffff",
         "stock-blue": {
@@ -62,6 +63,7 @@ const config: Config = {
       boxShadow: {
         "btn-blue-shadow": "-2px -4px 2px 0px rgba(47,0,255,0.17) inset",
         "btn-white-shadow": "-2px -4px 2px 0px rgba(0,0,0,0.18) inset",
+        "alliance-drop-shadow": "0px 3px 4px 0px rgba(221,183,255,0.26)",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

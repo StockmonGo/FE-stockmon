@@ -25,15 +25,15 @@ export default function MessageItem({
         <div className="btn-box flex flex-row gap-3">
           <div onClick={handleCancel}>
             <Image
-              src={"/images/icons/btn-cancel.png"}
+              src={"/icons/button-close.svg"}
               alt={"취소"}
               width={28}
               height={28}
             />
           </div>
-          <div onClick={()=>handleConfirm(noticeInfo)}>
+          <div onClick={() => handleConfirm(noticeInfo)}>
             <Image
-              src={"/images/icons/btn-confirm.png"}
+              src={"/icons/button-ok-on.svg"}
               alt={"확인"}
               width={28}
               height={28}
