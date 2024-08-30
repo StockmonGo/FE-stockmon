@@ -1,7 +1,7 @@
 import BtnClose from "@/components/ui/BtnClose";
 import { randomInt } from "crypto";
-import { AiFillHeart } from "react-icons/ai";
 import "@/app/world/world.css";
+import StockmonFeel from "@/components/ui/yard/StockmonFeel";
 
 export default function Yard() {
   // 스톡목 더미
@@ -34,12 +34,7 @@ export default function Yard() {
 
         return (
           <div key={item.id} style={{ top, left }} className="bounce w-fit h-fit absolute grid justify-items-center">
-            {item.isGood ? (
-              <AiFillHeart size={36} fill="#FF0000" />
-            ) : (
-              <img src="/icons/depress-feeling.svg" alt="bad" className="w-9" />
-            )}
-            <img src={item.imgUrl} alt={item.name} className="w-24 h-24" />
+            <StockmonFeel stockmon={item} />
           </div>
         );
       })}
