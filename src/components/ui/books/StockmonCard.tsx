@@ -54,7 +54,7 @@ export default function StockmonCard({ data }: Props) {
           alt="ribbon"
         />
         <p className="absolute w-full flex justify-center left-0 -top-6 z-1 text-lg text-white">
-          {data.stockName}
+          {data.stockmonName}
         </p>
         <div className="pt-2 font-ptr text-base text-stock-dark-400">
           {data.description}

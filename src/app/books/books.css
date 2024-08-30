@@ -1,0 +1,48 @@
+.purple-bubble {
+  background-image: linear-gradient(to bottom, #afb3ff, #daaaff);
+  background-position: right top, left bottom;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.purple-bubble::before,
+.purple-bubble::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-repeat: no-repeat;
+  opacity: 0;
+  animation: fadeInOut 4s infinite;
+}
+
+.purple-bubble::before {
+  background-image: url("/images/stockBubbleTop.png");
+  background-position: right top;
+}
+
+.purple-bubble::after {
+  background-image: url("/images/stockBubbleBottom.png");
+  background-position: left bottom;
+  animation-delay: 2s; /* 두 번째 이미지의 애니메이션 시작 지연 */
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 하위 콘텐츠의 위치 설정 */
+.purple-bubble > * {
+  position: relative;
+  z-index: 2; /* 하위 콘텐츠가 가상 요소 위에 위치하도록 설정 */
+}

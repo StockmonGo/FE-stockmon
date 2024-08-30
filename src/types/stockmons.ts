@@ -12,11 +12,12 @@ export type StockmonDetailType = {
   stockmonName: string;
   description: string;
   imageUrl: string;
-  type: number;
+  stockType: number;
+  stockTypeName: string;
   stockName: string;
   stockCode: string;
   catchCount: number;
-  currentStockPrice: number;
+  stockmonAveragePrice: number;
   stockTotalPrice: number;
   stockMarket: string;
   chart: {
