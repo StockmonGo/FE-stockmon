@@ -1,4 +1,4 @@
-import { StockmonType } from "@/types/books/StockmonType";
+import { StockmonType } from "@/types/stockmons";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Skeleton } from "../Skeleton";

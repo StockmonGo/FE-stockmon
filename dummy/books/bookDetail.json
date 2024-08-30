@@ -1,0 +1,24 @@
+{
+  "stockmonId": 1,
+  "stockmonName": "삼성전자모온",
+  "description": "신한금융그룹을 ~~~",
+  "imageUrl": "/images/dummy-stockmon.png",
+  "stockType": 1,
+  "stockTypeName": "무역/운송",
+  "stockName": "삼성전자",
+  "stockCode": "055550",
+  "catchCount": 24,
+  "stockmonAveragePrice": 513452,
+  "stockTotalPrice": 34500000,
+  "stockMarket": "코스피",
+  "chart": [
+    {
+      "date": "2024-08-01",
+      "price": 20000
+    },
+    {
+      "date": "2024-08-02",
+      "price": 30000
+    }
+  ]
+}
