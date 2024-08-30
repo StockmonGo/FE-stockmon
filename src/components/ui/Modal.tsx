@@ -27,20 +27,18 @@ export default function Modal({
   return (
     open && (
       <div
-        className="fixed inset-0 bg-stock-dark-950 bg-opacity-20 flex justify-center items-center z-50"
+        className="fixed inset-0 bg-stock-dark-950 bg-opacity-20 flex justify-center items-center z-50 px-6"
         onClick={onClose}
       >
         <div
-          className="flex flex-col gap-4 justify-center items-center bg-somsatang-gradient p-4 min-w-[360px] rounded-lg"
+          className="flex flex-col gap-4 justify-center items-center bg-somsatang-gradient p-4 w-full rounded-lg"
           onClick={(e) => e.stopPropagation()}
         >
-          <header className="w-full py-3 flex flex-col gap-2 text-center text-stock-blue-950 bg-white  rounded-lg">
+          <header className="w-full p-3 flex flex-col gap-2 text-center text-stock-blue-950 bg-white rounded-lg break-all">
             {title && <h2 className="font-ptb text-lg">{title}</h2>}
-            {describe && <p className="font-ptr text-sm">{describe}</p>}
+            {describe && <p className="font-ptr text-sm w-full break-all">{describe}</p>}
           </header>
-          {isLoading && (
-            <AiOutlineLoading className="animate-spin m-auto" color={"white"} />
-          )}
+          {isLoading && <AiOutlineLoading className="animate-spin m-auto" color={"white"} />}
           {!isLoading && children}
           <footer className="flex justify-center gap-16">
             {hasClose && (
