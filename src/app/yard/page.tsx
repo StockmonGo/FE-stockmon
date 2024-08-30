@@ -1,6 +1,7 @@
 import BtnClose from "@/components/ui/BtnClose";
 import { randomInt } from "crypto";
 import { AiFillHeart } from "react-icons/ai";
+import "@/app/world/world.css";
 
 export default function Yard() {
   // 스톡목 더미
@@ -32,7 +33,7 @@ export default function Yard() {
         const left = randomInt(300) + "px";
 
         return (
-          <div key={item.id} style={{ top, left }} className="w-fit h-fit absolute grid justify-items-center">
+          <div key={item.id} style={{ top, left }} className="bounce w-fit h-fit absolute grid justify-items-center">
             {item.isGood ? (
               <AiFillHeart size={36} fill="#FF0000" />
             ) : (
