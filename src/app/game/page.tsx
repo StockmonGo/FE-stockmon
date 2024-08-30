@@ -2,7 +2,6 @@
 import NewStockmon from "@/components/game/NewStockmon";
 import TimingGame from "@/components/game/TimingGame";
 import PeachCount from "@/components/ui/game/PeachCount";
-import Image from "next/image";
 import React, { useState } from "react";
 
 type GAME_STATUS = "playing" | "done";

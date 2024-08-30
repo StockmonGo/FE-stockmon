@@ -6,6 +6,7 @@ import SearchBar from "@/components/ui/SearchBar";
 import React from "react";
 import useSWR from "swr";
 import data from "@/../dummy/books/books.json";
+import Error from "@/components/ui/Error";
 
 const fetcher = (url: string) => {
   // TODO: api 요청
@@ -17,7 +18,7 @@ export default function Books() {
   let countHeader: React.ReactNode = <CountHeader isLoading />;
   let stockmonList: React.ReactNode = <StockmonList isLoading />;
 
-  if (error) return <div>failed to load</div>;
+  if (error) return <Error />;
   if (data && data.stockmons) {
     countHeader = <CountHeader count={data.stockmons.length} />;
     stockmonList = <StockmonList stockmons={data.stockmons} />;

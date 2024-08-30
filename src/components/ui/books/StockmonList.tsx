@@ -1,5 +1,5 @@
 import React from "react";
-import { StockmonType } from "@/types/books/StockmonType";
+import { StockmonType } from "@/types/stockmons";
 import StockmonItem from "./StockmonItem";
 import { Skeleton } from "../Skeleton";
 

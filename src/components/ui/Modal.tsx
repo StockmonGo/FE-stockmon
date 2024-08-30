@@ -22,7 +22,7 @@ export default function Modal({
   onConfirm = onClose,
   children,
   title = "제목",
-  describe = "내용",
+  describe,
 }: Props) {
   return (
     open && (
