@@ -6,22 +6,21 @@ import { useState } from "react";
 type Props = {
   open: boolean;
   isLoading?: boolean;
-  isDisabled?: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  onClickAliance: (travelerId: number) => void;
+  selectedAlliance: number;
 };
 export default function StockmonExchangeModal({
   open,
   onClose,
   onConfirm,
   isLoading = false,
-  isDisabled = false,
+  onClickAliance,
+  selectedAlliance,
 }: Props) {
   const alliances = dummyAlliances.data.alliances;
-  const [selectedAlliance, setSelectedAlliance] = useState(0);
-  const onClickAliance = (travelerId: number) => {
-    setSelectedAlliance(travelerId);
-  };
+
   return (
     open && (
       <div
@@ -48,8 +47,8 @@ export default function StockmonExchangeModal({
             <button onClick={onClose}>
               <img src="/icons/button-close.svg" alt="close" />
             </button>
-            <button onClick={onConfirm} disabled={isDisabled || isLoading}>
-              {isDisabled || isLoading ? (
+            <button onClick={onConfirm} disabled={selectedAlliance == 0 || isLoading}>
+              {selectedAlliance == 0 || isLoading ? (
                 <img src="/icons/button-ok-off.svg" alt="ok-off" />
               ) : (
                 <img src="/icons/button-ok-on.svg" alt="ok-on" />
