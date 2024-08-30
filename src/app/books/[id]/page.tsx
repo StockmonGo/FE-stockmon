@@ -26,7 +26,7 @@ export default function Detail() {
   return (
     <div className="flex flex-col gap-5 items-center">
       <StockmonCard data={data} />
-      <StockmonStock />
+      <StockmonStock data={data} />
       <StockmonChart />
     </div>
   );

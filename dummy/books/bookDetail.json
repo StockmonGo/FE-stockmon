@@ -1,9 +1,10 @@
 {
   "stockmonId": 1,
-  "stockmonName": "희을을",
+  "stockmonName": "삼성전자모온",
   "description": "신한금융그룹을 ~~~",
   "imageUrl": "/images/dummy-stockmon.png",
-  "type": 12,
+  "stockType": 1,
+  "stockTypeName": "은행",
   "stockName": "삼성전자",
   "stockCode": "055550",
   "catchCount": 24,
