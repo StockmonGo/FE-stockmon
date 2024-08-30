@@ -17,6 +17,7 @@ export type StockmonDetailType = {
   stockName: string;
   stockCode: string;
   catchCount: number;
+  stockmonAveragePrice: number;
   currentStockPrice: number;
   stockTotalPrice: number;
   stockMarket: string;
