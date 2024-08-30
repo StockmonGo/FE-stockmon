@@ -20,7 +20,8 @@ export default function Register() {
   } = useForm<FormData>();
 
   const onSubmit = handleSubmit((data) => console.log(data));
-  const inputCSS = "border rounded-lg px-3 py-2 w-full border-stock-dark-200 my-1";
+  const inputCSS =
+    "border rounded-lg px-3 py-2 w-full border-stock-dark-200 my-1";
   const errorCSS = "text-stock-red h-4";
 
   return (
@@ -33,7 +34,10 @@ export default function Register() {
               닉네임 <span className="text-stock-red">*</span>
             </p>
             <input
-              {...register("nickname", { required: "닉네임을 입력해주세요", maxLength: 10 })}
+              {...register("nickname", {
+                required: "닉네임을 입력해주세요",
+                maxLength: 10,
+              })}
               placeholder="닉네임을 입력해주세요(최대 10글자)"
               className={inputCSS}
             />
@@ -44,7 +48,9 @@ export default function Register() {
               비밀번호 <span className="text-stock-red">*</span>
             </p>
             <input
-              {...register("password1", { required: "비밀번호를 입력해주세요" })}
+              {...register("password1", {
+                required: "비밀번호를 입력해주세요",
+              })}
               placeholder="비밀번호를 입력해주세요"
               type="password"
               className={inputCSS}
@@ -82,7 +88,11 @@ export default function Register() {
           </div>
         </div>
         <div className="w-32 justify-self-center mt-4">
-          <Button text="회원가입" onClick={onSubmit} disabled={!isDirty || !isValid} />
+          <Button
+            text="회원가입"
+            onClick={onSubmit}
+            disabled={!isDirty || !isValid}
+          />
         </div>
       </form>
     </>

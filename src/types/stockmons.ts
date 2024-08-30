@@ -1,3 +1,6 @@
+export const STOCKMON_MAX = 200;
+export const COLLECTION_MAX = 20;
+
 export type StockmonType = {
   id: number;
   name: string;
