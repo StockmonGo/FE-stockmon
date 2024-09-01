@@ -10,6 +10,7 @@ import StockmonChart from "@/components/ui/books/StockmonChart";
 import data from "@/../dummy/books/bookDetail.json";
 import StockmonExchangeModal from "@/components/ui/books/StockmonExchangeModal";
 import Modal from "@/components/ui/Modal";
+import { GiCardExchange } from "react-icons/gi";
 
 const fetcher = (url: string) => {
   //TODO: 스톡몬 개별 페이지 조회 api 연결
@@ -22,6 +23,9 @@ export default function Detail() {
   const [exchangeModalOpen, setExchangeModalOpen] = useState(false);
   const [selectedAlliance, setSelectedAlliance] = useState(0);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
+  const onClickExchange = () => {
+    setExchangeModalOpen(true);
+  };
   const onClickAliance = (travelerId: number) => {
     setSelectedAlliance(travelerId);
   };
@@ -43,7 +47,6 @@ export default function Detail() {
 
   return (
     <div className="flex flex-col gap-5 items-center">
-      <button onClick={() => setExchangeModalOpen(true)}>모달 열기</button>
       <StockmonCard data={data} />
       <StockmonStock data={data} />
       <StockmonChart />
@@ -54,7 +57,18 @@ export default function Detail() {
         onClickAliance={onClickAliance}
         selectedAlliance={selectedAlliance}
       />
-      <Modal title="교환 요청이 완료되었습니다" describe="상대방이 교환할 스톡몬을 선택하면 교환이 이루어집니다." open={checkModalOpen} onClose={()=>setCheckModalOpen(false)} />
+      <div
+        className="w-10 h-10 rounded-full bg-white border-blue-400 border-2 fixed bottom-6 right-7 z-50 grid justify-items-center content-center"
+        onClick={onClickExchange}
+      >
+        <GiCardExchange size={28} color="#56A4FF" />
+      </div>
+      <Modal
+        title="교환 요청이 완료되었습니다"
+        describe="상대방이 교환할 스톡몬을 선택하면 교환이 이루어집니다."
+        open={checkModalOpen}
+        onClose={() => setCheckModalOpen(false)}
+      />
     </div>
   );
 }
