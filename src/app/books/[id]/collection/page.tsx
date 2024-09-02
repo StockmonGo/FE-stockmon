@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import useSWR from "swr";

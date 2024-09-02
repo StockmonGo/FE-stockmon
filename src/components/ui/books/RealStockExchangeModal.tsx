@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import BtnClose from "../BtnClose";
+import React from "react";
 import { GiTwoCoins } from "react-icons/gi";
-import Button from "../Button";
+import "@/app/animations.css";
+
 type Props = {
   open: boolean;
   onClose: () => void;
@@ -39,11 +39,10 @@ export default function RealStockExchangeModal({
         <footer className="fixed mx-auto bottom-6 w-fit flex justify-center items-center">
           <button
             onClick={onClose}
-            className=" flex justify-center items-center bg-stock-blue-950 p-2 w-20 rounded-full"
+            className=" flex justify-center items-center bg-stock-blue-950 p-2 w-20 rounded-lg"
           >
-            <i></i>
+            <i>{/* 흰 슬라이드 애니메이션 */}</i>
             <GiTwoCoins size={28} color="FFEA00" />
-            <div className="circle"></div>
           </button>
         </footer>
       </div>
