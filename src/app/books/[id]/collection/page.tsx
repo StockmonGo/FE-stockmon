@@ -6,8 +6,9 @@ import Loading from "@/components/ui/Loading";
 import useSWR from "swr";
 import { COLLECTION_MAX } from "@/types/stockmons";
 import Button from "@/components/ui/Button";
-import data from "@/../dummy/books/bookDetail.json";
 import Modal from "@/components/ui/Modal";
+import RealStockExchangeModal from "@/components/ui/books/RealStockExchangeModal";
+import data from "@/../dummy/books/bookDetail.json";
 
 const fetcher = (url: string) => {
   //TODO: 스톡몬 개별 페이지 조회 api 연결
@@ -19,7 +20,7 @@ const fetcher2 = (url: string): Promise<ProfileType> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
-        hasAccount: false,
+        hasAccount: true,
       });
     }, 1000);
   });
@@ -50,7 +51,6 @@ export default function Collection() {
     setButtonLoading(false);
     if (profileData.hasAccount) {
       setGetStockModalOpen(true);
-      handleCloseGetStockModal();
     } else {
       setAccountModalOpen(true);
     }
@@ -64,7 +64,8 @@ export default function Collection() {
   const handleCloseGetStockModal = async () => {
     // TODO: 주식 받기 api 요청
     setGetStockModalOpen(false);
-    console.log(stockmonData.stockCode + " 받기 완료");
+    // TODO: toast 띄우기
+    console.log(stockmonData.stockCode + "을(를) 받았습니다!");
   };
 
   return (
@@ -113,18 +114,12 @@ export default function Collection() {
           onConfirm={handleConfirmAccountModal}
           hasClose
         ></Modal>
-        <Modal
+        <RealStockExchangeModal
           open={getStockModalOpen}
-          title={`대 ${stockmonData.stockmonName}`}
-          describe='"그동안 우리 아이들을 잘 돌봐주셔서 감사합니다. 이 은혜는 돈으로 갚겠습니다."'
           onClose={handleCloseGetStockModal}
-        >
-          <img
-            src={stockmonData.imageUrl}
-            alt={stockmonData.stockmonName}
-            className="min-w-44 aspect-square object-cover rounded-lg"
-          />
-        </Modal>
+          image={stockmonData.imageUrl}
+          stockmonName={stockmonData.stockmonName}
+        />
       </footer>
     </div>
   );
