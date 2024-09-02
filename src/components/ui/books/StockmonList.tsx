@@ -1,15 +1,30 @@
-import React from "react";
+"use client";
+import React, { useMemo } from "react";
 import { StockmonType } from "@/types/stockmons";
 import StockmonItem from "./StockmonItem";
 import { Skeleton } from "../Skeleton";
 
 type Props =
-  | { isLoading: true; stockmons?: never }
-  | { isLoading?: false; stockmons: StockmonType[] };
+  | { isLoading: true; stockmons?: never; keyword?: never }
+  | {
+      isLoading?: false;
+      stockmons: StockmonType[];
+      keyword: string;
+    };
 
 const centerStyle = "w-full h-full flex justify-center items-center";
 
-export default function StockmonList({ isLoading, stockmons }: Props) {
+export default function StockmonList({ isLoading, stockmons, keyword }: Props) {
+  const filteredStockmons = useMemo(() => {
+    if (!keyword) return stockmons;
+
+    return stockmons.filter(
+      (stockmon) =>
+        stockmon.name.toLowerCase().includes(keyword.toLowerCase()) ||
+        stockmon.stockCode.toString().includes(keyword)
+    );
+  }, [stockmons, keyword]);
+
   if (isLoading) {
     return (
       <ul className="w-full h-full grid grid-cols-3 grid-auto-rows gap-2">
@@ -32,9 +47,10 @@ export default function StockmonList({ isLoading, stockmons }: Props) {
 
   return (
     <ul className="grid grid-cols-3 gap-2 py-2">
-      {stockmons.map((stockmon) => (
-        <StockmonItem key={stockmon.id} stockmon={stockmon} />
-      ))}
+      {filteredStockmons &&
+        filteredStockmons.map((stockmon) => (
+          <StockmonItem key={stockmon.id} stockmon={stockmon} />
+        ))}
     </ul>
   );
 }

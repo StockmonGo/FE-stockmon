@@ -31,8 +31,8 @@ export default function RealStockExchangeModal({
               대 {stockmonName}
             </p>
             <p className=" text-center break-keep text-stock-blue-950">
-              "그동안 우리 아이들을 잘 돌봐주셔서 감사합니다. 이 은혜는 돈으로
-              갚겠습니다."
+              {`"그동안 우리 아이들을 잘 돌봐주셔서 감사합니다. 이 은혜는 돈으로
+              갚겠습니다."`}
             </p>
           </figcaption>
         </div>
