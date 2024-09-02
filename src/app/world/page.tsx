@@ -3,6 +3,7 @@ import BottomNavBar from "@/components/ui/world/BottomNavBar";
 import StockTowerModal from "@/components/ui/world/StockTowerModal";
 import TopNavBar from "@/components/ui/world/TopNavBar";
 import React, { useEffect, useState } from "react";
+import mapAPI from "@/apis/mapAPI";
 
 declare global {
   interface Window {
@@ -12,6 +13,7 @@ declare global {
 
 export default function World() {
   const [towerModalSee, setTowerModalSee] = useState(false);
+  const service = new mapAPI();
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
@@ -21,22 +23,25 @@ export default function World() {
     const onLoadKakaoAPI = () => {
       window.kakao.maps.load(() => {
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function (position) {
-            const lat = position.coords.latitude; // 위도
-            const lon = position.coords.longitude; // 경도
-            // const myLocation = new window.kakao.maps.LatLng(lat, lon);
+          // navigator.geolocation.watchPosition(function (position) {
+          navigator.geolocation.getCurrentPosition(async function (position) {
+            const latitude = position.coords.latitude; // 위도
+            const longitude = position.coords.longitude; // 경도
+            const myLocation = new window.kakao.maps.LatLng(latitude, longitude);
             // 성수로 일단 고정
-            const myLocation = new window.kakao.maps.LatLng(37.5451626, 127.0568792);
+            // const myLocation = new window.kakao.maps.LatLng(37.5451626, 127.0568792);
+            console.log(myLocation);
 
             const container = document.getElementById("map");
             const options = {
               center: myLocation,
-              level: 3,
+              level: 2,
               draggable: false,
             };
             console.log(myLocation);
 
             const map = new window.kakao.maps.Map(container, options);
+            const mapInfo = await service.getMapInfo({ latitude, longitude });
 
             const imageSrc = "images/tempPerson.svg";
             const imageSize = new window.kakao.maps.Size(100, 100);
