@@ -1,5 +1,6 @@
 "use client";
 import Button from "@/components/ui/Button";
+import { useAuth } from "@/hooks/useAuth";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 
@@ -18,8 +19,15 @@ export default function Register() {
     formState: { errors, isDirty, isValid },
     getValues,
   } = useForm<FormData>();
+  const { signUp } = useAuth();
+  const onSubmit = handleSubmit((data) => {
+    signUp({
+      nickname: data.nickname,
+      password: data.password1,
+      inviterNickname: data.inviter,
+    });
+  });
 
-  const onSubmit = handleSubmit((data) => console.log(data));
   const inputCSS =
     "border rounded-lg px-3 py-2 w-full border-stock-dark-200 my-1";
   const errorCSS = "text-stock-red h-4";
