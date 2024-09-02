@@ -1,6 +1,6 @@
 "use client";
-import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import { redirect, useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import useSWR from "swr";
@@ -31,6 +31,7 @@ type ProfileType = {
 };
 
 export default function Collection() {
+  const router = useRouter();
   const params = useParams();
   const { data: stockmonData, error: stockmonError } = useSWR(
     `/api/stockmons/${params.id}`,
@@ -65,7 +66,8 @@ export default function Collection() {
     // TODO: 주식 받기 api 요청
     setGetStockModalOpen(false);
     // TODO: toast 띄우기
-    console.log(stockmonData.stockCode + "을(를) 받았습니다!");
+    alert(stockmonData.stockCode + "을(를) 받았습니다!");
+    router.refresh();
   };
 
   return (
