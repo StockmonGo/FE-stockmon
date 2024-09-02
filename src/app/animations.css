@@ -32,6 +32,18 @@
   }
 }
 
+.my-animate-pulse {
+  animation: red-pulse 0.7s infinite ease-in-out alternate;
+}
+@keyframes red-pulse {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1.2);
+  }
+}
+
 /*코인*/
 i {
   /*   positioning */

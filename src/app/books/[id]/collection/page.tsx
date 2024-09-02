@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import RealStockExchangeModal from "@/components/ui/books/RealStockExchangeModal";
 import data from "@/../dummy/books/bookDetail.json";
+import NewPoint from "@/components/ui/NewPoint";
 
 const fetcher = (url: string) => {
   //TODO: 스톡몬 개별 페이지 조회 api 연결
@@ -73,7 +74,8 @@ export default function Collection() {
   return (
     <div className="flex flex-col gap-8 overflow-scroll pb-20 justify-center items-center">
       <header className="flex flex-col gap-2 justify-center items-center">
-        <div className="py-2 px-3 text-2xl font-bold text-stock-dark-500 border-2 border-white rounded-lg bg-somsatang-gradient">
+        <div className="relative py-2 px-3 text-2xl font-bold text-stock-dark-500 border-2 border-white rounded-lg bg-somsatang-gradient">
+          {stockmonData.catchCount >= COLLECTION_MAX && <NewPoint />}
           {stockmonData.catchCount} / {COLLECTION_MAX}
         </div>
         <p className="font-ptr text-stock-dark-400">

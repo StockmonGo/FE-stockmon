@@ -1,7 +1,8 @@
-import { StockmonType } from "@/types/stockmons";
+import { COLLECTION_MAX, StockmonType } from "@/types/stockmons";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Skeleton } from "../Skeleton";
+import NewPoint from "../NewPoint";
 
 type Props = {
   stockmon: StockmonType;
@@ -15,12 +16,13 @@ export default function StockmonItem({ stockmon }: Props) {
   };
 
   return (
-    <li className="w-full bg-stock-purple" onClick={handleOnClick}>
+    <li className=" w-full bg-stock-purple" onClick={handleOnClick}>
       {stockmon ? (
-        <>
+        <div className="relative ">
+          {stockmon.catchCount >= COLLECTION_MAX && <NewPoint />}
           <img className="w-full bg-white" src="/images/octopus.png" />
           <p className="p-2 text-center text-white font-ptr">{stockmon.name}</p>
-        </>
+        </div>
       ) : (
         <Skeleton className="w-full h-44" />
       )}
