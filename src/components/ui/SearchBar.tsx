@@ -3,7 +3,7 @@ import { BsSearch } from "react-icons/bs";
 
 type Props = {
   placeholder: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function SearchBar({ placeholder, onChange }: Props) {
