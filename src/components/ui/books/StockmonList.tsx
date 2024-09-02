@@ -37,7 +37,6 @@ export default function StockmonList({ isLoading, stockmons, keyword }: Props) {
   const filteredStockmons = useMemo(() => {
     if (!keyword) return stockmons;
 
-    console.log("변화");
     return stockmons.filter(
       (stockmon) =>
         stockmon.name.toLowerCase().includes(keyword.toLowerCase()) ||
