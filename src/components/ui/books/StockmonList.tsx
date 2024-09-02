@@ -31,7 +31,7 @@ export default function StockmonList({ isLoading, stockmons }: Props) {
   }
 
   return (
-    <ul className="grid grid-cols-3 gap-2">
+    <ul className="grid grid-cols-3 gap-2 py-2">
       {stockmons.map((stockmon) => (
         <StockmonItem key={stockmon.id} stockmon={stockmon} />
       ))}

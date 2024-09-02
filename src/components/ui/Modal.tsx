@@ -21,7 +21,7 @@ export default function Modal({
   onClose,
   onConfirm = onClose,
   children,
-  title = "제목",
+  title,
   describe,
 }: Props) {
   return (
