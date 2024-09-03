@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo } from "react";
-import { StockmonType } from "@/types/stockmons";
+import { IStockmonRes } from "@/types/stockmons";
 import StockmonItem from "./StockmonItem";
 import { Skeleton } from "../Skeleton";
 
@@ -8,7 +8,7 @@ type Props =
   | { isLoading: true; stockmons?: never; keyword?: never }
   | {
       isLoading?: false;
-      stockmons: StockmonType[];
+      stockmons: IStockmonRes[];
       keyword: string;
     };
 

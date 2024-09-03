@@ -1,39 +1,27 @@
-import { StockmonType } from "@/types/stockmons";
+import { IStockmonsRes } from "@/types/stockmons";
 import { BaseApi } from "./baseAPI";
+import axios, { HttpStatusCode } from "axios";
 
 export default class stockBookAPI extends BaseApi {
-  async getStockmons(): Promise<{
-    status: number;
-    message: string;
-    data: { stockmons: StockmonType[] } | null;
-  }> {
+  async getStockmons(): Promise<IStockmonsRes | null> {
     try {
       const response = await this.fetcher.get("/api/core/stockmons");
-
-      if (response.status >= 400) {
-        throw Error;
-      }
-      if (response.status === 200) {
-        // 스톡몬 목록 가져오기 성공
-        return {
-          status: 200,
-          message: "스톡몬 목록 가져오기 성공",
-          data: response.data.data,
-        };
-      } else {
-        // 스톡몬 목록 가져오기 실패 시의 처리
-        return {
-          status: response.data.status,
-          message: response.data.data.message,
-          data: null,
-        };
-      }
+      return response.data.data;
     } catch (error) {
-      return {
-        status: 500,
-        message: "스톡몬 목록 가져오기 처리 중 오류 발생",
-        data: null,
-      };
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data.status === HttpStatusCode.BadRequest) {
+          throw Error("로그인이 만료되었습니다.");
+        }
+
+        console.error(
+          "Axios 에러:",
+          error.response?.data.message || error.message
+        );
+        throw Error("Axios 에러가 발생하였습니다.");
+      } else {
+        console.error("알 수 없는 에러:", error);
+        throw Error("알 수 없는 에러가 발생하였습니다.");
+      }
     }
   }
 }
