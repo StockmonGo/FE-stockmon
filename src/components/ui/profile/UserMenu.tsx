@@ -28,6 +28,11 @@ export default function UserMenu({ accountNumber }: Props) {
   const onInfoClose = () => {
     setInfoModalSee(false);
   };
+  const createAccount = () => {
+    service.createAccount().then((res) => {
+      console.log(res);
+    });
+  };
   // TODO 각자의 함수 생성하기
   const menuItems = [
     {
@@ -63,7 +68,7 @@ export default function UserMenu({ accountNumber }: Props) {
         onClose={onAccountClose}
         open={accountModalSee}
         title="계좌를 연동하시겠습니까?"
-        onConfirm={() => {}}
+        onConfirm={createAccount}
         hasClose={true}
       ></Modal>
       <Modal onClose={onInfoClose} open={infoModalSee} title="연동된 계좌" describe={accountNumber} />

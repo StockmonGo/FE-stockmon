@@ -74,4 +74,40 @@ export default class memberAPI extends BaseApi {
       }
     }
   }
+
+  async createAccount(): Promise<{
+    status: number;
+    message: string;
+    data: string | null;
+  }> {
+    try {
+      const resp = await this.fetcher.post("/api/core/users/account");
+
+      if (resp.status === 200 && resp.data.data) {
+        // 계좌 생성 성공
+        return {
+          status: 201,
+          message: "계좌 생성 성공",
+          data: resp.data.data,
+        };
+      }
+      throw Error("실패");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data);
+        return {
+          status: 400,
+          message: error.response?.data.message || "알 수 없는 오류 발생",
+          data: null,
+        };
+      } else {
+        console.error(error);
+        return {
+          status: 500,
+          message: "서버 오류 발생",
+          data: null,
+        };
+      }
+    }
+  }
 }
