@@ -14,6 +14,9 @@ declare global {
 export default function World() {
   const [towerModalSee, setTowerModalSee] = useState(false);
   const service = new mapAPI();
+  const [towerName, setTowerName] = useState("");
+  const [towerId, setTowerId] = useState(0);
+
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
@@ -24,6 +27,7 @@ export default function World() {
       window.kakao.maps.load(() => {
         if (navigator.geolocation) {
           // navigator.geolocation.watchPosition(function (position) {
+          // TODO 위치가 변경됐을 때 요청을 다시 보내는 부분
           navigator.geolocation.getCurrentPosition(function (position) {
             const latitude = position.coords.latitude; // 위도
             const longitude = position.coords.longitude; // 경도
@@ -57,6 +61,7 @@ export default function World() {
               const data = res.mapInfo;
               // 스톡타워 마커
               const stockTowerPositions = data?.stockTowers.map((tower) => ({
+                id: tower.id,
                 title: tower.name,
                 latlng: new window.kakao.maps.LatLng(tower.latitude, tower.longitude),
               }));
@@ -64,22 +69,19 @@ export default function World() {
 
               if (stockTowerPositions) {
                 for (let i = 0; i < stockTowerPositions.length; i++) {
-                  // 마커 이미지의 이미지 크기 입니다
                   const towerImageSize = new window.kakao.maps.Size(80, 80);
-
-                  // 마커 이미지를 생성합니다
                   const towerImage = new window.kakao.maps.MarkerImage(towerImageSrc, towerImageSize);
-
-                  // 마커를 생성합니다
                   const stockTower = new window.kakao.maps.Marker({
-                    map: map, // 마커를 표시할 지도
-                    position: stockTowerPositions[i].latlng, // 마커를 표시할 위치
-                    title: stockTowerPositions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-                    image: towerImage, // 마커 이미지
+                    map: map,
+                    position: stockTowerPositions[i].latlng,
+                    title: stockTowerPositions[i].title,
+                    image: towerImage,
                   });
 
                   window.kakao.maps.event.addListener(stockTower, "click", () => {
                     setTowerModalSee(true);
+                    setTowerName(stockTowerPositions[i].title);
+                    setTowerId(stockTowerPositions[i].id);
                   });
 
                   stockTower.setMap(map);
@@ -88,6 +90,8 @@ export default function World() {
 
               userMarker.setMap(map);
             });
+
+            // TODO 스톡몬들 추가
           });
         } else {
           const container = document.getElementById("map");
@@ -115,7 +119,7 @@ export default function World() {
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
       {towerModalSee ? (
         <>
-          <StockTowerModal />
+          <StockTowerModal name={towerName} id={towerId} />
           <div
             className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
             onClick={() => setTowerModalSee(false)}
