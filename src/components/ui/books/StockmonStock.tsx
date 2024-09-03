@@ -1,10 +1,11 @@
 import { StockmonDetailType } from "@/types/stockmons";
-import React from "react";
+import React, { useEffect } from "react";
 import "@/app/books/books.css";
 import StockTag from "./StockTag";
 
 import { STOCK_ICONS } from "@/types/stocks";
 import Row from "./Row";
+import { client } from "@/sockets/baseStomp";
 
 type InfoType = "detail" | "summary";
 
@@ -15,6 +16,34 @@ type Props = {
 
 export default function StockmonStock({ data, type }: Props) {
   const Icon = STOCK_ICONS[data.stockType];
+
+  const connect = () => {
+    client.activate();
+    client.onConnect = function (frame) {
+      console.log("연결 성공 " + frame);
+      client.subscribe("/topic/greetings", callback);
+    };
+  };
+
+  const callback = function (message: any) {
+    if (message.body) {
+      console.log("got message with body " + message.body);
+    } else {
+      console.log("got empty message");
+    }
+  };
+
+  const disconnect = () => {
+    client.onDisconnect = function () {
+      alert("연결 끊김");
+    };
+    client.deactivate();
+  };
+
+  useEffect(() => {
+    connect();
+    return () => disconnect();
+  }, []);
 
   return (
     <article className="w-full p-4 flex flex-col gap-3 purple-bubble">
