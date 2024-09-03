@@ -23,9 +23,17 @@ export default function TimingGame({ catchStockmon }: Props) {
     if (status === "Hit") {
       setTimeout(() => {
         catchStockmon();
-      }, 1000);
+      }, 3000);
     }
   }, [status]);
+
+  useEffect(() => {
+    window.addEventListener("keypress", onTargetClick);
+    return () => {
+      window.removeEventListener("keypress", onTargetClick);
+    };
+  }, [aimPosition]);
+
   return (
     <div
       onClick={() => onTargetClick()}
@@ -48,11 +56,23 @@ export default function TimingGame({ catchStockmon }: Props) {
           </span>
         )}
         <img
-          className="m-auto h-full"
+          className="m-auto h-full "
           src="/images/dummy-stockmon.png"
           alt="스톡몬"
         />
       </div>
+      {/* {status === "Hit" && ( */}
+      {status && (
+        <div className={` ${status ? "catch " + status : "hidden"}`}>
+          <img
+            className="m-auto h-full"
+            src="/images/peach.svg"
+            alt="피치"
+            width={100}
+          />
+        </div>
+      )}
+      {/* )} */}
       <div className="TimingGame">
         <div className="TimingGame__bar">
           <div className="TimingGame__lemon">

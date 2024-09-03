@@ -39,7 +39,6 @@ export default function useGame() {
     } else {
       newPosition += speed;
     }
-
     if (aimPosition < 0) {
       newPosition = 0;
       newDirection = DIRECTIONS.RIGHT;
@@ -47,7 +46,6 @@ export default function useGame() {
       newPosition = 100;
       newDirection = DIRECTIONS.LEFT;
     }
-
     setAimPosition(newPosition);
     setAimDirection(newDirection);
   };
@@ -72,7 +70,7 @@ export default function useGame() {
     setTimeout(() => {
       setStatus(null);
       setDisable(false);
-    }, 3000);
+    }, 3500);
   };
   useEffect(() => {
     moveAim();
