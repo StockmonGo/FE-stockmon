@@ -1,8 +1,9 @@
 "use client";
+import memberAPI from "@/apis/memberAPI";
 import CommonLayout from "@/components/ui/CommonLayout";
 import UserMenu from "@/components/ui/profile/UserMenu";
 import UserProfile from "@/components/ui/profile/UserProfile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Profile() {
   // TODO 사용자 정보랑 연결
@@ -11,6 +12,16 @@ export default function Profile() {
     hasAccount: true,
     accountNumber: "010-12345-67890",
   });
+  const service = new memberAPI();
+
+  useEffect(() => {
+    service
+      .getMemberProfile()
+      .then((res) => console.log(res))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <CommonLayout title="마이페이지">
