@@ -12,7 +12,7 @@ export default class memberAPI extends BaseApi {
       const resp = await this.fetcher.get("/api/core/users/profile");
 
       if (resp.status === 200 && resp.data.data) {
-        // 주변 조회 성공
+        // 정보 조회 성공
         return {
           status: 200,
           message: "회원 정보 불러오기 성공",
