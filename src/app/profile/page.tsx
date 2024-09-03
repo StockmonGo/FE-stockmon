@@ -33,7 +33,7 @@ export default function Profile() {
     <CommonLayout title="마이페이지">
       <div className="w-full h-full flex flex-col items-center gap-6">
         <UserProfile nickname={user.nickname} />
-        <UserMenu />
+        <UserMenu accountNumber={user.accountNumber ? user.accountNumber : ""} />
       </div>
     </CommonLayout>
   );
