@@ -1,4 +1,4 @@
-import { StockmonDetailType } from "@/types/stockmons";
+import { IStockmonDetailRes } from "@/types/stockmons";
 import React from "react";
 import "@/app/books/books.css";
 import StockTag from "./StockTag";
@@ -9,7 +9,7 @@ import Row from "./Row";
 type InfoType = "detail" | "summary";
 
 type Props = {
-  data: StockmonDetailType;
+  data: IStockmonDetailRes;
   type?: InfoType;
 };
 
