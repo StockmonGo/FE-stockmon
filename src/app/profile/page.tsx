@@ -5,11 +5,11 @@ import Loading from "@/components/ui/Loading";
 import UserMenu from "@/components/ui/profile/UserMenu";
 import UserProfile from "@/components/ui/profile/UserProfile";
 import { getMemberProfile } from "@/hooks/useMember";
-import { IMember } from "@/types/member";
+import { IMemberRes } from "@/types/member";
 import useSWR from "swr";
 
 export default function Profile() {
-  const { data: member, error } = useSWR<IMember | undefined>("member profile", getMemberProfile);
+  const { data: member, error } = useSWR<IMemberRes | undefined>("member profile", getMemberProfile);
 
   // 에러 처리
   if (error) {

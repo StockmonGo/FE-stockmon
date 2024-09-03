@@ -1,8 +1,8 @@
-export interface IAccountInfo {
+export interface IAccountInfoRes {
   hasAccount: boolean;
 }
 
-export type IMember = IAccountInfo & {
+export interface IMemberRes extends IAccountInfoRes {
   nickname: string;
   accountNumber: string | null;
-};
+}

@@ -1,4 +1,4 @@
-import { IMember } from "@/types/member";
+import { IMemberRes } from "@/types/member";
 import { BaseApi } from "./baseAPI";
 import axios from "axios";
 
@@ -6,7 +6,7 @@ export default class memberAPI extends BaseApi {
   async getMemberProfile(): Promise<{
     status: number;
     message: string;
-    member: IMember | null;
+    member: IMemberRes | null;
   }> {
     try {
       const resp = await this.fetcher.get("/api/core/users/profile");
@@ -48,7 +48,7 @@ export default class memberAPI extends BaseApi {
       const resp = await this.fetcher.get("/api/core/users/account");
 
       if (resp.status === 200 && resp.data.data) {
-        // 주변 조회 성공
+        // 계좌 조회 성공
         return {
           status: 200,
           message: "계좌 정보 불러오기 성공",
