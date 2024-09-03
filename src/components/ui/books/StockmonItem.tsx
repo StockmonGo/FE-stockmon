@@ -1,11 +1,11 @@
-import { COLLECTION_MAX, StockmonType } from "@/types/stockmons";
+import { COLLECTION_MAX, IStockmonRes } from "@/types/stockmons";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Skeleton } from "../Skeleton";
 import NewPoint from "../NewPoint";
 
 type Props = {
-  stockmon: StockmonType;
+  stockmon: IStockmonRes;
 };
 
 export default function StockmonItem({ stockmon }: Props) {

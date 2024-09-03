@@ -1,12 +1,12 @@
 "use client";
-import { COLLECTION_MAX, StockmonDetailType } from "@/types/stockmons";
+import { COLLECTION_MAX, IStockmonDetailRes } from "@/types/stockmons";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import "@/app/animations.css";
 import NewPoint from "../NewPoint";
 
 type Props = {
-  data: StockmonDetailType;
+  data: IStockmonDetailRes;
 };
 
 export default function StockmonCard({ data }: Props) {
