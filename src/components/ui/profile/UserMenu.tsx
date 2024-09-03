@@ -1,18 +1,32 @@
 "use client";
 import { useState } from "react";
 import Modal from "../Modal";
+import memberAPI from "@/apis/memberAPI";
 
 type Props = {
-  nickname?: string;
+  accountNumber?: string;
 };
 
-export default function UserMenu({}: Props) {
+export default function UserMenu({ accountNumber }: Props) {
   const [accountModalSee, setAccountModalSee] = useState(false);
+  const [infoModalSee, setInfoModalSee] = useState(false);
+  const service = new memberAPI();
+
   const connectAccount = () => {
-    setAccountModalSee(true);
+    service.getAccountStatus().then((res) => {
+      console.log(res);
+      if (res.status === 200 && !res.hasAccount) {
+        setAccountModalSee(true);
+      } else {
+        setInfoModalSee(true);
+      }
+    });
   };
-  const onClose = () => {
+  const onAccountClose = () => {
     setAccountModalSee(false);
+  };
+  const onInfoClose = () => {
+    setInfoModalSee(false);
   };
   // TODO 각자의 함수 생성하기
   const menuItems = [
@@ -46,12 +60,13 @@ export default function UserMenu({}: Props) {
         </p>
       ))}
       <Modal
-        onClose={onClose}
+        onClose={onAccountClose}
         open={accountModalSee}
         title="계좌를 연동하시겠습니까?"
         onConfirm={() => {}}
         hasClose={true}
       ></Modal>
+      <Modal onClose={onInfoClose} open={infoModalSee} title="연동된 계좌" describe={accountNumber} />
     </div>
   );
 }
