@@ -4,12 +4,12 @@ import CommonLayout from "@/components/ui/CommonLayout";
 import Loading from "@/components/ui/Loading";
 import UserMenu from "@/components/ui/profile/UserMenu";
 import UserProfile from "@/components/ui/profile/UserProfile";
-import { getMemberProfile } from "@/hooks/useMember";
 import { IMemberRes } from "@/types/member";
 import useSWR from "swr";
 
 export default function Profile() {
-  const { data: member, error } = useSWR<IMemberRes | undefined>("member profile", getMemberProfile);
+  const service = new memberAPI();
+  const { data: member, error } = useSWR<IMemberRes | null>("memberProfile", () => service.getMemberProfile());
 
   // 에러 처리
   if (error) {

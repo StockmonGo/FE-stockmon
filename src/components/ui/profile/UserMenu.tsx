@@ -15,7 +15,7 @@ export default function UserMenu({ accountNumber }: Props) {
   const connectAccount = () => {
     service.getAccountStatus().then((res) => {
       console.log(res);
-      if (res.status === 200 && !res.hasAccount) {
+      if (!res?.hasAccount) {
         setAccountModalSee(true);
       } else {
         setInfoModalSee(true);
