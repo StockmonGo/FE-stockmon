@@ -4,7 +4,7 @@
       "id": 1,
       "name": "신한지주몬1",
       "imgUrl": "/images/dummy-stockmon.png",
-      "catchCount": 10,
+      "catchCount": 20,
       "stockCode": 124125,
       "stockAveragePrice": 145400
     },
@@ -12,7 +12,7 @@
       "id": 2,
       "name": "하나금융지주몬2",
       "imgUrl": "/images/dummy-stockmon.png",
-      "catchCount": 12,
+      "catchCount": 23,
       "stockCode": 141125,
       "stockAveragePrice": 235400
     },
@@ -52,7 +52,7 @@
       "id": 7,
       "name": "신한지주몬1",
       "imgUrl": "/images/dummy-stockmon.png",
-      "catchCount": 10,
+      "catchCount": 20,
       "stockCode": 124125,
       "stockAveragePrice": 145400
     },

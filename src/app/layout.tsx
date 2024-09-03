@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Noto_Sans_KR } from "next/font/google";
+import { Providers } from "../components/providers";
 
 const notoSansKr = Noto_Sans_KR({
   // preload: true, 기본값
@@ -20,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body className={notoSansKr.className}>{children}</body>
+      <body className={notoSansKr.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import CommonLayout from "./CommonLayout";
 
 type Props = {
   children?: React.ReactNode;
@@ -6,9 +7,8 @@ type Props = {
 
 export default function Loading({ children }: Props) {
   return (
-    <div>
-      <div>로딩중</div>
+    <CommonLayout title="로딩 중">
       <div>{children && children}</div>
-    </div>
+    </CommonLayout>
   );
 }
