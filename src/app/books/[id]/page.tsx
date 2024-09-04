@@ -7,24 +7,45 @@ import Loading from "@/components/ui/Loading";
 import StockmonCard from "@/components/ui/books/StockmonCard";
 import StockmonStock from "@/components/ui/books/StockmonStock";
 import StockmonChart from "@/components/ui/books/StockmonChart";
-import data from "@/../dummy/books/bookDetail.json";
 import StockmonExchangeModal from "@/components/ui/books/StockmonExchangeModal";
 import Modal from "@/components/ui/Modal";
 import { GiCardExchange } from "react-icons/gi";
+import { useStockBook } from "@/hooks/useStockBook";
 
-const fetcher = (url: string) => {
-  //TODO: 스톡몬 개별 페이지 조회 api 연결
-  return data;
+const chartData = {
+  chart: [
+    { time: "2023-01-01", value: 2300 },
+    { time: "2023-02-01", value: 2200 },
+    { time: "2023-03-01", value: 2350 },
+    { time: "2023-06-01", value: 2450 },
+    { time: "2023-07-01", value: 2120 },
+    { time: "2023-08-01", value: 2680 },
+  ],
 };
 
 export default function Detail() {
   const params = useParams();
-  const { data, error } = useSWR(`/api/stockmons/${params.id}`, fetcher);
+  const { getStockmonDetail, getStockmonChart } = useStockBook();
+  const { data, error } = useSWR(params.id, getStockmonDetail);
+  // const { data: chartData, error: chartError } = useSWR(
+  //   data?.stockCode || "",
+  //   getStockmonChart
+  // );
   const [exchangeModalOpen, setExchangeModalOpen] = useState(false);
   const [selectedAlliance, setSelectedAlliance] = useState(0);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
 
-  if (error) return <Error />;
+  if (error) return <Error message={error.message} />;
+  if (data === null) {
+    return (
+      <div
+        className={`w-full h-full flex justify-center items-center text-stock-dark-400 text-lg`}
+      >
+        존재하지 않는 스톡몬입니다.
+      </div>
+    );
+  }
+
   if (!data) {
     return <Loading />;
   }
@@ -47,10 +68,10 @@ export default function Detail() {
   };
 
   return (
-    <div className="flex flex-col gap-5 items-center">
+    <div className="flex flex-col gap-5 pb-20 items-center">
       <StockmonCard data={data} />
       <StockmonStock data={data} />
-      <StockmonChart />
+      <StockmonChart data={chartData.chart} />
       <StockmonExchangeModal
         onClose={onClose}
         onConfirm={onConfirm}
