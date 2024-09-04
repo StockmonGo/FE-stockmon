@@ -33,10 +33,10 @@ export default class mapAPI extends BaseApi {
     }
   }
 
-  async spinStockTower(towerId: number): Promise<IStockTowerBallRes | null> {
+  async spinStockTower(stockTowerId: number): Promise<IStockTowerBallRes | null> {
     try {
       const resp = await this.fetcher.post("/api/core/stocktowers", {
-        towerId,
+        stockTowerId,
       });
       return resp.data.data;
     } catch (error) {
