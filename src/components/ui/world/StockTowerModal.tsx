@@ -5,12 +5,13 @@ import { useEffect, useState } from "react";
 type Props = {
   name: string;
   id: number;
+  towerActive: boolean;
 };
-export default function StockTowerModal({ name, id }: Props) {
+export default function StockTowerModal({ name, id, towerActive }: Props) {
   const stockBallNum = 2;
   const [showPeach, setShowPeach] = useState(false);
   const [flipCss, setFlipCss] = useState("");
-  const [active, setActvie] = useState(true);
+  const [active, setActvie] = useState(towerActive);
   const [firstCss, setFirstCss] = useState("roll-in");
   const handleTowerClick = () => {
     if (!active) {

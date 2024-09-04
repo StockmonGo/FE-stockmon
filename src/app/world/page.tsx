@@ -16,6 +16,17 @@ export default function World() {
   const [towerName, setTowerName] = useState("");
   const [towerId, setTowerId] = useState(0);
   const [stockmonId, setStockmonId] = useState(0);
+  const [towerActive, setTowerActive] = useState(true);
+  const onClickStockTower = (towerId: number) => {
+    service.getStockTowerInfo(towerId).then((res) => {
+      console.log(res);
+      setTowerId(towerId);
+      if (res?.spinnedAt === null) {
+        setTowerActive(true);
+        setTowerModalSee(true);
+      }
+    });
+  };
   const service = new mapAPI();
 
   useEffect(() => {
@@ -81,9 +92,8 @@ export default function World() {
                   });
 
                   window.kakao.maps.event.addListener(stockTower, "click", () => {
-                    setTowerModalSee(true);
+                    onClickStockTower(stockTowerPositions[i].id);
                     setTowerName(stockTowerPositions[i].title);
-                    setTowerId(stockTowerPositions[i].id);
                   });
 
                   stockTower.setMap(map);
@@ -143,7 +153,7 @@ export default function World() {
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
       {towerModalSee ? (
         <>
-          <StockTowerModal name={towerName} id={towerId} />
+          <StockTowerModal name={towerName} id={towerId} towerActive={towerActive} />
           <div
             className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
             onClick={() => setTowerModalSee(false)}
