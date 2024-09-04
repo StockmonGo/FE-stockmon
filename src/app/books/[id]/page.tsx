@@ -12,10 +12,43 @@ import Modal from "@/components/ui/Modal";
 import { GiCardExchange } from "react-icons/gi";
 import { useStockBook } from "@/hooks/useStockBook";
 
+const chartData = {
+  chart: [
+    {
+      month: "JAN",
+      closingPrice: 2300,
+    },
+    {
+      month: "FEB",
+      closingPrice: 2200,
+    },
+    {
+      month: "MAR",
+      closingPrice: 2350,
+    },
+    {
+      month: "JUN",
+      closingPrice: 2450,
+    },
+    {
+      month: "JUL",
+      closingPrice: 2120,
+    },
+    {
+      month: "AUG",
+      closingPrice: 2620,
+    },
+  ],
+};
+
 export default function Detail() {
   const params = useParams();
-  const { getStockmonDetail } = useStockBook();
+  const { getStockmonDetail, getStockmonChart } = useStockBook();
   const { data, error } = useSWR(params.id, getStockmonDetail);
+  // const { data: chartData, error: chartError } = useSWR(
+  //   data?.stockCode || "",
+  //   getStockmonChart
+  // );
   const [exchangeModalOpen, setExchangeModalOpen] = useState(false);
   const [selectedAlliance, setSelectedAlliance] = useState(0);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
@@ -53,10 +86,10 @@ export default function Detail() {
   };
 
   return (
-    <div className="flex flex-col gap-5 items-center">
+    <div className="flex flex-col gap-5 pb-20 items-center">
       <StockmonCard data={data} />
       <StockmonStock data={data} />
-      <StockmonChart />
+      <StockmonChart data={chartData} />
       <StockmonExchangeModal
         onClose={onClose}
         onConfirm={onConfirm}

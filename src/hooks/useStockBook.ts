@@ -18,8 +18,17 @@ export function useStockBook() {
     [service]
   );
 
+  const getStockmonChart = useCallback(
+    async (code: string) => {
+      const res = await service.getStockmonChart(code);
+      return res;
+    },
+    [service]
+  );
+
   return {
     getStockmons,
     getStockmonDetail,
+    getStockmonChart,
   };
 }

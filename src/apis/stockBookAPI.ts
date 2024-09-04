@@ -1,30 +1,22 @@
-import { IStockmonDetailRes, IStockmonsRes } from "@/types/stockmons";
-import { BaseApi } from "./baseAPI";
-import axios, { HttpStatusCode } from "axios";
+import {
+  IChartRes,
+  IStockmonDetailRes,
+  IStockmonsRes,
+} from "@/types/stockmons";
+import { BaseApi, handleApiError } from "./baseAPI";
 
 export default class stockBookAPI extends BaseApi {
+  // 스톡몬 목록 조회 API
   async getStockmons(): Promise<IStockmonsRes | null> {
     try {
       const response = await this.fetcher.get("/api/core/stockmons");
       return response.data.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.data.status === HttpStatusCode.BadRequest) {
-          throw Error("로그인이 만료되었습니다.");
-        }
-
-        console.error(
-          "Axios 에러:",
-          error.response?.data.message || error.message
-        );
-        throw Error("Axios 에러가 발생하였습니다.");
-      } else {
-        console.error("알 수 없는 에러:", error);
-        throw Error("알 수 없는 에러가 발생하였습니다.");
-      }
+      handleApiError(error);
     }
   }
 
+  // 스톡몬 상세 조회 API
   async getStockmonDetail(id: string): Promise<IStockmonDetailRes | null> {
     try {
       const response = await this.fetcher.get(`/api/core/stockmons/${id}`);
@@ -35,20 +27,18 @@ export default class stockBookAPI extends BaseApi {
 
       return response.data.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.data.status === HttpStatusCode.BadRequest) {
-          throw Error("로그인이 만료되었습니다.");
-        }
+      handleApiError(error);
+    }
+  }
 
-        console.error(
-          "Axios 에러:",
-          error.response?.data.message || error.message
-        );
-        throw Error("Axios 에러가 발생하였습니다.");
-      } else {
-        console.error("알 수 없는 에러:", error);
-        throw Error("알 수 없는 에러가 발생하였습니다.");
-      }
+  // 각 스톡몬 차트 조회 API
+  async getStockmonChart(id: string): Promise<IChartRes | null> {
+    try {
+      const response = await this.fetcher.get(`/api/core/stockmons/${id}`);
+
+      return response.data.data;
+    } catch (error) {
+      handleApiError(error);
     }
   }
 }
