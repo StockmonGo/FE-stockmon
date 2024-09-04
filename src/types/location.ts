@@ -21,3 +21,11 @@ export interface IWorldRes {
   stockmons: Array<IStockmonLocation>;
   stockTowers: Array<IStockTowerLocation>;
 }
+
+export interface IStockTowerInfoRes {
+  id: number;
+  name: string;
+  spinnedAt: string;
+  currentTime: string;
+  limit: number;
+}
