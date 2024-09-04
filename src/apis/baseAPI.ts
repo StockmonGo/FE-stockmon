@@ -1,6 +1,5 @@
 import axios, { HttpStatusCode } from "axios";
-const { NEXT_PUBLIC_BASE_URL } = process.env;
-console.log("url:", process.env.NEXT_PUBLIC_BASE_URL);
+
 //우리 서버랑 통신할 Api 세팅
 export class BaseApi {
   fetcher;
