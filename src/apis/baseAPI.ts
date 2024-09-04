@@ -10,7 +10,8 @@ export class BaseApi {
       baseURL: process.env.NEXT_PUBLIC_BASE_URL,
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token ? token : ""}`,
+        // Authorization: `Bearer ${token ? token : ""}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
       },
     });
   }
