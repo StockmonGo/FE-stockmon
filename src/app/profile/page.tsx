@@ -1,22 +1,31 @@
 "use client";
+import memberAPI from "@/apis/memberAPI";
 import CommonLayout from "@/components/ui/CommonLayout";
+import Loading from "@/components/ui/Loading";
 import UserMenu from "@/components/ui/profile/UserMenu";
 import UserProfile from "@/components/ui/profile/UserProfile";
-import { useState } from "react";
+import { IMemberRes } from "@/types/member";
+import useSWR from "swr";
 
 export default function Profile() {
-  // TODO 사용자 정보랑 연결
-  const [user, setUser] = useState({
-    nickname: "희을을",
-    hasAccount: true,
-    accountNumber: "010-12345-67890",
-  });
+  const service = new memberAPI();
+  const { data: member, error } = useSWR<IMemberRes | null>("memberProfile", () => service.getMemberProfile());
+
+  // 에러 처리
+  if (error) {
+    console.error(error);
+    return <div>Failed to load user profile.</div>;
+  }
+
+  if (!member) {
+    return <Loading />;
+  }
 
   return (
     <CommonLayout title="마이페이지">
       <div className="w-full h-full flex flex-col items-center gap-6">
-        <UserProfile nickname={user.nickname} />
-        <UserMenu />
+        <UserProfile nickname={member.nickname} />
+        <UserMenu accountNumber={member.accountNumber ? member.accountNumber : ""} />
       </div>
     </CommonLayout>
   );

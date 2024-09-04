@@ -1,16 +1,20 @@
-export const STOCKMON_MAX = 200;
+export const STOCKMON_MAX = 60;
 export const COLLECTION_MAX = 20;
 
-export type StockmonType = {
+export interface IStockmonsRes {
+  stockmons: IStockmonRes[];
+}
+
+export interface IStockmonRes {
   id: number;
   name: string;
   imgUrl: string;
   catchCount: number;
   stockCode: number;
   stockAveragePrice: number;
-};
+}
 
-export type StockmonDetailType = {
+export interface IStockmonDetailRes {
   stockmonId: number;
   stockmonName: string;
   description: string;
@@ -27,4 +31,4 @@ export type StockmonDetailType = {
     date: string;
     price: number;
   }[];
-};
+}
