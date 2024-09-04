@@ -4,14 +4,28 @@ console.log("url:", process.env.NEXT_PUBLIC_BASE_URL);
 //우리 서버랑 통신할 Api 세팅
 export class BaseApi {
   fetcher;
-  constructor(token?: string) {
+  constructor() {
     // axios.defaults.withCredentials = true;
     this.fetcher = axios.create({
-      baseURL: NEXT_PUBLIC_BASE_URL,
+      baseURL: process.env.NEXT_PUBLIC_BASE_URL,
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token ? token : ""}`,
       },
     });
+
+    // 요청 인터셉터
+    this.fetcher.interceptors.request.use(
+      (config) => {
+        // 헤더에 엑세스 토큰 담기
+        const accessToken: string | null = localStorage.getItem("accessToken");
+        if (accessToken) {
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
   }
 }
