@@ -32,3 +32,7 @@ export interface IStockmonDetailRes {
     price: number;
   }[];
 }
+
+export interface IChartRes {
+  chart: { month: string; closingPrice: number }[];
+}
