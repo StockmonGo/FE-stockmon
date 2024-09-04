@@ -20,13 +20,12 @@ export default function Register() {
     getValues,
   } = useForm<FormData>();
   const { signUp } = useAuth();
-  const onSubmit = handleSubmit(async (data) => {
-    const res = await signUp({
+  const onSubmit = handleSubmit((data) => {
+    signUp({
       nickname: data.nickname,
       password: data.password1,
       inviterNickname: data.inviter,
     });
-    console.log("signup res: ", res);
   });
 
   const inputCSS =
