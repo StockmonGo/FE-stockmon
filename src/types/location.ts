@@ -29,3 +29,7 @@ export interface IStockTowerInfoRes {
   currentTime: string;
   limit: number;
 }
+
+export interface IStockTowerBallRes {
+  increasedStockball: number;
+}

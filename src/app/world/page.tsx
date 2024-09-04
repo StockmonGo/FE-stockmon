@@ -4,6 +4,8 @@ import StockTowerModal from "@/components/ui/world/StockTowerModal";
 import TopNavBar from "@/components/ui/world/TopNavBar";
 import React, { useEffect, useState } from "react";
 import mapAPI from "@/apis/mapAPI";
+import { useAtom } from "jotai";
+import { buffetAtom } from "@/store/store";
 
 declare global {
   interface Window {
@@ -17,7 +19,7 @@ export default function World() {
   const [towerId, setTowerId] = useState(0);
   const [stockmonId, setStockmonId] = useState(0);
   const [towerActive, setTowerActive] = useState(true);
-  const onClickStockTower = (towerId: number) => {
+  const checkStockTower = (towerId: number) => {
     service.getStockTowerInfo(towerId).then((res) => {
       console.log(res);
       setTowerId(towerId);
@@ -28,6 +30,7 @@ export default function World() {
     });
   };
   const service = new mapAPI();
+  const [buffer, setBuffer] = useAtom(buffetAtom);
 
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
@@ -57,6 +60,8 @@ export default function World() {
             console.log(myLocation);
 
             const map = new window.kakao.maps.Map(container, options);
+            const bounds = map.getBounds();
+            console.log(bounds.toString());
 
             const userImageSrc = "images/tempPerson.svg";
             const userImageSize = new window.kakao.maps.Size(100, 100);
@@ -70,6 +75,7 @@ export default function World() {
             });
             userMarker.setMap(map);
 
+            // 주변 스톡타워, 스톡몬 정보
             service.getMapInfo({ latitude, longitude }).then((res) => {
               console.log(res);
               // 스톡타워 마커
@@ -92,7 +98,7 @@ export default function World() {
                   });
 
                   window.kakao.maps.event.addListener(stockTower, "click", () => {
-                    onClickStockTower(stockTowerPositions[i].id);
+                    checkStockTower(stockTowerPositions[i].id);
                     setTowerName(stockTowerPositions[i].title);
                   });
 
@@ -153,7 +159,7 @@ export default function World() {
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
       {towerModalSee ? (
         <>
-          <StockTowerModal name={towerName} id={towerId} towerActive={towerActive} />
+          <StockTowerModal name={towerName} towerId={towerId} towerActive={towerActive} service={service} />
           <div
             className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
             onClick={() => setTowerModalSee(false)}

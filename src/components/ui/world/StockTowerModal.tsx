@@ -1,14 +1,16 @@
 "use client";
+import mapAPI from "@/apis/mapAPI";
 import "@/app/world/world.css";
 import { useEffect, useState } from "react";
 
 type Props = {
   name: string;
-  id: number;
+  towerId: number;
   towerActive: boolean;
+  service: mapAPI;
 };
-export default function StockTowerModal({ name, id, towerActive }: Props) {
-  const stockBallNum = 2;
+export default function StockTowerModal({ name, towerId, towerActive, service }: Props) {
+  const [stockBallNum, setStockBallNum] = useState(0);
   const [showPeach, setShowPeach] = useState(false);
   const [flipCss, setFlipCss] = useState("");
   const [active, setActvie] = useState(towerActive);
@@ -18,6 +20,10 @@ export default function StockTowerModal({ name, id, towerActive }: Props) {
       alert("아직 안 됨!");
       return;
     }
+    // setStockBallNum(onClick(towerId));
+    service.spinStockTower(towerId).then((res) => {
+      console.log(res);
+    });
     setShowPeach(true);
     setFlipCss("flip");
 
