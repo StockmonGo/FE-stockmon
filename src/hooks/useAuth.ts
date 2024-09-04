@@ -1,13 +1,14 @@
 import { useAtom } from "jotai";
 import authAPI, { IAuth } from "../apis/authAPI";
 import { useEffect } from "react";
-import { userLocalAtom } from "@/store/store";
+import { accessTokenAtom, userLocalAtom } from "@/store/store";
+import axios from "axios";
 
 export function useAuth() {
   //TODO: 상태관리(jotai)로 유저 정보 전역 저장해놓기
   const service = new authAPI();
   const [userLocal, setUserLocal] = useAtom(userLocalAtom);
-
+  const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
   // POST signup
   async function signUp({ nickname, password, inviterNickname }: IAuth) {
     try {
@@ -18,13 +19,12 @@ export function useAuth() {
       });
       if (res && res.data) {
         return res.data.nickname;
-      } else {
-        console.error("signup failed");
-        return res;
       }
     } catch (error) {
-      //TODO: 에러 메세지 전달
-      throw Error("");
+      if (axios.isAxiosError(error)) {
+        console.log("error:", error);
+        throw Error(error.message);
+      }
     }
   }
 
@@ -34,10 +34,9 @@ export function useAuth() {
       const res = await service.signIn(auth);
       if (res.data) {
         //TODO: 저장
-        setUserLocal({
-          nickname: auth.nickname,
-          accessToken: res.data.accessToken,
-        });
+        console.log("login data:", res.data);
+        setAccessToken(res.data.accessToken);
+        setUserLocal(auth.nickname);
         return auth.nickname;
       }
     } catch (error) {
@@ -52,7 +51,8 @@ export function useAuth() {
       const res = await service.signOut();
       if (res) {
         //TODO: jotai 유저정보 클리어
-        setUserLocal({ nickname: "", accessToken: "" });
+        setAccessToken("");
+        setUserLocal("");
       }
     } catch (err) {
       console.log(err);

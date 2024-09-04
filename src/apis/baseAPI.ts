@@ -1,6 +1,4 @@
 import axios from "axios";
-const { NEXT_PUBLIC_BASE_URL } = process.env;
-console.log("url:", process.env.NEXT_PUBLIC_BASE_URL);
 //우리 서버랑 통신할 Api 세팅
 export class BaseApi {
   fetcher;
@@ -19,7 +17,7 @@ export class BaseApi {
         // 헤더에 엑세스 토큰 담기
         const accessToken: string | null = localStorage.getItem("accessToken");
         if (accessToken) {
-          config.headers.Authorization = `Bearer ${accessToken}`;
+          config.headers.Authorization = `Bearer ${JSON.parse(accessToken)}`;
         }
         return config;
       },

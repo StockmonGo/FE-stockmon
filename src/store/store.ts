@@ -7,7 +7,5 @@ export const textAtom = atom("hello");
 const uppercaseAtom = atom((get) => get(textAtom).toUpperCase());
 
 // Set the string key and the initial value
-export const userLocalAtom = atomWithStorage("user", {
-  nickname: "",
-  accessToken: "",
-});
+export const userLocalAtom = atomWithStorage("user", "");
+export const accessTokenAtom = atomWithStorage("accessToken", "");
