@@ -7,24 +7,30 @@ import Loading from "@/components/ui/Loading";
 import StockmonCard from "@/components/ui/books/StockmonCard";
 import StockmonStock from "@/components/ui/books/StockmonStock";
 import StockmonChart from "@/components/ui/books/StockmonChart";
-import data from "@/../dummy/books/bookDetail.json";
 import StockmonExchangeModal from "@/components/ui/books/StockmonExchangeModal";
 import Modal from "@/components/ui/Modal";
 import { GiCardExchange } from "react-icons/gi";
-
-const fetcher = (url: string) => {
-  //TODO: 스톡몬 개별 페이지 조회 api 연결
-  return data;
-};
+import { useStockBook } from "@/hooks/useStockBook";
 
 export default function Detail() {
   const params = useParams();
-  const { data, error } = useSWR(`/api/stockmons/${params.id}`, fetcher);
+  const { getStockmonDetail } = useStockBook();
+  const { data, error } = useSWR(params.id, getStockmonDetail);
   const [exchangeModalOpen, setExchangeModalOpen] = useState(false);
   const [selectedAlliance, setSelectedAlliance] = useState(0);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
 
-  if (error) return <Error />;
+  if (error) return <Error message={error.message} />;
+  if (data === null) {
+    return (
+      <div
+        className={`w-full h-full flex justify-center items-center text-stock-dark-400 text-lg`}
+      >
+        존재하지 않는 스톡몬입니다.
+      </div>
+    );
+  }
+
   if (!data) {
     return <Loading />;
   }

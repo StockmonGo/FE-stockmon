@@ -10,7 +10,16 @@ export function useStockBook() {
     return res;
   }, [service]);
 
+  const getStockmonDetail = useCallback(
+    async (id: string) => {
+      const res = await service.getStockmonDetail(id);
+      return res;
+    },
+    [service]
+  );
+
   return {
     getStockmons,
+    getStockmonDetail,
   };
 }
