@@ -1,13 +1,23 @@
-export type StockmonLocation = {
+export interface IStockmonLocation {
   id: number;
   stockmon_id: number;
   latitude: number;
   longitude: number;
-};
+}
 
-export type StockTowerLocation = {
+export interface IStockTowerLocation {
   id: number;
   name: string;
   latitude: number;
   longitude: number;
-};
+}
+
+export interface ILocation {
+  latitude: number;
+  longitude: number;
+}
+
+export interface IWorldRes {
+  stockmons: Array<IStockmonLocation>;
+  stockTowers: Array<IStockTowerLocation>;
+}

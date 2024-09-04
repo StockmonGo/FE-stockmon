@@ -1,34 +1,21 @@
+import axios from "axios";
 import { BaseApi } from "./baseAPI";
-import { StockmonLocation, StockTowerLocation } from "@/types/location";
-
-type ILocation = {
-  latitude: number;
-  longitude: number;
-};
+import { ILocation, IWorldRes } from "@/types/location";
 
 export default class mapAPI extends BaseApi {
-  async getMapInfo(location: ILocation): Promise<{
-    status: number;
-    message: string;
-    mapInfo: { stockmon: Array<StockmonLocation>; stockTowers: Array<StockTowerLocation> } | null;
-  }> {
+  async getMapInfo(location: ILocation): Promise<IWorldRes | null> {
     try {
       const resp = await this.fetcher.post("/api/core/maps/stockmons", {
         ...location,
       });
-
-      if (resp.status === 200 && resp.data) {
-        // 주변 조회 성공
-        return {
-          status: 200,
-          message: "지도 정보 불러오기 성공",
-          mapInfo: resp.data.data,
-        };
-      }
-      throw Error("실패");
+      return resp.data.data;
     } catch (error) {
-      console.error(error);
-      return { status: 400, message: "사용자 좌표 오류", mapInfo: null };
+      if (axios.isAxiosError(error)) {
+        console.error(error);
+        throw Error(error.message);
+      } else {
+        throw Error("알 수 없는 에러 발생");
+      }
     }
   }
 }

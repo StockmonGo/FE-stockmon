@@ -13,9 +13,9 @@ declare global {
 
 export default function World() {
   const [towerModalSee, setTowerModalSee] = useState(false);
-  const service = new mapAPI();
   const [towerName, setTowerName] = useState("");
   const [towerId, setTowerId] = useState(0);
+  const service = new mapAPI();
 
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
@@ -56,11 +56,10 @@ export default function World() {
               image: markerImage,
             });
 
-            const setMapInfo = service.getMapInfo({ latitude, longitude }).then((res) => {
-              console.log(res.mapInfo);
-              const data = res.mapInfo;
+            service.getMapInfo({ latitude, longitude }).then((res) => {
+              console.log(res);
               // 스톡타워 마커
-              const stockTowerPositions = data?.stockTowers.map((tower) => ({
+              const stockTowerPositions = res?.stockTowers.map((tower) => ({
                 id: tower.id,
                 title: tower.name,
                 latlng: new window.kakao.maps.LatLng(tower.latitude, tower.longitude),
