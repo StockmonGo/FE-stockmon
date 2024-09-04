@@ -1,11 +1,12 @@
 "use client";
-import { StockmonDetailType } from "@/types/stockmons";
+import { COLLECTION_MAX, IStockmonDetailRes } from "@/types/stockmons";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import "@/app/animations.css";
+import NewPoint from "../NewPoint";
 
 type Props = {
-  data: StockmonDetailType;
+  data: IStockmonDetailRes;
 };
 
 export default function StockmonCard({ data }: Props) {
@@ -13,17 +14,17 @@ export default function StockmonCard({ data }: Props) {
   const router = useRouter();
   const [animate, setAnimate] = useState(false);
 
-  const handleClick = () => {
-    setAnimate(true); // 애니메이션을 시작
+  const handleImgClick = () => {
+    setAnimate(true);
   };
 
   useEffect(() => {
     if (animate) {
       const timeout = setTimeout(() => {
-        setAnimate(false); // 일정 시간 후 애니메이션 제거
-      }, 500); // 애니메이션의 지속 시간에 맞게 조정
+        setAnimate(false);
+      }, 500);
 
-      return () => clearTimeout(timeout); // 클린업
+      return () => clearTimeout(timeout);
     }
   }, [animate]);
   return (
@@ -34,9 +35,10 @@ export default function StockmonCard({ data }: Props) {
           className={`w-2/3 mx-auto ${animate ? "gelatine" : ""}`}
           src={data.imageUrl}
           alt={data.stockmonName}
-          onClick={handleClick}
+          onClick={handleImgClick}
         />
-        <div className="text-right">
+        <div className="relative text-right">
+          {data.catchCount >= COLLECTION_MAX && <NewPoint />}
           <button
             className="p-2 px-3 rounded-lg text-stock-dark-500 bg-somsatang-gradient"
             onClick={() => {
