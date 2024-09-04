@@ -14,30 +14,12 @@ import { useStockBook } from "@/hooks/useStockBook";
 
 const chartData = {
   chart: [
-    {
-      month: "JAN",
-      closingPrice: 2300,
-    },
-    {
-      month: "FEB",
-      closingPrice: 2200,
-    },
-    {
-      month: "MAR",
-      closingPrice: 2350,
-    },
-    {
-      month: "JUN",
-      closingPrice: 2450,
-    },
-    {
-      month: "JUL",
-      closingPrice: 2120,
-    },
-    {
-      month: "AUG",
-      closingPrice: 2620,
-    },
+    { time: "2023-01-01", value: 2300 },
+    { time: "2023-02-01", value: 2200 },
+    { time: "2023-03-01", value: 2350 },
+    { time: "2023-06-01", value: 2450 },
+    { time: "2023-07-01", value: 2120 },
+    { time: "2023-08-01", value: 2680 },
   ],
 };
 
@@ -89,7 +71,7 @@ export default function Detail() {
     <div className="flex flex-col gap-5 pb-20 items-center">
       <StockmonCard data={data} />
       <StockmonStock data={data} />
-      <StockmonChart data={chartData} />
+      <StockmonChart data={chartData.chart} />
       <StockmonExchangeModal
         onClose={onClose}
         onConfirm={onConfirm}

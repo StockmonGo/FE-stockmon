@@ -1,22 +1,14 @@
-import { IChartRes } from "@/types/stockmons";
+import { IChartItemRes } from "@/types/stockmons";
 import React, { useEffect, useRef } from "react";
-import { BarPrice, createChart } from "lightweight-charts";
+import { createChart } from "lightweight-charts";
 
 type Props = {
-  data: IChartRes;
+  data: IChartItemRes[];
 };
-
-const chartData = [
-  { time: "2023-01-01", value: 2300 },
-  { time: "2023-02-01", value: 2200 },
-  { time: "2023-03-01", value: 2350 },
-  { time: "2023-06-01", value: 2450 },
-  { time: "2023-07-01", value: 2120 },
-  { time: "2023-08-01", value: 2680 },
-];
 
 export default function StockmonChart({ data }: Props) {
   const chartContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (chartContainerRef.current) {
       const chart = createChart(chartContainerRef.current, {
@@ -36,7 +28,7 @@ export default function StockmonChart({ data }: Props) {
       const lineSeries = chart.addLineSeries({
         color: "#82CB9A", // 라인색
       });
-      lineSeries.setData(chartData);
+      lineSeries.setData(data);
 
       // 가로축
       chart.timeScale().fitContent();
@@ -72,10 +64,6 @@ export default function StockmonChart({ data }: Props) {
         chart.remove();
       };
     }
-  }, []);
-
-  useEffect(() => {
-    console.log(data);
   }, []);
 
   return (
