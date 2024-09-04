@@ -23,6 +23,12 @@ export default function Detail() {
   const [exchangeModalOpen, setExchangeModalOpen] = useState(false);
   const [selectedAlliance, setSelectedAlliance] = useState(0);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
+
+  if (error) return <Error />;
+  if (!data) {
+    return <Loading />;
+  }
+
   const onClickExchange = () => {
     setExchangeModalOpen(true);
   };
@@ -39,11 +45,6 @@ export default function Detail() {
     setCheckModalOpen(true);
     alert("누구한테 교환 요청을 하는가 " + selectedAlliance);
   };
-
-  if (error) return <Error />;
-  if (!data) {
-    return <Loading />;
-  }
 
   return (
     <div className="flex flex-col gap-5 items-center">

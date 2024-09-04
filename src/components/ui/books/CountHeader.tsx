@@ -1,14 +1,13 @@
 "use client";
 import React from "react";
 import { Skeleton } from "../Skeleton";
+import { STOCKMON_MAX } from "@/types/stockmons";
 
 type Props =
   | { isLoading: true; count?: never }
   | { isLoading?: false; count: number };
 
 export default function CountHeader({ isLoading, count }: Props) {
-  const STOCKMON_MAX = 200;
-
   return (
     <div className="w-full h-full p-3 flex justify-center items-center ">
       {isLoading ? (

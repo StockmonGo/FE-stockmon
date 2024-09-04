@@ -3,6 +3,7 @@ import BottomNavBar from "@/components/ui/world/BottomNavBar";
 import StockTowerModal from "@/components/ui/world/StockTowerModal";
 import TopNavBar from "@/components/ui/world/TopNavBar";
 import React, { useEffect, useState } from "react";
+import mapAPI from "@/apis/mapAPI";
 
 declare global {
   interface Window {
@@ -12,6 +13,11 @@ declare global {
 
 export default function World() {
   const [towerModalSee, setTowerModalSee] = useState(false);
+  const [towerName, setTowerName] = useState("");
+  const [towerId, setTowerId] = useState(0);
+  const [stockmonId, setStockmonId] = useState(0);
+  const service = new mapAPI();
+
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
@@ -21,54 +27,101 @@ export default function World() {
     const onLoadKakaoAPI = () => {
       window.kakao.maps.load(() => {
         if (navigator.geolocation) {
+          // navigator.geolocation.watchPosition(function (position) {
+          // TODO 위치가 변경됐을 때 요청을 다시 보내는 부분
           navigator.geolocation.getCurrentPosition(function (position) {
-            const lat = position.coords.latitude; // 위도
-            const lon = position.coords.longitude; // 경도
-            // const myLocation = new window.kakao.maps.LatLng(lat, lon);
+            const latitude = position.coords.latitude; // 위도
+            const longitude = position.coords.longitude; // 경도
+            const myLocation = new window.kakao.maps.LatLng(latitude, longitude);
             // 성수로 일단 고정
-            const myLocation = new window.kakao.maps.LatLng(37.5451626, 127.0568792);
+            // const myLocation = new window.kakao.maps.LatLng(37.5451626, 127.0568792);
+            console.log(myLocation);
 
             const container = document.getElementById("map");
             const options = {
               center: myLocation,
-              level: 3,
+              level: 2,
               draggable: false,
             };
             console.log(myLocation);
 
             const map = new window.kakao.maps.Map(container, options);
 
-            const imageSrc = "images/tempPerson.svg";
-            const imageSize = new window.kakao.maps.Size(100, 100);
+            const userImageSrc = "images/tempPerson.svg";
+            const userImageSize = new window.kakao.maps.Size(100, 100);
             const imageOption = { offset: new window.kakao.maps.Point(27, 69) };
-            const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+            const markerImage = new window.kakao.maps.MarkerImage(userImageSrc, userImageSize, imageOption);
 
-            const marker = new window.kakao.maps.Marker({
+            // 사용자 마커
+            const userMarker = new window.kakao.maps.Marker({
               position: myLocation,
               image: markerImage,
             });
+            userMarker.setMap(map);
 
-            // 임시 스톡타워
-            const imageSrc2 = "images/peachTower.svg";
-            const imageSize2 = new window.kakao.maps.Size(80, 80);
-            const markerImage2 = new window.kakao.maps.MarkerImage(imageSrc2, imageSize2, imageOption);
-            var markerPosition = new window.kakao.maps.LatLng(37.5461626, 127.0568792);
-            var stockTower = new window.kakao.maps.Marker({
-              position: markerPosition,
-              image: markerImage2,
-            });
-            stockTower.setMap(map);
-            window.kakao.maps.event.addListener(stockTower, "click", () => {
-              setTowerModalSee(true);
-            });
+            service.getMapInfo({ latitude, longitude }).then((res) => {
+              console.log(res);
+              // 스톡타워 마커
+              const stockTowerPositions = res?.stockTowers.map((tower) => ({
+                id: tower.id,
+                title: tower.name,
+                latlng: new window.kakao.maps.LatLng(tower.latitude, tower.longitude),
+              }));
+              const towerImageSrc = "images/peachTower.svg";
 
-            marker.setMap(map);
+              if (stockTowerPositions) {
+                for (let i = 0; i < stockTowerPositions.length; i++) {
+                  const towerImageSize = new window.kakao.maps.Size(80, 80);
+                  const towerImage = new window.kakao.maps.MarkerImage(towerImageSrc, towerImageSize);
+                  const stockTower = new window.kakao.maps.Marker({
+                    map: map,
+                    position: stockTowerPositions[i].latlng,
+                    title: stockTowerPositions[i].title,
+                    image: towerImage,
+                  });
+
+                  window.kakao.maps.event.addListener(stockTower, "click", () => {
+                    setTowerModalSee(true);
+                    setTowerName(stockTowerPositions[i].title);
+                    setTowerId(stockTowerPositions[i].id);
+                  });
+
+                  stockTower.setMap(map);
+                }
+              }
+
+              // 스톡몬 마커
+              const stockmonPositions = res?.stockmons.map((stockmon) => ({
+                id: stockmon.id,
+                latlng: new window.kakao.maps.LatLng(stockmon.latitude, stockmon.longitude),
+              }));
+
+              if (stockmonPositions) {
+                for (let i = 0; i < stockmonPositions.length; i++) {
+                  const stockmonImaegSize = new window.kakao.maps.Size(100, 100);
+                  const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${i}.png`;
+                  const stockmonImage = new window.kakao.maps.MarkerImage(stockmonImgSrc, stockmonImaegSize);
+                  const stockmon = new window.kakao.maps.Marker({
+                    map: map,
+                    position: stockmonPositions[i].latlng,
+                    id: stockmonPositions[i].id,
+                    image: stockmonImage,
+                  });
+
+                  window.kakao.maps.event.addListener(stockmon, "click", () => {
+                    setStockmonId(stockmonPositions[i].id);
+                  });
+
+                  stockmon.setMap(map);
+                }
+              }
+            });
           });
         } else {
           const container = document.getElementById("map");
           const options = {
             center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-            level: 3,
+            level: 2,
             draggable: false,
           };
 
@@ -90,7 +143,7 @@ export default function World() {
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
       {towerModalSee ? (
         <>
-          <StockTowerModal />
+          <StockTowerModal name={towerName} id={towerId} />
           <div
             className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
             onClick={() => setTowerModalSee(false)}

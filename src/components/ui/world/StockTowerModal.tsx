@@ -2,7 +2,11 @@
 import "@/app/world/world.css";
 import { useEffect, useState } from "react";
 
-export default function StockTowerModal() {
+type Props = {
+  name: string;
+  id: number;
+};
+export default function StockTowerModal({ name, id }: Props) {
   const stockBallNum = 2;
   const [showPeach, setShowPeach] = useState(false);
   const [flipCss, setFlipCss] = useState("");
@@ -33,7 +37,11 @@ export default function StockTowerModal() {
 
   return (
     <>
-      {showPeach && <p className="fade-in-down text-white text-4xl fixed top-4 z-20">+ {stockBallNum}</p>}
+      {showPeach ? (
+        <p className="fade-in-down text-white text-4xl fixed top-4 z-20">+ {stockBallNum}</p>
+      ) : (
+        <p className="text-white text-4xl fixed top-4 z-20">{name}</p>
+      )}
       <div
         className={`${firstCss} z-10 ${
           active ? "border-stock-red" : "border-stock-dark-500"
