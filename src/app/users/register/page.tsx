@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 
@@ -19,6 +20,7 @@ export default function Register() {
     formState: { errors, isDirty, isValid },
     getValues,
   } = useForm<FormData>();
+  const router = useRouter();
   const { signUp } = useAuth();
   const onSubmit = handleSubmit(async (data) => {
     const res = await signUp({
@@ -27,6 +29,10 @@ export default function Register() {
       inviterNickname: data.inviter,
     });
     console.log("signup res: ", res);
+    if (res) {
+      console.log("회원가입 축하합니다. ", res, "님. 로그인해주세요!");
+      router.push("/users/login");
+    }
   });
 
   const inputCSS =
