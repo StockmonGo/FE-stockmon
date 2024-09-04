@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800");
-
+@import "progress.scss";
 $bg-colour: #efefef;
 $text-colour: #2c3e50;
 $green: #2ecc71;
@@ -67,10 +67,12 @@ button {
   &__target {
     height: 20px;
     top: 0px;
-    background: radial-gradient(
-      circle,
-      rgba(252, 90, 18, 1) 0%,
-      rgba(247, 53, 53, 1) 50%
+    background: linear-gradient(
+      90deg,
+      rgba(255, 156, 0, 1) 33%,
+      rgba(255, 0, 0, 1) 33%,
+      rgba(255, 0, 0, 1) 66%,
+      rgba(255, 156, 0, 1) 66%
     );
     position: absolute;
     left: 0;
@@ -165,28 +167,19 @@ button {
   // border-radius: 100%;
   height: 100%;
   left: 1%;
+  opacity: 0;
   animation: throw 1.05s 0.05s 1;
   transform: translate3d(0, 0, 0) scale(1.5);
   animation-fill-mode: forwards;
-  &.Miss {
-    animation: throw-fail 1.05s 0.05s 1;
-    animation-fill-mode: forwards;
+  @for $i from 0 through 10 {
+    &.Miss-#{$i} {
+      opacity: 0;
+      animation: throw-fail-#{$i} 1.05s 0.05s 1;
+      transform: translate3d(0, 0, 0) scale(1.5);
+      animation-fill-mode: forwards;
+    }
   }
 }
-
-@keyframes throw {
-  0% {
-    bottom: -40vh;
-  }
-  50% {
-    bottom: 13vh;
-  }
-
-  100% {
-    transform: translate3d(15vw, 5vh, -50vh) scale(0.75);
-  }
-}
-
 @function custom-random() {
   // 두 범위 중 하나를 선택하기 위한 무작위 결정
   $range: random(2);
@@ -201,15 +194,240 @@ button {
   }
 }
 
-@keyframes throw-fail {
+@function custom-random-up() {
+  @return random(186) + 55; // 0~185 -> 55 ~ 200
+}
+@function custom-random-down() {
+  @return random(105) - 150; // 0~154 -> -150 ~ -54
+}
+@keyframes throw {
   0% {
+    // opacity: 1;
     bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
   }
   50% {
     bottom: 13vh;
+    opacity: 1;
   }
 
   100% {
-    transform: translate3d(custom-random() + vw, 5vh, -50vh) scale(0.75);
+    transform: translate3d(15vw, 5vh, -50vh) scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-0 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 13vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-down() + vw, 5vh, -50vh) scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-1 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 14vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-down() + 10 + vw, 5vh, -50vh)
+      scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-2 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 16vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-down() + 20 + vw, 5vh, -50vh)
+      scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-3 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 17vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-down() + 30 + vw, 5vh, -50vh)
+      scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-4 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 10vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-down() + 40 + vw, 5vh, -50vh)
+      scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-5 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 9vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random() + 50 + vw, 5vh, -50vh) scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-6 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 18vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-up() + vw, 5vh, -50vh) scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-7 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 19vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-up() - 10 + vw, 5vh, -50vh) scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-8 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 13vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-up() - 20 + vw, 5vh, -50vh) scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-9 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 14vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-up() - 30 + vw, 5vh, -50vh) scale(0.75);
+    opacity: 1;
+  }
+}
+
+@keyframes throw-fail-10 {
+  0% {
+    // opacity: 1;
+    bottom: -40vh;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 15vh;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(custom-random-up() - 40 + vw, 5vh, -50vh) scale(0.75);
+    opacity: 1;
   }
 }
