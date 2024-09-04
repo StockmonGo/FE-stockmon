@@ -15,6 +15,7 @@ export default function World() {
   const [towerModalSee, setTowerModalSee] = useState(false);
   const [towerName, setTowerName] = useState("");
   const [towerId, setTowerId] = useState(0);
+  const [stockmonId, setStockmonId] = useState(0);
   const service = new mapAPI();
 
   useEffect(() => {
@@ -51,10 +52,12 @@ export default function World() {
             const imageOption = { offset: new window.kakao.maps.Point(27, 69) };
             const markerImage = new window.kakao.maps.MarkerImage(userImageSrc, userImageSize, imageOption);
 
+            // 사용자 마커
             const userMarker = new window.kakao.maps.Marker({
               position: myLocation,
               image: markerImage,
             });
+            userMarker.setMap(map);
 
             service.getMapInfo({ latitude, longitude }).then((res) => {
               console.log(res);
@@ -87,10 +90,32 @@ export default function World() {
                 }
               }
 
-              userMarker.setMap(map);
-            });
+              // 스톡몬 마커
+              const stockmonPositions = res?.stockmons.map((stockmon) => ({
+                id: stockmon.id,
+                latlng: new window.kakao.maps.LatLng(stockmon.latitude, stockmon.longitude),
+              }));
 
-            // TODO 스톡몬들 추가
+              if (stockmonPositions) {
+                for (let i = 0; i < stockmonPositions.length; i++) {
+                  const stockmonImaegSize = new window.kakao.maps.Size(100, 100);
+                  const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${i}.png`;
+                  const stockmonImage = new window.kakao.maps.MarkerImage(stockmonImgSrc, stockmonImaegSize);
+                  const stockmon = new window.kakao.maps.Marker({
+                    map: map,
+                    position: stockmonPositions[i].latlng,
+                    id: stockmonPositions[i].id,
+                    image: stockmonImage,
+                  });
+
+                  window.kakao.maps.event.addListener(stockmon, "click", () => {
+                    setStockmonId(stockmonPositions[i].id);
+                  });
+
+                  stockmon.setMap(map);
+                }
+              }
+            });
           });
         } else {
           const container = document.getElementById("map");
