@@ -35,7 +35,7 @@ export default function Dev() {
         <div className="my-2">
           <p>스토리지 저장 조타이</p>
           <p>nickname : {userLocal.nickname}</p>
-          <p>jwt : {userLocal.jwt}</p>
+          <p>jwt : {userLocal.accessToken}</p>
           <span>닉네임 입력: </span>
           <input
             type="text"
