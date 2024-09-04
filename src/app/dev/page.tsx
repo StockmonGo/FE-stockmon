@@ -34,14 +34,13 @@ export default function Dev() {
         </div>
         <div className="my-2">
           <p>스토리지 저장 조타이</p>
-          <p>nickname : {userLocal.nickname}</p>
-          <p>jwt : {userLocal.jwt}</p>
+          <p>nickname : {userLocal}</p>
           <span>닉네임 입력: </span>
           <input
             type="text"
             className="border border-1 border-stone-700 mx-2"
             onChange={(event) => {
-              setUserLocal({ ...userLocal, nickname: event.target.value });
+              setUserLocal(event.target.value);
             }}
           />
         </div>

@@ -1,4 +1,4 @@
-import { StockmonDetailType } from "@/types/stockmons";
+import { IStockmonDetailRes } from "@/types/stockmons";
 import React, { useEffect } from "react";
 import "@/app/books/books.css";
 import StockTag from "./StockTag";
@@ -10,7 +10,7 @@ import { client } from "@/sockets/baseStomp";
 type InfoType = "detail" | "summary";
 
 type Props = {
-  data: StockmonDetailType;
+  data: IStockmonDetailRes;
   type?: InfoType;
 };
 

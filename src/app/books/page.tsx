@@ -6,20 +6,22 @@ import SearchBar from "@/components/ui/SearchBar";
 import React, { useState } from "react";
 import useSWR from "swr";
 import Error from "@/components/ui/Error";
-import data from "@/../dummy/books/books.json";
-
-const fetcher = (url: string) => {
-  // TODO: api 요청
-  return data;
-};
+import { IStockmonsRes } from "@/types/stockmons";
+import { useStockBook } from "@/hooks/useStockBook";
 
 export default function Books() {
-  const { data, error } = useSWR("/api/user", fetcher);
+  const { getStockmons } = useStockBook();
+  const { data, error } = useSWR<IStockmonsRes | null>(
+    "stockmons",
+    getStockmons
+  );
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   let countHeader: React.ReactNode = <CountHeader isLoading />;
   let stockmonList: React.ReactNode = <StockmonList isLoading />;
 
-  if (error) return <Error />;
+  if (error) {
+    return <Error message={error.message} />;
+  }
   if (data && data.stockmons) {
     countHeader = <CountHeader count={data.stockmons.length} />;
     stockmonList = (
