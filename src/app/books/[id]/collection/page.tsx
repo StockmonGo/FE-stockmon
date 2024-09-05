@@ -51,7 +51,7 @@ export default function Collection() {
       setGetStockModalOpen(true);
     } catch (err) {
       alert("계좌 개설 중 에러가 발생하였습니다.");
-      window.location.reload();
+      setAccountModalOpen(false);
     }
   };
 
@@ -63,7 +63,7 @@ export default function Collection() {
       router.refresh();
     } catch (err) {
       alert("주식 받기 중 에러가 발생하였습니다.");
-      window.location.reload();
+      setGetStockModalOpen(false);
     }
   };
 
