@@ -87,7 +87,7 @@ export default function Collection() {
             index < stockmonData.catchCount ? (
               <img
                 key={index}
-                src={stockmonData.imageUrl}
+                src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmonData.stockmonId}.png`}
                 alt={stockmonData.stockmonName}
                 className="aspect-square object-cover bg-white rounded-lg"
               />
