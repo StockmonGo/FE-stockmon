@@ -8,29 +8,10 @@ import { COLLECTION_MAX } from "@/types/stockmons";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import RealStockExchangeModal from "@/components/ui/books/RealStockExchangeModal";
-import data from "@/../dummy/books/bookDetail.json";
 import NewPoint from "@/components/ui/NewPoint";
 import { useStockBook } from "@/hooks/useStockBook";
-
-const fetcher = (url: string) => {
-  //TODO: 스톡몬 개별 페이지 조회 api 연결
-  return data;
-};
-
-const fetcher2 = (url: string): Promise<ProfileType> => {
-  // TODO: 스톡몬 개별 페이지 조회 api 연결
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        hasAccount: true,
-      });
-    }, 1000);
-  });
-};
-
-type ProfileType = {
-  hasAccount: boolean;
-};
+import memberAPI from "@/apis/memberAPI";
+import { IAccountInfoRes } from "@/types/member";
 
 export default function Collection() {
   const router = useRouter();
@@ -40,6 +21,7 @@ export default function Collection() {
     params.id,
     getStockmonDetail
   );
+  const service = new memberAPI();
   const [accountModalOpen, setAccountModalOpen] = useState(false);
   const [getStockModalOpen, setGetStockModalOpen] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -49,11 +31,16 @@ export default function Collection() {
     return <Loading />;
   }
 
+  if (stockmonData) {
+    stockmonData.catchCount = 20;
+  }
+
   const handleExchange = async () => {
     setButtonLoading(true);
-    const profileData: ProfileType = await fetcher2(`/api/core/users/account`);
+    const profileData: IAccountInfoRes | null =
+      await service.getAccountStatus();
     setButtonLoading(false);
-    if (profileData.hasAccount) {
+    if (profileData?.hasAccount) {
       setGetStockModalOpen(true);
     } else {
       setAccountModalOpen(true);
