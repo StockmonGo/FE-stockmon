@@ -16,29 +16,25 @@ import { IAccountInfoRes } from "@/types/member";
 export default function Collection() {
   const router = useRouter();
   const params = useParams();
-  const { getStockmonDetail } = useStockBook();
+  const { getStockmonDetail, postStockExchange } = useStockBook();
   const { data: stockmonData, error: stockmonError } = useSWR(
     params.id,
     getStockmonDetail
   );
-  const service = new memberAPI();
+  const memberService = new memberAPI();
   const [accountModalOpen, setAccountModalOpen] = useState(false);
   const [getStockModalOpen, setGetStockModalOpen] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  if (stockmonError) return <Error />;
+  if (stockmonError) return <Error message={stockmonError.message} />;
   if (!stockmonData) {
     return <Loading />;
-  }
-
-  if (stockmonData) {
-    stockmonData.catchCount = 20;
   }
 
   const handleExchange = async () => {
     setButtonLoading(true);
     const profileData: IAccountInfoRes | null =
-      await service.getAccountStatus();
+      await memberService.getAccountStatus();
     setButtonLoading(false);
     if (profileData?.hasAccount) {
       setGetStockModalOpen(true);
@@ -47,17 +43,28 @@ export default function Collection() {
     }
   };
 
-  const handleConfirmAccountModal = () => {
-    setAccountModalOpen(false);
-    setGetStockModalOpen(true);
+  const handleConfirmAccountModal = async () => {
+    try {
+      await memberService.createAccount();
+      setAccountModalOpen(false);
+      alert("계좌 개설이 완료되었습니다!");
+      setGetStockModalOpen(true);
+    } catch (err) {
+      alert("계좌 개설 중 에러가 발생하였습니다.");
+      window.location.reload();
+    }
   };
 
   const handleCloseGetStockModal = async () => {
-    // TODO: 주식 받기 api 요청
-    setGetStockModalOpen(false);
-    // TODO: toast 띄우기
-    alert(stockmonData.stockCode + "을(를) 받았습니다!");
-    router.refresh();
+    try {
+      await postStockExchange(stockmonData.stockCode);
+      setGetStockModalOpen(false);
+      alert(stockmonData.stockCode + "을(를) 받았습니다!");
+      router.refresh();
+    } catch (err) {
+      alert("주식 받기 중 에러가 발생하였습니다.");
+      window.location.reload();
+    }
   };
 
   return (
