@@ -32,7 +32,7 @@ export default function StockmonCard({ data }: Props) {
       <figure className="aspect-square flex flex-col justify-between gap- p-5 bg-[url('/images/bgStamp.svg')] bg-no-repeat bg-cover">
         <p className="text-stock-dark-300">No.{data.stockCode}</p>
         <img
-          className={`w-2/3 mx-auto ${animate ? "gelatine" : ""}`}
+          className={`w-full mx-auto ${animate ? "gelatine" : ""}`}
           src={`${process.env.NEXT_PUBLIC_S3_URL}/${data.stockmonId}.png`}
           alt={data.stockmonName}
           onClick={handleImgClick}
