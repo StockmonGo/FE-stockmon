@@ -49,16 +49,8 @@ export function useAuth() {
 
   //logout 유저정보 clear
   async function signOut() {
-    try {
-      const res = await service.signOut();
-      if (res) {
-        //TODO: jotai 유저정보 클리어
-        setAccessToken("");
-        setUserLocal("");
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    setAccessToken("");
+    setUserLocal("");
   }
 
   //TODO: 마운트시 로그인여부체크해서 유저정보 세팅
