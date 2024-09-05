@@ -10,6 +10,7 @@ import Modal from "@/components/ui/Modal";
 import RealStockExchangeModal from "@/components/ui/books/RealStockExchangeModal";
 import data from "@/../dummy/books/bookDetail.json";
 import NewPoint from "@/components/ui/NewPoint";
+import { useStockBook } from "@/hooks/useStockBook";
 
 const fetcher = (url: string) => {
   //TODO: 스톡몬 개별 페이지 조회 api 연결
@@ -34,9 +35,10 @@ type ProfileType = {
 export default function Collection() {
   const router = useRouter();
   const params = useParams();
+  const { getStockmonDetail } = useStockBook();
   const { data: stockmonData, error: stockmonError } = useSWR(
-    `/api/stockmons/${params.id}`,
-    fetcher
+    params.id,
+    getStockmonDetail
   );
   const [accountModalOpen, setAccountModalOpen] = useState(false);
   const [getStockModalOpen, setGetStockModalOpen] = useState(false);
