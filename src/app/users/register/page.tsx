@@ -1,8 +1,9 @@
 "use client";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type FormData = {
@@ -11,7 +12,16 @@ type FormData = {
   password2: string;
   inviter: string;
 };
+const inputCSS =
+  "border rounded-lg px-3 py-2 w-full border-stock-dark-200 my-1";
+const errorCSS = "text-stock-red h-4";
 
+interface IModal {
+  isOpen: boolean;
+  content: string;
+  title?: string;
+  onClick: () => void;
+}
 export default function Register() {
   const {
     register,
@@ -19,25 +29,48 @@ export default function Register() {
     watch,
     formState: { errors, isDirty, isValid },
     getValues,
-  } = useForm<FormData>();
+  } = useForm<FormData>({ mode: "onChange" });
   const router = useRouter();
   const { signUp } = useAuth();
-  const onSubmit = handleSubmit(async (data) => {
-    const res = await signUp({
-      nickname: data.nickname,
-      password: data.password1,
-      inviterNickname: data.inviter,
-    });
-    console.log("signup res: ", res);
-    if (res) {
-      console.log("회원가입 축하합니다. ", res, "님. 로그인해주세요!");
-      router.push("/users/login");
-    }
+  const [modal, setModal] = useState<IModal>({
+    isOpen: false,
+    content: "",
+    title: "",
+    onClick: () => {},
   });
 
-  const inputCSS =
-    "border rounded-lg px-3 py-2 w-full border-stock-dark-200 my-1";
-  const errorCSS = "text-stock-red h-4";
+  const closeModal = () => {
+    setModal({
+      isOpen: false,
+      content: "",
+      onClick: () => {},
+    });
+  };
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const res = await signUp({
+        nickname: data.nickname,
+        password: data.password1,
+        inviterNickname: data.inviter,
+      });
+      if (res) {
+        setModal({
+          isOpen: true,
+          content: `${res}님 회원가입을 축하합니다!`,
+          onClick: () => {
+            router.push("/world");
+          },
+        });
+      }
+    } catch (error: any) {
+      setModal({
+        isOpen: true,
+        title: "회원가입 실패",
+        content: error.toString(),
+        onClick: closeModal,
+      });
+    }
+  });
 
   return (
     <>
@@ -90,7 +123,7 @@ export default function Register() {
               type="password"
               className={inputCSS}
             />
-            <p className={errorCSS}>{errors?.password2?.message}</p>
+            <p className={errorCSS}>{errors?.password2?.message} </p>
           </div>
           <div>
             <p>초대인 닉네임</p>
@@ -122,6 +155,12 @@ export default function Register() {
           </p>
         </div>
       </form>
+      <Modal
+        open={modal.isOpen}
+        onClose={modal.onClick}
+        title={modal.title}
+        describe={modal.content}
+      ></Modal>
     </>
   );
 }

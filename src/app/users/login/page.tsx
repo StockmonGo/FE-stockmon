@@ -1,5 +1,6 @@
 "use client";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -9,6 +10,12 @@ type FormData = {
   nickname: string;
   password: string;
 };
+interface IModal {
+  isOpen: boolean;
+  content: string;
+  title?: string;
+  onClick: () => void;
+}
 
 export default function Login() {
   const {
@@ -17,19 +24,42 @@ export default function Login() {
     watch,
     formState: { errors, isDirty, isValid },
     getValues,
+    reset,
   } = useForm<FormData>();
   const router = useRouter();
   const { signIn } = useAuth();
+  const [modal, setModal] = React.useState<IModal>({
+    isOpen: false,
+    content: "",
+    title: "",
+    onClick: () => {},
+  });
 
-  const onSubmit = handleSubmit(async (data) => {
-    const res = await signIn({
-      nickname: data.nickname,
-      password: data.password,
+  const closeModal = () => {
+    setModal({
+      isOpen: false,
+      content: "",
+      onClick: () => {},
     });
-    console.log("signIn res: ", res);
-    if (res) {
-      console.log(res, "님. 환영합니다!");
-      router.push("/world");
+  };
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const res = await signIn({
+        nickname: data.nickname,
+        password: data.password,
+      });
+      if (res) {
+        router.push("/world");
+      }
+    } catch (error: any) {
+      console.log("error fail login");
+      setModal({
+        isOpen: true,
+        title: "로그인 실패",
+        content: error.toString(),
+        onClick: closeModal,
+      });
+      reset();
     }
   });
 
@@ -94,6 +124,12 @@ export default function Login() {
           </p>
         </div>
       </form>
+      <Modal
+        open={modal.isOpen}
+        onClose={modal.onClick}
+        title={modal.title}
+        describe={modal.content}
+      />
     </>
   );
 }
