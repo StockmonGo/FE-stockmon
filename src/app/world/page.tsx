@@ -2,10 +2,8 @@
 import BottomNavBar from "@/components/ui/world/BottomNavBar";
 import StockTowerModal from "@/components/ui/world/StockTowerModal";
 import TopNavBar from "@/components/ui/world/TopNavBar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import mapAPI from "@/apis/mapAPI";
-import { useAtom } from "jotai";
-import { buffetAtom } from "@/store/store";
 
 declare global {
   interface Window {
@@ -42,6 +40,7 @@ export default function World() {
     });
   };
   const service = new mapAPI();
+  const bufferRef = useRef<{ maxLat: number; minLat: number; maxLon: number; minLon: number } | null>(null);
 
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
@@ -53,7 +52,7 @@ export default function World() {
         const container = document.getElementById("map");
         let map: any;
         let userMarker: any;
-        let buffer: { maxLat: number; minLat: number; maxLon: number; minLon: number };
+        // let buffer: { maxLat: number; minLat: number; maxLon: number; minLon: number };
 
         // 지도 초기화
         const initializeMap = (latitude: number, longitude: number) => {
@@ -86,15 +85,6 @@ export default function World() {
           if (userMarker) {
             userMarker.setPosition(myLocation);
           }
-        };
-
-        // 버퍼 계산
-        const calcBuffer = (latitude: number, longitude: number) => {
-          const maxLat = latitude + 0.0048;
-          const minLat = latitude - 0.0048;
-          const maxLon = longitude + 0.003;
-          const minLon = longitude - 0.003;
-          buffer = { maxLat, minLat, maxLon, minLon };
         };
 
         // 주변 정보 얻어오기
@@ -156,36 +146,56 @@ export default function World() {
             }
           });
 
+        // 버퍼 계산
+        const calcBuffer = (latitude: number, longitude: number) => {
+          const maxLat = latitude + 0.0048;
+          const minLat = latitude - 0.0048;
+          const maxLon = longitude + 0.003;
+          const minLon = longitude - 0.003;
+          // buffer = { maxLat, minLat, maxLon, minLon };
+          bufferRef.current = { maxLat, minLat, maxLon, minLon };
+          console.log("이게 어디에서 자꾸 불리는거지?");
+        };
+
         // 처음엔 getCurrentPosition
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition((position) => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
-            console.log("log:", longitude);
             initializeMap(latitude, longitude);
             calcBuffer(latitude, longitude);
             getMapInfo(latitude, longitude);
+            console.log("멘처음 버퍼", bufferRef);
 
             // 그 후 watchPosition
-            navigator.geolocation.watchPosition((position) => {
-              const newLatitude = position.coords.latitude;
-              const newLongitude = position.coords.longitude;
-              calcBuffer(latitude, longitude);
-              console.log("찍고 있니?", position.coords);
-              // 지도와 마커 업데이트
-              updateUserLocation(newLatitude, newLongitude);
-              console.log(buffer);
+            navigator.geolocation.watchPosition(
+              (position) => {
+                const newLatitude = position.coords.latitude;
+                const newLongitude = position.coords.longitude;
+                console.log("찍고 있니?", position.coords);
+                // 지도와 마커 업데이트
+                updateUserLocation(newLatitude, newLongitude);
+                console.log("두번째 버퍼", bufferRef);
 
-              if (
-                newLatitude <= buffer.minLat ||
-                newLatitude >= buffer.maxLat ||
-                newLongitude <= buffer.minLon ||
-                newLongitude >= buffer.maxLon
-              ) {
-                calcBuffer(newLatitude, newLongitude);
-                getMapInfo(latitude, longitude);
-              }
-            });
+                if (bufferRef.current) {
+                  const { minLat, maxLat, minLon, maxLon } = bufferRef.current;
+                  console.log("세번째", bufferRef.current);
+
+                  if (
+                    newLatitude <= minLat ||
+                    newLatitude >= maxLat ||
+                    newLongitude <= minLon ||
+                    newLongitude >= maxLon
+                  ) {
+                    console.log("왜!!!!!");
+                    getMapInfo(newLatitude, newLongitude);
+                    calcBuffer(newLatitude, newLongitude);
+                  }
+                }
+              },
+              (err) => console.log(err),
+              { enableHighAccuracy: true }
+            );
           });
         } else {
           console.log("Geolocation API를 지원하지 않습니다.");
