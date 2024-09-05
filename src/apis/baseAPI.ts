@@ -37,7 +37,7 @@ export function handleApiError(error: any): never {
     }
 
     console.error("Axios 에러:", error.response?.data.message || error.message);
-    throw new Error("Axios 에러가 발생하였습니다.");
+    throw new Error("페이지를 불러올 수 없습니다.");
   } else {
     console.error("알 수 없는 에러:", error);
     throw new Error("알 수 없는 에러가 발생하였습니다.");
