@@ -1,0 +1,236 @@
+$purple1: #181743;
+$purple2: #730f8e;
+$purple-pink: #a21190;
+$pink: #ea3281;
+$purple-pink1: #ce0682;
+$blue: #6e81e3;
+$light-pink: #eb6db4;
+$fuscia: #f9026d;
+$meteor-yellow: #fedc01;
+
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+  @-ms-keyframes #{$animationName} {
+    @content;
+  }
+  @keyframes #{$animationName} {
+    @content;
+  }
+}
+
+.stars-container {
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  .stars {
+    width: 170px;
+    top: 140px;
+    position: relative;
+    left: 220px;
+    div:nth-child(1) {
+      width: 20px;
+      position: relative;
+      height: 6px;
+      border-radius: 100%;
+      background: #fff;
+      animation: twinkle-width 1s ease infinite;
+    }
+    div:nth-child(2) {
+      width: 6px;
+      height: 20px;
+      top: -5px;
+      position: absolute;
+      background: #fff;
+      border-radius: 100%;
+      left: 7px;
+      top: -7px;
+      transform-origin: middle;
+      animation: twinkle-height 1s ease infinite;
+    }
+
+    div:nth-child(3) {
+      background: #fff;
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      left: 5px;
+      top: -2px;
+      border-radius: 100px;
+    }
+  }
+
+  .stars:nth-child(1) {
+    position: relative;
+    transform: scale(1);
+    top: -10px;
+    left: 10px;
+    div {
+      animation-delay: 0.8s;
+    }
+  }
+  .stars:nth-child(2) {
+    position: relative;
+    transform: scale(1.2);
+    top: 30px;
+    left: 40px;
+    div {
+      animation-delay: 0.5s;
+    }
+  }
+  .stars:nth-child(3) {
+    position: relative;
+    transform: scale(0.6);
+    bottom: 120px;
+    right: 10px;
+    div {
+      animation-delay: 0.5s;
+    }
+  }
+  .stars:nth-child(4) {
+    position: relative;
+    transform: scale(0.5);
+    top: -70px;
+    left: 350px;
+    div {
+      animation-delay: 0.8s;
+    }
+  }
+  .stars:nth-child(5) {
+    position: relative;
+    transform: scale(0.8);
+    top: 60px;
+    left: 80px;
+    div {
+      animation-delay: 0.5s;
+    }
+  }
+  .stars:nth-child(6) {
+    position: relative;
+    transform: scale(0.6);
+    bottom: -20px;
+    left: 150px;
+    div {
+      animation-delay: 0.5s;
+    }
+  }
+  .stars:nth-child(7) {
+    position: relative;
+    transform: scale(0.8);
+    top: -60px;
+    left: 390px;
+    div {
+      animation-delay: 0.6s;
+    }
+  }
+  .stars:nth-child(8) {
+    position: relative;
+    transform: scale(1.1);
+    top: 16px;
+    left: 370px;
+    div {
+      animation-delay: 0.5s;
+    }
+  }
+  .stars:nth-child(9) {
+    position: relative;
+    transform: scale(0.6);
+    top: 20px;
+    left: 150px;
+    div {
+      animation-delay: 0.5s;
+    }
+  }
+  .stars:nth-child(10) {
+    position: relative;
+    transform: scale(0.5);
+    bottom: -50px;
+    left: 350px;
+    div {
+      animation-delay: 0.8s;
+    }
+  }
+  .stars-2 {
+    border-radius: 100%;
+    position: absolute;
+    animation: twinkle 0.5s ease infinite;
+  }
+  .stars-2:nth-child(5) {
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(to right, $purple2, transparent);
+    left: 150px;
+    top: 120px;
+    animation-delay: 0.2s;
+  }
+
+  .stars-2:nth-child(6) {
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(to right, transparent, $pink);
+    left: 420px;
+    top: -50px;
+  }
+  .stars-2:nth-child(7) {
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(to right, transparent, $purple2);
+    left: 350px;
+    top: -70px;
+    animation-delay: 0.8s;
+    animation-duration: 1s;
+  }
+}
+
+/* twinkle-height 애니메이션 */
+@keyframes twinkle-height {
+  0% {
+    height: 20px;
+    top: -7px;
+  }
+  50% {
+    height: 10px;
+    top: -3px;
+  }
+  100% {
+    height: 20px;
+    top: -7px;
+  }
+}
+
+/* twinkle-width 애니메이션 */
+@keyframes twinkle-width {
+  0% {
+    width: 20px;
+    left: 0px;
+  }
+  50% {
+    width: 10px;
+    left: 5px;
+  }
+  100% {
+    width: 20px;
+    left: 0px;
+  }
+}
+
+/* twinkle 애니메이션 */
+@keyframes twinkle {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

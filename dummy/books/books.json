@@ -1,0 +1,100 @@
+{
+  "stockmons": [
+    {
+      "id": 1,
+      "name": "신한지주몬1",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 20,
+      "stockCode": 124125,
+      "stockAveragePrice": 145400
+    },
+    {
+      "id": 2,
+      "name": "하나금융지주몬2",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 23,
+      "stockCode": 141125,
+      "stockAveragePrice": 235400
+    },
+    {
+      "id": 3,
+      "name": "신한지주몬3",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 10,
+      "stockCode": 124125,
+      "stockAveragePrice": 145400
+    },
+    {
+      "id": 4,
+      "name": "하나금융지주몬4",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 12,
+      "stockCode": 141125,
+      "stockAveragePrice": 235400
+    },
+    {
+      "id": 5,
+      "name": "신한지주몬5",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 10,
+      "stockCode": 124125,
+      "stockAveragePrice": 145400
+    },
+    {
+      "id": 6,
+      "name": "하나금융지주몬6",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 12,
+      "stockCode": 141125,
+      "stockAveragePrice": 235400
+    },
+    {
+      "id": 7,
+      "name": "신한지주몬1",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 20,
+      "stockCode": 124125,
+      "stockAveragePrice": 145400
+    },
+    {
+      "id": 8,
+      "name": "하나금융지주몬2",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 12,
+      "stockCode": 141125,
+      "stockAveragePrice": 235400
+    },
+    {
+      "id": 9,
+      "name": "신한지주몬3",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 10,
+      "stockCode": 124125,
+      "stockAveragePrice": 145400
+    },
+    {
+      "id": 10,
+      "name": "하나금융지주몬4",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 12,
+      "stockCode": 141125,
+      "stockAveragePrice": 235400
+    },
+    {
+      "id": 11,
+      "name": "신한지주몬5",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 10,
+      "stockCode": 124125,
+      "stockAveragePrice": 145400
+    },
+    {
+      "id": 12,
+      "name": "하나금융지주몬6",
+      "imgUrl": "/images/dummy-stockmon.png",
+      "catchCount": 12,
+      "stockCode": 141125,
+      "stockAveragePrice": 235400
+    }
+  ]
+}
