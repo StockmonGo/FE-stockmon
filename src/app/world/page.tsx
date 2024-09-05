@@ -17,6 +17,7 @@ export default function World() {
   const [towerId, setTowerId] = useState(0);
   const [stockmonId, setStockmonId] = useState(0);
   const [towerActive, setTowerActive] = useState(false);
+  const [stockballs, setStockballs] = useState(0);
   const checkStockTower = (towerId: number) => {
     service.getStockTowerInfo(towerId).then((res) => {
       console.log(res);
@@ -210,6 +211,17 @@ export default function World() {
     };
   }, []);
 
+  useEffect(() => {
+    service
+      .getStockBallNum()
+      .then((res) => {
+        if (res) {
+          setStockballs(res.stockballs);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="static grid justify-items-center">
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
@@ -223,7 +235,7 @@ export default function World() {
         </>
       ) : (
         <>
-          <TopNavBar />
+          <TopNavBar stockballs={stockballs} />
           <BottomNavBar />
         </>
       )}
