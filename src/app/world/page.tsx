@@ -27,7 +27,8 @@ export default function World() {
       if (res) {
         const spinnedAtDate = new Date(res.spinnedAt);
         const currentTimeDate = new Date(res.currentTime);
-        const timeDifference = currentTimeDate.getTime() - spinnedAtDate.getTime();
+        const timeDifference =
+          currentTimeDate.getTime() - spinnedAtDate.getTime();
 
         // 5분 넘었으면 돌릴 수 있음
         if (timeDifference > 5 * 60 * 1000) {
@@ -40,7 +41,12 @@ export default function World() {
     });
   };
   const service = new mapAPI();
-  const bufferRef = useRef<{ maxLat: number; minLat: number; maxLon: number; minLon: number } | null>(null);
+  const bufferRef = useRef<{
+    maxLat: number;
+    minLat: number;
+    maxLon: number;
+    minLon: number;
+  } | null>(null);
 
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
@@ -68,7 +74,11 @@ export default function World() {
           const userImageSrc = "images/tempPerson.svg";
           const userImageSize = new window.kakao.maps.Size(100, 100);
           const imageOption = { offset: new window.kakao.maps.Point(27, 69) };
-          const markerImage = new window.kakao.maps.MarkerImage(userImageSrc, userImageSize, imageOption);
+          const markerImage = new window.kakao.maps.MarkerImage(
+            userImageSrc,
+            userImageSize,
+            imageOption
+          );
 
           userMarker = new window.kakao.maps.Marker({
             position: myLocation,
@@ -95,14 +105,20 @@ export default function World() {
             const stockTowerPositions = res?.stockTowers.map((tower) => ({
               id: tower.id,
               title: tower.name,
-              latlng: new window.kakao.maps.LatLng(tower.latitude, tower.longitude),
+              latlng: new window.kakao.maps.LatLng(
+                tower.latitude,
+                tower.longitude
+              ),
             }));
             const towerImageSrc = "images/peachTower.svg";
 
             if (stockTowerPositions) {
               for (let i = 0; i < stockTowerPositions.length; i++) {
                 const towerImageSize = new window.kakao.maps.Size(80, 80);
-                const towerImage = new window.kakao.maps.MarkerImage(towerImageSrc, towerImageSize);
+                const towerImage = new window.kakao.maps.MarkerImage(
+                  towerImageSrc,
+                  towerImageSize
+                );
                 const stockTower = new window.kakao.maps.Marker({
                   map: map,
                   position: stockTowerPositions[i].latlng,
@@ -122,14 +138,20 @@ export default function World() {
             // 스톡몬 마커
             const stockmonPositions = res?.stockmons.map((stockmon) => ({
               stockmon_id: stockmon.stockmon_id,
-              latlng: new window.kakao.maps.LatLng(stockmon.latitude, stockmon.longitude),
+              latlng: new window.kakao.maps.LatLng(
+                stockmon.latitude,
+                stockmon.longitude
+              ),
             }));
 
             if (stockmonPositions) {
               for (let i = 0; i < stockmonPositions.length; i++) {
                 const stockmonImaegSize = new window.kakao.maps.Size(100, 100);
                 const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${stockmonPositions[i].stockmon_id}.png`;
-                const stockmonImage = new window.kakao.maps.MarkerImage(stockmonImgSrc, stockmonImaegSize);
+                const stockmonImage = new window.kakao.maps.MarkerImage(
+                  stockmonImgSrc,
+                  stockmonImaegSize
+                );
                 const stockmon = new window.kakao.maps.Marker({
                   map: map,
                   position: stockmonPositions[i].latlng,
@@ -215,7 +237,12 @@ export default function World() {
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
       {towerModalSee ? (
         <>
-          <StockTowerModal name={towerName} towerId={towerId} towerActive={towerActive} service={service} />
+          <StockTowerModal
+            name={towerName}
+            towerId={towerId}
+            towerActive={towerActive}
+            service={service}
+          />
           <div
             className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
             onClick={() => setTowerModalSee(false)}
