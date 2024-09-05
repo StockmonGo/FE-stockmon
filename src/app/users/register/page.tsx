@@ -1,8 +1,9 @@
 "use client";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type FormData = {
@@ -11,7 +12,16 @@ type FormData = {
   password2: string;
   inviter: string;
 };
+const inputCSS =
+  "border rounded-lg px-3 py-2 w-full border-stock-dark-200 my-1";
+const errorCSS = "text-stock-red h-4";
 
+interface IModal {
+  isOpen: boolean;
+  content: string;
+  title?: string;
+  onClick: () => void;
+}
 export default function Register() {
   const {
     register,
@@ -19,29 +29,51 @@ export default function Register() {
     watch,
     formState: { errors, isDirty, isValid },
     getValues,
-  } = useForm<FormData>();
+  } = useForm<FormData>({ mode: "onChange" });
   const router = useRouter();
   const { signUp } = useAuth();
-  const onSubmit = handleSubmit(async (data) => {
-    const res = await signUp({
-      nickname: data.nickname,
-      password: data.password1,
-      inviterNickname: data.inviter,
+  const [modal, setModal] = useState<IModal>({
+    isOpen: false,
+    content: "",
+    title: "",
+    onClick: () => {},
+  });
+
+  const closeModal = () => {
+    setModal({
+      isOpen: false,
+      content: "",
+      onClick: () => {},
     });
-    console.log("signup res: ", res);
-    if (res) {
-      console.log("회원가입 축하합니다. ", res, "님. 로그인해주세요!");
-      router.push("/users/login");
+  };
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const res = await signUp({
+        nickname: data.nickname,
+        password: data.password1,
+        inviterNickname: data.inviter,
+      });
+      if (res) {
+        setModal({
+          isOpen: true,
+          content: `${res}님 회원가입을 축하합니다!`,
+          onClick: () => {
+            router.push("/world");
+          },
+        });
+      }
+    } catch (error: any) {
+      setModal({
+        isOpen: true,
+        title: "회원가입 실패",
+        content: error.toString(),
+        onClick: closeModal,
+      });
     }
   });
 
-  const inputCSS =
-    "border rounded-lg px-3 py-2 w-full border-stock-dark-200 my-1";
-  const errorCSS = "text-stock-red h-4";
-
   return (
     <>
-      <img src="/images/logo-160x160.png" alt="로고" />
       <form onSubmit={onSubmit} className="grid w-full">
         <div className="bg-white/40 rounded-lg px-2 py-4 space-y-4">
           <div>
@@ -91,7 +123,7 @@ export default function Register() {
               type="password"
               className={inputCSS}
             />
-            <p className={errorCSS}>{errors?.password2?.message}</p>
+            <p className={errorCSS}>{errors?.password2?.message} </p>
           </div>
           <div>
             <p>초대인 닉네임</p>
@@ -102,14 +134,33 @@ export default function Register() {
             />
           </div>
         </div>
-        <div className="w-32 justify-self-center mt-4">
-          <Button
-            text="회원가입"
-            onClick={onSubmit}
-            disabled={!isDirty || !isValid}
-          />
+        <div className=" justify-self-center mt-4">
+          <div className="w-32 m-auto ">
+            <Button
+              text="회원가입"
+              onClick={onSubmit}
+              disabled={!isDirty || !isValid}
+            />
+          </div>
+          <p className="font-sm text-stock-dark-800 mt-4">
+            이미 회원이신가요?{" "}
+            <span
+              className="font-bold cursor-pointer"
+              onClick={() => {
+                router.push("/users/login");
+              }}
+            >
+              로그인
+            </span>
+          </p>
         </div>
       </form>
+      <Modal
+        open={modal.isOpen}
+        onClose={modal.onClick}
+        title={modal.title}
+        describe={modal.content}
+      ></Modal>
     </>
   );
 }
