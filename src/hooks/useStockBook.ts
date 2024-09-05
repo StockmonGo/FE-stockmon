@@ -19,8 +19,16 @@ export function useStockBook() {
   );
 
   const getStockmonChart = useCallback(
-    async (code: string) => {
-      const res = await service.getStockmonChart(code);
+    async (stockCode: string) => {
+      const res = await service.getStockmonChart(stockCode);
+      return res;
+    },
+    [service]
+  );
+
+  const postStockExchange = useCallback(
+    async (stockCode: string) => {
+      const res = await service.postStockExchange(stockCode);
       return res;
     },
     [service]
@@ -30,5 +38,6 @@ export function useStockBook() {
     getStockmons,
     getStockmonDetail,
     getStockmonChart,
+    postStockExchange,
   };
 }
