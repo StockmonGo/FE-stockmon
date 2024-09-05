@@ -1,6 +1,6 @@
 export interface IStockmonLocation {
-  id: number;
-  stockmon_id: number;
+  worldId: number;
+  stockmonId: number;
   latitude: number;
   longitude: number;
 }
