@@ -7,11 +7,13 @@ import React, { useState } from "react";
 import useSWR from "swr";
 import Error from "@/components/ui/Error";
 import { IStockmonsRes } from "@/types/stockmons";
-import stockBookAPI from "@/apis/stockBookAPI";
+import { useStockBook } from "@/hooks/useStockBook";
 
 export default function Books() {
-  const { data, error } = useSWR<IStockmonsRes | null>("stockmons", () =>
-    new stockBookAPI().getStockmons()
+  const { getStockmons } = useStockBook();
+  const { data, error } = useSWR<IStockmonsRes | null>(
+    "stockmons",
+    getStockmons
   );
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   let countHeader: React.ReactNode = <CountHeader isLoading />;
