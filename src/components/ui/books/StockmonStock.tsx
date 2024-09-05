@@ -2,7 +2,6 @@ import { IStockmonDetailRes } from "@/types/stockmons";
 import React, { useEffect } from "react";
 import "@/app/books/books.css";
 import StockTag from "./StockTag";
-
 import { STOCK_ICONS } from "@/types/stocks";
 import Row from "./Row";
 import { client } from "@/sockets/baseStomp";
@@ -21,7 +20,7 @@ export default function StockmonStock({ data, type }: Props) {
     client.activate();
     client.onConnect = function (frame) {
       console.log("연결 성공 " + frame);
-      client.subscribe("/topic/greetings", callback);
+      client.subscribe(`/${316140}/greetings`, callback);
     };
   };
 
