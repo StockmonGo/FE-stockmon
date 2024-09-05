@@ -33,7 +33,7 @@ export default function StockmonCard({ data }: Props) {
         <p className="text-stock-dark-300">No.{data.stockCode}</p>
         <img
           className={`w-2/3 mx-auto ${animate ? "gelatine" : ""}`}
-          src={data.imageUrl}
+          src={`${process.env.NEXT_PUBLIC_S3_URL}/${data.stockmonId}.png`}
           alt={data.stockmonName}
           onClick={handleImgClick}
         />

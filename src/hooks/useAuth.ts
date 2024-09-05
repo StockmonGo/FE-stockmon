@@ -17,13 +17,13 @@ export function useAuth() {
         password,
         inviterNickname,
       });
-      if (res && res.data) {
+      const loginRes = await signIn({ nickname, password });
+      if (res && res.data && loginRes) {
         return res.data.nickname;
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("error:", error);
-        throw Error(error.message);
+        throw Error(error.response?.data.message);
       }
     }
   }
@@ -41,7 +41,9 @@ export function useAuth() {
       }
     } catch (error) {
       //TODO: 에러 메세지 전달
-      throw Error("");
+      if (axios.isAxiosError(error)) {
+        throw Error(error.response?.data.message);
+      }
     }
   }
 

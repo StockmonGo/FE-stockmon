@@ -20,7 +20,10 @@ export default function StockmonItem({ stockmon }: Props) {
       {stockmon ? (
         <div className="relative ">
           {stockmon.catchCount >= COLLECTION_MAX && <NewPoint />}
-          <img className="w-full bg-white" src="/images/octopus.png" />
+          <img
+            className="w-full bg-white"
+            src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmon.id}.png`}
+          />
           <p className="p-2 text-center text-white font-ptr">{stockmon.name}</p>
         </div>
       ) : (

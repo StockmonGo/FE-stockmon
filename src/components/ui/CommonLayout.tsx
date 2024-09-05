@@ -1,12 +1,19 @@
 import React from "react";
 import BtnClose from "./BtnClose";
+import Twinkle from "./Twinkle";
 
 type Props = {
   header?: React.ReactNode;
   children: React.ReactNode;
   title?: string;
+  useButton?: boolean;
 };
-export default function CommonLayout({ children, header, title }: Props) {
+export default function CommonLayout({
+  children,
+  header,
+  title,
+  useButton = true,
+}: Props) {
   return (
     <div className="w-full h-full overflow-x-hidden overflow-y-scroll">
       <div className="fixed w-full h-full overflow-hidden z-0">
@@ -14,6 +21,7 @@ export default function CommonLayout({ children, header, title }: Props) {
           className="bg-cover bg-center w-full h-full fixed z-[-1]"
           style={{ backgroundImage: "url('/images/bg.jpg')" }}
         ></div>
+        <Twinkle />
       </div>
       <div className="p-6 max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
         <header className="w-full">
@@ -23,9 +31,11 @@ export default function CommonLayout({ children, header, title }: Props) {
           {header}
         </header>
         <main className="flex-1 w-full h-full overflow-scroll">{children}</main>
-        <footer className="w-full flex justify-center">
-          <BtnClose />
-        </footer>
+        {useButton && (
+          <footer className="w-full flex justify-center">
+            <BtnClose />
+          </footer>
+        )}
       </div>
     </div>
   );
