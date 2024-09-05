@@ -18,19 +18,30 @@ export default function World() {
   const [towerName, setTowerName] = useState("");
   const [towerId, setTowerId] = useState(0);
   const [stockmonId, setStockmonId] = useState(0);
-  const [towerActive, setTowerActive] = useState(true);
+  const [towerActive, setTowerActive] = useState(false);
   const checkStockTower = (towerId: number) => {
     service.getStockTowerInfo(towerId).then((res) => {
       console.log(res);
       setTowerId(towerId);
       if (res?.spinnedAt === null) {
         setTowerActive(true);
-        setTowerModalSee(true);
       }
+      if (res) {
+        const spinnedAtDate = new Date(res.spinnedAt);
+        const currentTimeDate = new Date(res.currentTime);
+        const timeDifference = currentTimeDate.getTime() - spinnedAtDate.getTime();
+
+        // 5분 넘었으면 돌릴 수 있음
+        if (timeDifference > 5 * 60 * 1000) {
+          setTowerActive(true);
+        } else {
+          setTowerActive(false);
+        }
+      }
+      setTowerModalSee(true);
     });
   };
   const service = new mapAPI();
-  const [buffer, setBuffer] = useAtom(buffetAtom);
 
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");

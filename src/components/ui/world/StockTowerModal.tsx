@@ -17,12 +17,14 @@ export default function StockTowerModal({ name, towerId, towerActive, service }:
   const [firstCss, setFirstCss] = useState("roll-in");
   const handleTowerClick = () => {
     if (!active) {
-      alert("아직 안 됨!");
       return;
     }
     // setStockBallNum(onClick(towerId));
     service.spinStockTower(towerId).then((res) => {
       console.log(res);
+      if (res) {
+        setStockBallNum(res?.increasedStockball);
+      }
     });
     setShowPeach(true);
     setFlipCss("flip");
@@ -57,7 +59,7 @@ export default function StockTowerModal({ name, towerId, towerActive, service }:
         {active ? (
           <img src="/images/peachTower.svg" alt="피치타워" className={`w-3/4 ${flipCss}`} onClick={handleTowerClick} />
         ) : (
-          <img src="/images/peachTowerGrey.svg" alt="피치타워" className={`w-3/4`} onClick={handleTowerClick} />
+          <img src="/images/peachTowerGrey.svg" alt="피치타워" className={`w-3/4`} />
         )}
       </div>
       {showPeach && (
