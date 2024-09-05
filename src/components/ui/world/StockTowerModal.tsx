@@ -1,22 +1,31 @@
 "use client";
+import mapAPI from "@/apis/mapAPI";
 import "@/app/world/world.css";
 import { useEffect, useState } from "react";
 
 type Props = {
   name: string;
-  id: number;
+  towerId: number;
+  towerActive: boolean;
+  service: mapAPI;
 };
-export default function StockTowerModal({ name, id }: Props) {
-  const stockBallNum = 2;
+export default function StockTowerModal({ name, towerId, towerActive, service }: Props) {
+  const [stockBallNum, setStockBallNum] = useState(0);
   const [showPeach, setShowPeach] = useState(false);
   const [flipCss, setFlipCss] = useState("");
-  const [active, setActvie] = useState(true);
+  const [active, setActvie] = useState(towerActive);
   const [firstCss, setFirstCss] = useState("roll-in");
   const handleTowerClick = () => {
     if (!active) {
-      alert("아직 안 됨!");
       return;
     }
+    // setStockBallNum(onClick(towerId));
+    service.spinStockTower(towerId).then((res) => {
+      console.log(res);
+      if (res) {
+        setStockBallNum(res?.increasedStockball);
+      }
+    });
     setShowPeach(true);
     setFlipCss("flip");
 
@@ -50,7 +59,7 @@ export default function StockTowerModal({ name, id }: Props) {
         {active ? (
           <img src="/images/peachTower.svg" alt="피치타워" className={`w-3/4 ${flipCss}`} onClick={handleTowerClick} />
         ) : (
-          <img src="/images/peachTowerGrey.svg" alt="피치타워" className={`w-3/4`} onClick={handleTowerClick} />
+          <img src="/images/peachTowerGrey.svg" alt="피치타워" className={`w-3/4`} />
         )}
       </div>
       {showPeach && (
