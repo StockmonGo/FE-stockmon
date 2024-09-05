@@ -22,6 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html>
+      <link rel="manifest" href="/manifest.json" />
       <body className={notoSansKr.className}>
         <Providers>{children}</Providers>
       </body>

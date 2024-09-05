@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Modal from "../Modal";
 import memberAPI from "@/apis/memberAPI";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 type Props = {
   accountNumber?: string;
@@ -11,7 +13,8 @@ export default function UserMenu({ accountNumber }: Props) {
   const [accountModalSee, setAccountModalSee] = useState(false);
   const [infoModalSee, setInfoModalSee] = useState(false);
   const service = new memberAPI();
-
+  const router = useRouter();
+  const { signOut } = useAuth();
   const connectAccount = () => {
     service.getAccountStatus().then((res) => {
       console.log(res);
@@ -45,7 +48,10 @@ export default function UserMenu({ accountNumber }: Props) {
     },
     {
       text: "로그아웃",
-      onClick: () => {},
+      onClick: () => {
+        signOut();
+        router.push("/users/login");
+      },
     },
     {
       text: "회원탈퇴",
@@ -58,7 +64,9 @@ export default function UserMenu({ accountNumber }: Props) {
       {menuItems.map((item, index) => (
         <p
           key={index}
-          className={`font-ptr text-lg cursor-pointer p-3 ${item.text === "회원탈퇴" && "text-stock-dark-300"}`}
+          className={`font-ptr text-lg cursor-pointer p-3 ${
+            item.text === "회원탈퇴" && "text-stock-dark-300"
+          }`}
           onClick={item.onClick}
         >
           {item.text}
@@ -71,7 +79,12 @@ export default function UserMenu({ accountNumber }: Props) {
         onConfirm={createAccount}
         hasClose={true}
       ></Modal>
-      <Modal onClose={onInfoClose} open={infoModalSee} title="연동된 계좌" describe={accountNumber} />
+      <Modal
+        onClose={onInfoClose}
+        open={infoModalSee}
+        title="연동된 계좌"
+        describe={accountNumber}
+      />
     </div>
   );
 }
