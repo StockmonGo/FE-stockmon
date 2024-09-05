@@ -139,21 +139,16 @@ export default function World() {
 
             // 스톡몬 마커
             const stockmonPositions = res?.stockmons.map((stockmon) => ({
-              stockmon_id: stockmon.stockmon_id,
-              latlng: new window.kakao.maps.LatLng(
-                stockmon.latitude,
-                stockmon.longitude
-              ),
+              worldId: stockmon.worldId,
+              stockmonId: stockmon.stockmonId,
+              latlng: new window.kakao.maps.LatLng(stockmon.latitude, stockmon.longitude),
             }));
 
             if (stockmonPositions) {
               for (let i = 0; i < stockmonPositions.length; i++) {
                 const stockmonImaegSize = new window.kakao.maps.Size(100, 100);
-                const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${stockmonPositions[i].stockmon_id}.png`;
-                const stockmonImage = new window.kakao.maps.MarkerImage(
-                  stockmonImgSrc,
-                  stockmonImaegSize
-                );
+                const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${stockmonPositions[i].stockmonId}.png`;
+                const stockmonImage = new window.kakao.maps.MarkerImage(stockmonImgSrc, stockmonImaegSize);
                 const stockmon = new window.kakao.maps.Marker({
                   map: map,
                   position: stockmonPositions[i].latlng,
