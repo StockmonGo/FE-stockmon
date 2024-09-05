@@ -1,18 +1,30 @@
 "use client";
+import mapAPI from "@/apis/mapAPI";
 import "@/app/world/world.css";
 import { useEffect, useState } from "react";
 
-export default function StockTowerModal() {
-  const stockBallNum = 2;
+type Props = {
+  name: string;
+  towerId: number;
+  towerActive: boolean;
+  service: mapAPI;
+};
+export default function StockTowerModal({ name, towerId, towerActive, service }: Props) {
+  const [stockBallNum, setStockBallNum] = useState(0);
   const [showPeach, setShowPeach] = useState(false);
   const [flipCss, setFlipCss] = useState("");
-  const [active, setActvie] = useState(true);
+  const [active, setActvie] = useState(towerActive);
   const [firstCss, setFirstCss] = useState("roll-in");
   const handleTowerClick = () => {
     if (!active) {
-      alert("아직 안 됨!");
       return;
     }
+    service.spinStockTower(towerId).then((res) => {
+      console.log(res);
+      if (res) {
+        setStockBallNum(res.increasedStockBall);
+      }
+    });
     setShowPeach(true);
     setFlipCss("flip");
 
@@ -33,7 +45,11 @@ export default function StockTowerModal() {
 
   return (
     <>
-      {showPeach && <p className="fade-in-down text-white text-4xl fixed top-4 z-20">+ {stockBallNum}</p>}
+      {showPeach ? (
+        <p className="fade-in-down text-white text-4xl fixed top-4 z-20">+ {stockBallNum}</p>
+      ) : (
+        <p className="text-white text-4xl fixed top-4 z-20">{name}</p>
+      )}
       <div
         className={`${firstCss} z-10 ${
           active ? "border-stock-red" : "border-stock-dark-500"
@@ -42,7 +58,7 @@ export default function StockTowerModal() {
         {active ? (
           <img src="/images/peachTower.svg" alt="피치타워" className={`w-3/4 ${flipCss}`} onClick={handleTowerClick} />
         ) : (
-          <img src="/images/peachTowerGrey.svg" alt="피치타워" className={`w-3/4`} onClick={handleTowerClick} />
+          <img src="/images/peachTowerGrey.svg" alt="피치타워" className={`w-3/4`} />
         )}
       </div>
       {showPeach && (
