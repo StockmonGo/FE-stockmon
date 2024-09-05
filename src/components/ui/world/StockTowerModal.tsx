@@ -19,11 +19,10 @@ export default function StockTowerModal({ name, towerId, towerActive, service }:
     if (!active) {
       return;
     }
-    // setStockBallNum(onClick(towerId));
     service.spinStockTower(towerId).then((res) => {
       console.log(res);
       if (res) {
-        setStockBallNum(res?.increasedStockball);
+        setStockBallNum(res.increasedStockBall);
       }
     });
     setShowPeach(true);
