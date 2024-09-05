@@ -131,24 +131,24 @@ export default function World() {
 
             // 스톡몬 마커
             const stockmonPositions = res?.stockmons.map((stockmon) => ({
-              id: stockmon.stockmon_id,
+              stockmon_id: stockmon.stockmon_id,
               latlng: new window.kakao.maps.LatLng(stockmon.latitude, stockmon.longitude),
             }));
 
             if (stockmonPositions) {
               for (let i = 0; i < stockmonPositions.length; i++) {
                 const stockmonImaegSize = new window.kakao.maps.Size(100, 100);
-                const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${i}.png`;
+                const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${stockmonPositions[i].stockmon_id}.png`;
                 const stockmonImage = new window.kakao.maps.MarkerImage(stockmonImgSrc, stockmonImaegSize);
                 const stockmon = new window.kakao.maps.Marker({
                   map: map,
                   position: stockmonPositions[i].latlng,
-                  id: stockmonPositions[i].id,
+                  id: stockmonPositions[i].stockmon_id,
                   image: stockmonImage,
                 });
 
                 window.kakao.maps.event.addListener(stockmon, "click", () => {
-                  setStockmonId(stockmonPositions[i].id);
+                  setStockmonId(stockmonPositions[i].stockmon_id);
                 });
 
                 stockmon.setMap(map);
