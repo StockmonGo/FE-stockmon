@@ -33,3 +33,7 @@ export interface IStockTowerInfoRes {
 export interface IStockTowerBallRes {
   increasedStockBall: number;
 }
+
+export interface IStockBallRes {
+  stockballs: number;
+}
