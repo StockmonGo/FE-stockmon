@@ -41,7 +41,6 @@ export default function Register() {
 
   return (
     <>
-      <img src="/images/logo-160x160.png" alt="로고" />
       <form onSubmit={onSubmit} className="grid w-full">
         <div className="bg-white/40 rounded-lg px-2 py-4 space-y-4">
           <div>
@@ -102,12 +101,25 @@ export default function Register() {
             />
           </div>
         </div>
-        <div className="w-32 justify-self-center mt-4">
-          <Button
-            text="회원가입"
-            onClick={onSubmit}
-            disabled={!isDirty || !isValid}
-          />
+        <div className=" justify-self-center mt-4">
+          <div className="w-32 m-auto ">
+            <Button
+              text="회원가입"
+              onClick={onSubmit}
+              disabled={!isDirty || !isValid}
+            />
+          </div>
+          <p className="font-sm text-stock-dark-800 mt-4">
+            이미 회원이신가요?{" "}
+            <span
+              className="font-bold cursor-pointer"
+              onClick={() => {
+                router.push("/users/login");
+              }}
+            >
+              로그인
+            </span>
+          </p>
         </div>
       </form>
     </>

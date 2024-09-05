@@ -39,7 +39,6 @@ export default function Login() {
 
   return (
     <>
-      <img src="/images/logo-160x160.png" alt="로고" />
       <form onSubmit={onSubmit} className="grid w-full">
         <div className="bg-white/40 rounded-lg px-2 py-4 space-y-4">
           <div>
@@ -69,12 +68,30 @@ export default function Login() {
             <p className={errorCSS}>{errors?.password?.message}</p>
           </div>
         </div>
-        <div className="w-32 justify-self-center mt-4">
-          <Button
-            text="로그인"
-            onClick={onSubmit}
-            disabled={!isDirty || !isValid}
-          />
+        <div className="justify-self-center mt-4">
+          <div className="w-32 m-auto ">
+            <Button
+              text="로그인"
+              onClick={onSubmit}
+              disabled={!isDirty || !isValid}
+            />
+          </div>
+
+          <p className="font-sm text-stock-dark-800 mt-4">
+            아직{" "}
+            <span className="font-bold text-stock-purple-79 font-ptb">
+              Stockmon World
+            </span>
+            를 사용하고 있지 않으신가요?{"  "}
+            <span
+              className="font-bold cursor-pointer"
+              onClick={() => {
+                router.push("/users/register");
+              }}
+            >
+              회원가입
+            </span>
+          </p>
         </div>
       </form>
     </>
