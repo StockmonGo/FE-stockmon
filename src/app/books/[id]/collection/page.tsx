@@ -117,7 +117,7 @@ export default function Collection() {
         <RealStockExchangeModal
           open={getStockModalOpen}
           onClose={handleCloseGetStockModal}
-          image={stockmonData.imageUrl}
+          image={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmonData.stockmonId}.png`}
           stockmonName={stockmonData.stockmonName}
         />
       </footer>
