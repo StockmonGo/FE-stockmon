@@ -16,7 +16,9 @@ export default function World() {
   const [towerName, setTowerName] = useState("");
   const [towerId, setTowerId] = useState(0);
   const [stockmonId, setStockmonId] = useState(0);
+  const [worldId, setWorldId] = useState(0);
   const [towerActive, setTowerActive] = useState(false);
+  const [stockballs, setStockballs] = useState(0);
   const checkStockTower = (towerId: number) => {
     service.getStockTowerInfo(towerId).then((res) => {
       console.log(res);
@@ -137,30 +139,27 @@ export default function World() {
 
             // 스톡몬 마커
             const stockmonPositions = res?.stockmons.map((stockmon) => ({
-              stockmon_id: stockmon.stockmon_id,
-              latlng: new window.kakao.maps.LatLng(
-                stockmon.latitude,
-                stockmon.longitude
-              ),
+              worldId: stockmon.worldId,
+              stockmonId: stockmon.stockmonId,
+              latlng: new window.kakao.maps.LatLng(stockmon.latitude, stockmon.longitude),
             }));
 
             if (stockmonPositions) {
               for (let i = 0; i < stockmonPositions.length; i++) {
                 const stockmonImaegSize = new window.kakao.maps.Size(100, 100);
-                const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${stockmonPositions[i].stockmon_id}.png`;
-                const stockmonImage = new window.kakao.maps.MarkerImage(
-                  stockmonImgSrc,
-                  stockmonImaegSize
-                );
+                const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${stockmonPositions[i].stockmonId}.png`;
+                const stockmonImage = new window.kakao.maps.MarkerImage(stockmonImgSrc, stockmonImaegSize);
                 const stockmon = new window.kakao.maps.Marker({
                   map: map,
                   position: stockmonPositions[i].latlng,
-                  id: stockmonPositions[i].stockmon_id,
+                  worldId: stockmonPositions[i].worldId,
+                  stockmonId: stockmonPositions[i].stockmonId,
                   image: stockmonImage,
                 });
 
                 window.kakao.maps.event.addListener(stockmon, "click", () => {
-                  setStockmonId(stockmonPositions[i].stockmon_id);
+                  setStockmonId(stockmonPositions[i].stockmonId);
+                  setWorldId(stockmonPositions[i].worldId);
                 });
 
                 stockmon.setMap(map);
@@ -176,7 +175,6 @@ export default function World() {
           const minLon = longitude - 0.003;
           // buffer = { maxLat, minLat, maxLon, minLon };
           bufferRef.current = { maxLat, minLat, maxLon, minLon };
-          console.log("이게 어디에서 자꾸 불리는거지?");
         };
 
         // 처음엔 getCurrentPosition
@@ -187,21 +185,17 @@ export default function World() {
             initializeMap(latitude, longitude);
             calcBuffer(latitude, longitude);
             getMapInfo(latitude, longitude);
-            console.log("멘처음 버퍼", bufferRef);
 
             // 그 후 watchPosition
             navigator.geolocation.watchPosition(
               (position) => {
                 const newLatitude = position.coords.latitude;
                 const newLongitude = position.coords.longitude;
-                console.log("찍고 있니?", position.coords);
                 // 지도와 마커 업데이트
                 updateUserLocation(newLatitude, newLongitude);
-                console.log("두번째 버퍼", bufferRef);
 
                 if (bufferRef.current) {
                   const { minLat, maxLat, minLon, maxLon } = bufferRef.current;
-                  console.log("세번째", bufferRef.current);
 
                   if (
                     newLatitude <= minLat ||
@@ -209,7 +203,6 @@ export default function World() {
                     newLongitude <= minLon ||
                     newLongitude >= maxLon
                   ) {
-                    console.log("왜!!!!!");
                     getMapInfo(newLatitude, newLongitude);
                     calcBuffer(newLatitude, newLongitude);
                   }
@@ -232,6 +225,17 @@ export default function World() {
     };
   }, []);
 
+  useEffect(() => {
+    service
+      .getStockBallNum()
+      .then((res) => {
+        if (res) {
+          setStockballs(res.stockballs);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="static grid justify-items-center">
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
@@ -250,7 +254,7 @@ export default function World() {
         </>
       ) : (
         <>
-          <TopNavBar />
+          <TopNavBar stockballs={stockballs} />
           <BottomNavBar />
         </>
       )}

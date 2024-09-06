@@ -1,0 +1,36 @@
+{
+  "name": "StockmonWorld",
+  "short_name": "StockmonWorld",
+  "theme_color": "#b3e1ff",
+  "background_color": "#f9f0ff",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "start_url": "/world",
+  "categories": ["games", "finance"],
+  "icons": [
+    {
+      "src": "images/logo-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "images/logo-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/logo-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/logo-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48",
+      "purpose": "any maskable"
+    }
+  ]
+}
