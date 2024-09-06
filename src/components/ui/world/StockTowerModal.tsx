@@ -24,20 +24,27 @@ export default function StockTowerModal({
     if (!active) {
       return;
     }
-    service.spinStockTower(towerId).then((res) => {
-      console.log(res);
-      if (res) {
-        setStockBallNum(res.increasedStockBall);
+    service.getStockBallNum().then((res) => {
+      if (res && res.stockballs == 50) {
+        alert("스톡볼이 가득 찼어요!");
+        return;
+      } else {
+        service.spinStockTower(towerId).then((res) => {
+          console.log(res);
+          if (res) {
+            setStockBallNum(res.increasedStockBall);
+          }
+        });
+        setShowPeach(true);
+        setFlipCss("flip");
+
+        setTimeout(() => {
+          setShowPeach(false);
+          setFlipCss("");
+          setActvie(false);
+        }, 2000); // 2초 후에 이미지를 숨김
       }
     });
-    setShowPeach(true);
-    setFlipCss("flip");
-
-    setTimeout(() => {
-      setShowPeach(false);
-      setFlipCss("");
-      setActvie(false);
-    }, 2000); // 2초 후에 이미지를 숨김
   };
 
   useEffect(() => {
