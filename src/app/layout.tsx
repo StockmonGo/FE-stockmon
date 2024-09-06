@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./star.scss";
 import { Noto_Sans_KR } from "next/font/google";
 import { Providers } from "../components/providers";
 
@@ -21,6 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html>
+      <link rel="manifest" href="/manifest.json" />
       <body className={notoSansKr.className}>
         <Providers>{children}</Providers>
       </body>

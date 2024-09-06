@@ -8,67 +8,63 @@ import { COLLECTION_MAX } from "@/types/stockmons";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import RealStockExchangeModal from "@/components/ui/books/RealStockExchangeModal";
-import data from "@/../dummy/books/bookDetail.json";
 import NewPoint from "@/components/ui/NewPoint";
-
-const fetcher = (url: string) => {
-  //TODO: 스톡몬 개별 페이지 조회 api 연결
-  return data;
-};
-
-const fetcher2 = (url: string): Promise<ProfileType> => {
-  // TODO: 스톡몬 개별 페이지 조회 api 연결
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        hasAccount: true,
-      });
-    }, 1000);
-  });
-};
-
-type ProfileType = {
-  hasAccount: boolean;
-};
+import { useStockBook } from "@/hooks/useStockBook";
+import memberAPI from "@/apis/memberAPI";
+import { IAccountInfoRes } from "@/types/member";
 
 export default function Collection() {
   const router = useRouter();
   const params = useParams();
+  const { getStockmonDetail, postStockExchange } = useStockBook();
   const { data: stockmonData, error: stockmonError } = useSWR(
-    `/api/stockmons/${params.id}`,
-    fetcher
+    params.id,
+    getStockmonDetail
   );
+  const memberService = new memberAPI();
   const [accountModalOpen, setAccountModalOpen] = useState(false);
   const [getStockModalOpen, setGetStockModalOpen] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  if (stockmonError) return <Error />;
+  if (stockmonError) return <Error message={stockmonError.message} />;
   if (!stockmonData) {
     return <Loading />;
   }
 
   const handleExchange = async () => {
     setButtonLoading(true);
-    const profileData: ProfileType = await fetcher2(`/api/core/users/account`);
+    const profileData: IAccountInfoRes | null =
+      await memberService.getAccountStatus();
     setButtonLoading(false);
-    if (profileData.hasAccount) {
+    if (profileData?.hasAccount) {
       setGetStockModalOpen(true);
     } else {
       setAccountModalOpen(true);
     }
   };
 
-  const handleConfirmAccountModal = () => {
-    setAccountModalOpen(false);
-    setGetStockModalOpen(true);
+  const handleConfirmAccountModal = async () => {
+    try {
+      await memberService.createAccount();
+      setAccountModalOpen(false);
+      alert("계좌 개설이 완료되었습니다!");
+      setGetStockModalOpen(true);
+    } catch (err) {
+      alert("계좌 개설 중 에러가 발생하였습니다.");
+      setAccountModalOpen(false);
+    }
   };
 
   const handleCloseGetStockModal = async () => {
-    // TODO: 주식 받기 api 요청
-    setGetStockModalOpen(false);
-    // TODO: toast 띄우기
-    alert(stockmonData.stockCode + "을(를) 받았습니다!");
-    router.refresh();
+    try {
+      await postStockExchange(stockmonData.stockCode);
+      setGetStockModalOpen(false);
+      alert(stockmonData.stockCode + "을(를) 받았습니다!");
+      router.refresh();
+    } catch (err) {
+      alert("주식 받기 중 에러가 발생하였습니다.");
+      setGetStockModalOpen(false);
+    }
   };
 
   return (
@@ -91,7 +87,7 @@ export default function Collection() {
             index < stockmonData.catchCount ? (
               <img
                 key={index}
-                src={stockmonData.imageUrl}
+                src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmonData.stockmonId}.png`}
                 alt={stockmonData.stockmonName}
                 className="aspect-square object-cover bg-white rounded-lg"
               />

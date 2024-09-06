@@ -6,17 +6,18 @@ const DIRECTIONS = {
 };
 const AIM_WIDTH = 1;
 const DEFAULT_TARGET_SIZE = 30;
-type STATUS = "Miss" | "Hit";
-
+type STATUS = "Miss" | "Good" | "Perfect";
+const MAX_GAGE = 70;
 const DEFAULT_AIM_SPEED = 0.5;
-
+const START_AIM_POSITION = 2;
 const randomIntFromInterval = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
 export default function useGame() {
+  const [gage, setGage] = useState(MAX_GAGE);
   const [speed, setSpeed] = useState(DEFAULT_AIM_SPEED);
-  const [aimPosition, setAimPosition] = useState(50 - AIM_WIDTH / 2);
+  const [aimPosition, setAimPosition] = useState(START_AIM_POSITION);
   const [aimDirection, setAimDirection] = useState(DIRECTIONS.LEFT);
   const [targetPosition, setTargetPosition] = useState(0);
   const [targetSize, setTargetSize] = useState(DEFAULT_TARGET_SIZE);
@@ -40,11 +41,11 @@ export default function useGame() {
       newPosition += speed;
     }
 
-    if (aimPosition < 0) {
-      newPosition = 0;
+    if (aimPosition < 2) {
+      newPosition = 2;
       newDirection = DIRECTIONS.RIGHT;
-    } else if (aimPosition > 100) {
-      newPosition = 100;
+    } else if (aimPosition > 99) {
+      newPosition = 98;
       newDirection = DIRECTIONS.LEFT;
     }
 
@@ -56,26 +57,43 @@ export default function useGame() {
     if (disable) return;
     const insideLeft = aimPosition > targetPosition - targetSize / 2;
     const insideRight = aimPosition < targetPosition + targetSize / 2;
-    if (insideLeft && insideRight) {
-      generateTarget();
+    const insidePerfectLeft = aimPosition > targetPosition - targetSize / 6;
+    const insidePerfectRight = aimPosition < targetPosition + targetSize / 6;
+    if (insidePerfectLeft && insidePerfectRight) {
       setLevel(level + 1);
-      setStatus("Hit");
+      setStatus("Perfect");
+      setGage((prev) => {
+        return prev - 70 >= 0 ? prev - 70 : 0;
+      });
+    } else if (insideLeft && insideRight) {
+      setLevel(level + 1);
+      setStatus("Good");
+      setGage((prev) => {
+        return prev - 25 >= 0 ? prev - 25 : 0;
+      });
       setSpeed(speed * 1.3);
     } else {
-      generateTarget();
       setLevel(1);
       setTargetSize(DEFAULT_TARGET_SIZE);
       setStatus("Miss");
       setSpeed(DEFAULT_AIM_SPEED);
     }
+
     setDisable(true);
+
     setTimeout(() => {
       setStatus(null);
       setDisable(false);
+      generateTarget();
+      setAimPosition(START_AIM_POSITION);
     }, 3000);
   };
+
   useEffect(() => {
-    moveAim();
+    if (!disable) {
+      console.log("stop");
+      moveAim();
+    }
 
     setTimeout(() => {
       if (frame >= 60) {
@@ -105,5 +123,6 @@ export default function useGame() {
     aimPosition,
     AIM_WIDTH,
     disable,
+    gage,
   };
 }

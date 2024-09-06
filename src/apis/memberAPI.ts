@@ -10,8 +10,8 @@ export default class memberAPI extends BaseApi {
       return resp.data.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error(error.response?.data);
-        throw Error(error.response?.data.message);
+        console.error(error);
+        throw Error(error.message);
       } else {
         throw Error("알 수 없는 에러 발생");
       }
