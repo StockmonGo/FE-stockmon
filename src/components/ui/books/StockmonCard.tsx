@@ -42,7 +42,7 @@ export default function StockmonCard({ data }: Props) {
           <button
             className="p-2 px-3 rounded-lg text-stock-dark-500 bg-somsatang-gradient"
             onClick={() => {
-              router.push(`/books/${params.id}/collection`);
+              router.push(`/books/${params?.id}/collection`);
             }}
           >
             x{data.catchCount}

@@ -18,7 +18,7 @@ export default function Collection() {
   const params = useParams();
   const { getStockmonDetail, postStockExchange } = useStockBook();
   const { data: stockmonData, error: stockmonError } = useSWR(
-    params.id,
+    params?.id,
     getStockmonDetail
   );
   const memberService = new memberAPI();
