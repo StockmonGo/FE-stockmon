@@ -1,3 +1,4 @@
+"use client";
 import BtnClose from "@/components/ui/BtnClose";
 import { randomInt } from "crypto";
 import "@/app/world/world.css";
