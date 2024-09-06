@@ -7,12 +7,14 @@ type Props = {
   children: React.ReactNode;
   title?: string;
   useButton?: boolean;
+  routeUrl?: string;
 };
 export default function CommonLayout({
   children,
   header,
   title,
   useButton = true,
+  routeUrl,
 }: Props) {
   return (
     <div className="w-full h-full overflow-x-hidden overflow-y-scroll">
@@ -35,7 +37,7 @@ export default function CommonLayout({
         <main className="flex-1 w-full h-full overflow-scroll">{children}</main>
         {useButton && (
           <footer className="w-full flex justify-center">
-            <BtnClose />
+            <BtnClose routeUrl={routeUrl} />
           </footer>
         )}
       </div>

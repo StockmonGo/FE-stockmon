@@ -6,5 +6,5 @@ export default function layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <CommonLayout>{children}</CommonLayout>;
+  return <CommonLayout routeUrl={"/world"}>{children}</CommonLayout>;
 }
