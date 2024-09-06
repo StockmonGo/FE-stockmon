@@ -89,9 +89,9 @@ export default function StockmonStock({ data, type }: Props) {
           <div className="flex flex-col gpa-1 items-end">
             <div className="flex gap-1">
               <p
-                className={`${
-                  realTimePrice === "-" ? "text-stock-dark-500" : { priceColor }
-                }`}
+                className={
+                  realTimePrice === "-" ? "text-stock-dark-500" : priceColor
+                }
               >
                 {realTimePrice}
               </p>
@@ -100,9 +100,9 @@ export default function StockmonStock({ data, type }: Props) {
             <div className="flex gap-1 text-sm opacity-60">
               <p>(어제보다 </p>
               <p
-                className={`${
-                  realTimePrice === "-" ? "text-stock-dark-500" : { priceColor }
-                }`}
+                className={
+                  realTimePrice === "-" ? "text-stock-dark-500" : priceColor
+                }
               >
                 {realTimeDiff}
               </p>
