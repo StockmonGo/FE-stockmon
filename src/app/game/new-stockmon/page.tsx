@@ -4,6 +4,7 @@ import BtnClose from "@/components/ui/BtnClose";
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import StockmonCard from "@/components/ui/books/StockmonCard";
+import NewStockmonInfo from "@/components/game/NewStockmonInfo";
 type GAME_STATUS = "playing" | "done";
 export default function Game() {
   const searchParams = useSearchParams();
@@ -15,6 +16,7 @@ export default function Game() {
         <img src="/icons/status-new.png" alt="새로 추가" />
         {searchTerm}
         <NewStockmon />
+        <NewStockmonInfo />
       </div>
     </div>
   );
