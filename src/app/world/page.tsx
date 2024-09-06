@@ -4,6 +4,7 @@ import StockTowerModal from "@/components/ui/world/StockTowerModal";
 import TopNavBar from "@/components/ui/world/TopNavBar";
 import React, { useEffect, useRef, useState } from "react";
 import mapAPI from "@/apis/mapAPI";
+import BeforeInstallPrompt from "@/components/BeforeInstallPrompt";
 
 declare global {
   interface Window {
@@ -258,6 +259,7 @@ export default function World() {
           <BottomNavBar />
         </>
       )}
+      <BeforeInstallPrompt />
     </div>
   );
 }
