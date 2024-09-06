@@ -8,11 +8,13 @@ const texts: { [key: number]: string } = {
 };
 
 export default function Loading() {
-  const text: string =
-    texts[Math.floor(Math.random() * Object.keys(texts).map(Number).length)];
-  const imgUrl = `${process.env.NEXT_PUBLIC_S3_URL}/${
-    Math.floor(Math.random() * 58) + 1
-  }.png`; // 1이상 58이하
+  const text: string = texts[0];
+  const imgUrl = `${process.env.NEXT_PUBLIC_S3_URL}/${51}.png`; // 1이상 58이하
+  // const text: string =
+  //   texts[Math.floor(Math.random() * Object.keys(texts).map(Number).length)];
+  // const imgUrl = `${process.env.NEXT_PUBLIC_S3_URL}/${
+  //   Math.floor(Math.random() * 58) + 1
+  // }.png`; // 1이상 58이하
 
   return (
     <div className="fixed left-0 right-0 w-full h-full overflow-hidden z-0">
