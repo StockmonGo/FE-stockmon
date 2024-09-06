@@ -45,10 +45,13 @@ export interface IChartItemRes {
 export interface ICatchedStockmonRes {
   stockmonId: number;
   stockmonName: string;
-  stockType: string;
+  stockType: number;
+  stockTypeName: string;
   stockPrice: number;
   stockTotalPrice: number;
   stockMarket: string;
+  description: string;
+  stockCode: string;
 }
 
 export interface ICatchedStockmonReq {

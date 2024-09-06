@@ -24,12 +24,14 @@ export default function CommonLayout({
         <Twinkle />
       </div>
       <div className="p-6 max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
-        <header className="w-full">
-          <h2 className="text-center text-stock-dark-800 text-xl font-bold py-2">
-            {title}
-          </h2>
-          {header}
-        </header>
+        {header && (
+          <header className="w-full">
+            <h2 className="text-center text-stock-dark-800 text-xl font-bold py-2">
+              {title}
+            </h2>
+            {header}
+          </header>
+        )}
         <main className="flex-1 w-full h-full overflow-scroll">{children}</main>
         {useButton && (
           <footer className="w-full flex justify-center">

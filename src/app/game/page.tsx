@@ -25,31 +25,13 @@ export default function Game() {
   // TODO: 선택한 스톡몬 id 가져와서 노출 catchStockmon에 api붙히기
   // TODO: 잡은 스톡몬 정보 NewStockmon에 뿌려주기
 
-  const catchStockmon = async () => {
+  const catchStockmon = () => {
     console.log("info:", stockmonGame);
     setGameStatus("done");
     //TODO:stockmon정보같이 보내기
-    const res = await service.catchStockmon({
-      worldId: stockmonGame.id,
-      stockmonId: stockmonGame.stockmonId,
-      usedStockballs: usedStockball,
-    });
-    //TODO: 쿼리파람으로 보내주기
-    /**
-     * 	"data": {
-		"stockmonId": 1,
-		"stockmonName": "신한지주 몬",
-		"stockType": "금융",
-	  "stockPrice": 1300,
-	  "stockTotalPrice" : 32500500,
-	  "stockMarket": "코스피"
-	},
-     */
-    console.log("res:", res);
-    if (res)
-      router.push(
-        `/game/new-stockmon?stockmonName=${res.stockmonName}&stockmonId=${res.stockmonId}`
-      );
+    router.push(
+      `/game/new-stockmon?world=${stockmonGame.id}&id=${stockmonGame.stockmonId}&sb=${usedStockball}`
+    );
   };
 
   useEffect(() => {
