@@ -45,6 +45,7 @@ export default function Game() {
                 stockMarket={stockmonData.stockMarket}
                 stockTotalPrice={stockmonData.stockTotalPrice}
                 stockType={stockmonData.stockType}
+                stockPrice={stockmonData.stockPrice}
               />
             </>
           )}

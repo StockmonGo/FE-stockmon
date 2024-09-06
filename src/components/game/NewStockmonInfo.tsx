@@ -4,6 +4,7 @@ import StockTag from "../ui/books/StockTag";
 import "@/app/books/books.css";
 import { STOCK_ICONS } from "@/types/stocks";
 import Row from "../ui/books/Row";
+import { formatNumber } from "@/utils/nums";
 
 type Props = {
   stockTypeName: string;
@@ -11,6 +12,7 @@ type Props = {
   stockMarket: string;
   stockTotalPrice: number;
   stockType: number;
+  stockPrice: number;
 };
 
 export default function NewStockmonInfo(data: Props) {
@@ -31,14 +33,14 @@ export default function NewStockmonInfo(data: Props) {
           <p>현재 주가</p>
           <div className="flex flex-col gpa-1 items-end">
             <div className="flex gap-1">
-              <p className="text-red-600">{3400}</p>
+              <p className="text-red-600">{formatNumber(data.stockPrice)}</p>
               <p className="">\</p>
             </div>
           </div>
         </Row>
         <Row>
           <p>종족치</p>
-          <p>{data.stockTotalPrice} \</p>
+          <p>{formatNumber(data.stockTotalPrice)} \</p>
         </Row>
       </section>
     </article>
