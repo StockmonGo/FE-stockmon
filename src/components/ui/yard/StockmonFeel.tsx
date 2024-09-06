@@ -17,7 +17,7 @@ export default function StockmonFeel({ stockmon }: Props) {
         <img src="/icons/depress-feeling.svg" alt="bad" className="w-9" />
       )} */}
       <img
-        src={stockmon.imgUrl}
+        src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmon.id}.png`}
         alt={stockmon.name}
         className="w-24 h-24"
         onClick={() => router.push(`/books/${stockmon.id}`)}
