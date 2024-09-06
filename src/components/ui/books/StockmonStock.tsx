@@ -17,20 +17,40 @@ type Props = {
 export default function StockmonStock({ data, type }: Props) {
   const Icon = STOCK_ICONS[data.stockType];
   const [realTimePrice, setRealTimePrice] = useState<string>("-");
+  const [realTimeDiff, setRealTimeDiff] = useState<string>("-");
+  const [priceColor, setPriceColor] = useState<string>("");
 
   const connect = () => {
     client.activate();
     client.onConnect = function (frame: any) {
-      client.publish({ destination: `/app/${316140}`, body: "Hello world" });
-      client.subscribe(`/${316140}/greetings`, callback);
+      console.log("연결 성공");
+      client.publish({
+        destination: `/app/${data.stockCode}`,
+        body: "Hello world",
+      });
+      client.subscribe(`/${data.stockCode}/greetings`, callback);
     };
   };
 
   const callback = function (message: any) {
     if (message.body) {
-      setRealTimePrice(JSON.parse(message.body).content);
+      console.log("get message ", message.body);
+      const realPrice = JSON.parse(message.body).content;
+      const closingPrice: number = 368000;
+      const diff: number = Number(realPrice) - closingPrice;
+      setRealTimePrice(realPrice);
+
+      if (diff > 0) {
+        setPriceColor("text-red-600");
+        setRealTimeDiff("+" + diff.toString());
+      } else {
+        setPriceColor("text-blue-600");
+        setRealTimeDiff(diff.toString());
+      }
     } else {
       setRealTimePrice("-");
+      setRealTimeDiff("-");
+      setPriceColor("text-stock-dark-500");
     }
   };
 
@@ -70,7 +90,7 @@ export default function StockmonStock({ data, type }: Props) {
             <div className="flex gap-1">
               <p
                 className={`${
-                  realTimePrice === "-" ? "text-stock-dark-500" : "text-red-600"
+                  realTimePrice === "-" ? "text-stock-dark-500" : { priceColor }
                 }`}
               >
                 {realTimePrice}
@@ -79,7 +99,13 @@ export default function StockmonStock({ data, type }: Props) {
             </div>
             <div className="flex gap-1 text-sm opacity-60">
               <p>(어제보다 </p>
-              <p className="text-red-600">+{1200}</p>
+              <p
+                className={`${
+                  realTimePrice === "-" ? "text-stock-dark-500" : { priceColor }
+                }`}
+              >
+                {realTimeDiff}
+              </p>
               <p>원)</p>
             </div>
           </div>
