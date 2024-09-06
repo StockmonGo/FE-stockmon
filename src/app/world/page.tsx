@@ -50,6 +50,7 @@ export default function World() {
     maxLon: number;
     minLon: number;
   } | null>(null);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
@@ -227,6 +228,7 @@ export default function World() {
   }, []);
 
   useEffect(() => {
+    setIsClient(true);
     service
       .getStockBallNum()
       .then((res) => {
@@ -259,7 +261,7 @@ export default function World() {
           <BottomNavBar />
         </>
       )}
-      <BeforeInstallPrompt />
+      {isClient && <BeforeInstallPrompt />}
     </div>
   );
 }
