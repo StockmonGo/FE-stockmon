@@ -20,10 +20,4 @@ export default class authAPI extends BaseApi {
     });
     return response.data;
   }
-
-  //post 로그아웃
-  async signOut() {
-    const response = await this.fetcher.post("/api/core/users/signout");
-    return response.data;
-  }
 }
