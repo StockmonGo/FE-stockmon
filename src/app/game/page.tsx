@@ -49,7 +49,7 @@ export default function Game() {
       <div className="max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
         <main className="flex-1 w-full h-full">
           <div className="h-full">
-            <PeachCount />
+            <PeachCount usingStockball={usedStockball} />
             <TimingGame
               throwStockBall={throwStockBall}
               catchStockmon={catchStockmon}
