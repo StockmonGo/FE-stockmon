@@ -41,3 +41,18 @@ export interface IChartItemRes {
   time: string;
   value: number;
 }
+
+export interface ICatchedStockmonRes {
+  stockmonId: number;
+  stockmonName: string;
+  stockType: string;
+  stockPrice: number;
+  stockTotalPrice: number;
+  stockMarket: string;
+}
+
+export interface ICatchedStockmonReq {
+  worldId: number;
+  stockmonId: number;
+  usedStockballs: number;
+}

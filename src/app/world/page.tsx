@@ -4,6 +4,9 @@ import StockTowerModal from "@/components/ui/world/StockTowerModal";
 import TopNavBar from "@/components/ui/world/TopNavBar";
 import React, { useEffect, useRef, useState } from "react";
 import mapAPI from "@/apis/mapAPI";
+import { useAtom } from "jotai";
+import { stockmonGameAtom } from "@/store/store";
+import { useRouter } from "next/navigation";
 
 declare global {
   interface Window {
@@ -19,6 +22,7 @@ export default function World() {
   const [worldId, setWorldId] = useState(0);
   const [towerActive, setTowerActive] = useState(false);
   const [stockballs, setStockballs] = useState(0);
+  const router = useRouter();
   const checkStockTower = (towerId: number) => {
     service.getStockTowerInfo(towerId).then((res) => {
       console.log(res);
@@ -42,6 +46,7 @@ export default function World() {
       setTowerModalSee(true);
     });
   };
+  const [stockmonGame, setStockmonGame] = useAtom(stockmonGameAtom);
   const service = new mapAPI();
   const bufferRef = useRef<{
     maxLat: number;
@@ -50,6 +55,10 @@ export default function World() {
     minLon: number;
   } | null>(null);
 
+  const startGame = (id: number, stockmonId: number) => {
+    setStockmonGame({ id, stockmonId });
+    router.push("/game");
+  };
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
@@ -139,16 +148,22 @@ export default function World() {
 
             // 스톡몬 마커
             const stockmonPositions = res?.stockmons.map((stockmon) => ({
-              worldId: stockmon.worldId,
+              worldId: stockmon.id,
               stockmonId: stockmon.stockmonId,
-              latlng: new window.kakao.maps.LatLng(stockmon.latitude, stockmon.longitude),
+              latlng: new window.kakao.maps.LatLng(
+                stockmon.latitude,
+                stockmon.longitude
+              ),
             }));
 
             if (stockmonPositions) {
               for (let i = 0; i < stockmonPositions.length; i++) {
                 const stockmonImaegSize = new window.kakao.maps.Size(100, 100);
                 const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${stockmonPositions[i].stockmonId}.png`;
-                const stockmonImage = new window.kakao.maps.MarkerImage(stockmonImgSrc, stockmonImaegSize);
+                const stockmonImage = new window.kakao.maps.MarkerImage(
+                  stockmonImgSrc,
+                  stockmonImaegSize
+                );
                 const stockmon = new window.kakao.maps.Marker({
                   map: map,
                   position: stockmonPositions[i].latlng,
@@ -158,6 +173,16 @@ export default function World() {
                 });
 
                 window.kakao.maps.event.addListener(stockmon, "click", () => {
+                  //TODO: 게임이동
+                  startGame(
+                    stockmonPositions[i].worldId,
+                    stockmonPositions[i].stockmonId
+                  );
+                  console.log(
+                    "click stockmon",
+                    stockmonPositions[i].stockmonId,
+                    stockmonPositions[i].worldId
+                  );
                   setStockmonId(stockmonPositions[i].stockmonId);
                   setWorldId(stockmonPositions[i].worldId);
                 });
