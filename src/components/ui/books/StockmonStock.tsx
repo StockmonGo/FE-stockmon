@@ -1,5 +1,6 @@
+"use client";
 import { IStockmonDetailRes } from "@/types/stockmons";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "@/app/books/books.css";
 import StockTag from "./StockTag";
 import { STOCK_ICONS } from "@/types/stocks";
@@ -15,27 +16,28 @@ type Props = {
 
 export default function StockmonStock({ data, type }: Props) {
   const Icon = STOCK_ICONS[data.stockType];
+  const [realTimePrice, setRealTimePrice] = useState<string>("-");
 
   const connect = () => {
     client.activate();
-    client.onConnect = function (frame) {
-      console.log("연결 성공 " + frame);
+    client.onConnect = function (frame: any) {
+      client.publish({ destination: `/app/${316140}`, body: "Hello world" });
       client.subscribe(`/${316140}/greetings`, callback);
     };
   };
 
   const callback = function (message: any) {
     if (message.body) {
-      console.log("got message with body " + message.body);
+      setRealTimePrice(JSON.parse(message.body).content);
     } else {
-      console.log("got empty message");
+      setRealTimePrice("-");
     }
   };
 
   const disconnect = () => {
-    client.onDisconnect = function () {
-      alert("연결 끊김");
-    };
+    // client.onDisconnect = function () {
+    //   alert("연결 끊김");
+    // };
     client.deactivate();
   };
 
@@ -58,7 +60,7 @@ export default function StockmonStock({ data, type }: Props) {
         {type !== "summary" && (
           <Row>
             <p>포획 평균가</p>
-            <p>{data.stockmonAveragePrice} \</p>
+            <p>{data.stockmonAveragePrice} 원</p>
           </Row>
         )}
         <Row>
@@ -66,19 +68,25 @@ export default function StockmonStock({ data, type }: Props) {
           <p>현재 주가</p>
           <div className="flex flex-col gpa-1 items-end">
             <div className="flex gap-1">
-              <p className="text-red-600">{3400}</p>
-              <p className="">\</p>
+              <p
+                className={`${
+                  realTimePrice === "-" ? "text-stock-dark-500" : "text-red-600"
+                }`}
+              >
+                {realTimePrice}
+              </p>
+              <p className="">원</p>
             </div>
             <div className="flex gap-1 text-sm opacity-60">
               <p>(어제보다 </p>
               <p className="text-red-600">+{1200}</p>
-              <p>\)</p>
+              <p>원)</p>
             </div>
           </div>
         </Row>
         <Row>
           <p>종족치</p>
-          <p>{data.stockTotalPrice} \</p>
+          <p>{data.stockTotalPrice / 10000} 만원</p>
         </Row>
       </section>
     </article>
