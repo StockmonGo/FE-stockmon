@@ -38,6 +38,7 @@ export default function Collection() {
     const profileData: IAccountInfoRes | null =
       await memberService.getAccountStatus();
     setButtonLoading(false);
+    profileData!.hasAccount = false;
     if (profileData?.hasAccount) {
       setGetStockModalOpen(true);
     } else {
@@ -49,10 +50,10 @@ export default function Collection() {
     try {
       await memberService.createAccount();
       setAccountModalOpen(false);
-      alert("계좌 개설이 완료되었습니다!");
+      SuccessToast("계좌 개설이 완료되었습니다.");
       setGetStockModalOpen(true);
     } catch (err) {
-      alert("계좌 개설 중 에러가 발생하였습니다.");
+      ErrorToast("계좌 개설을 실패하였습니다.");
       setAccountModalOpen(false);
     }
   };
