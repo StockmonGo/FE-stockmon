@@ -21,7 +21,7 @@ export default function BeforeInstallPrompt() {
   // 기기 파악
   const isDeviceIOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent);
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(
-    isDeviceIOS ? isIOSPromptActive() : defaultBeforeInstallPromptEvent
+    isDeviceIOS ? isIOSPromptActive() : null
   );
 
   const handleInstallClick = () => {
