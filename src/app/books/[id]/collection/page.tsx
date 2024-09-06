@@ -38,7 +38,6 @@ export default function Collection() {
     const profileData: IAccountInfoRes | null =
       await memberService.getAccountStatus();
     setButtonLoading(false);
-    profileData!.hasAccount = false;
     if (profileData?.hasAccount) {
       setGetStockModalOpen(true);
     } else {
