@@ -5,7 +5,7 @@ import { ITraveler } from "@/types/member";
 const ALLIANCE_BASE_URL = "/api/core/alliances";
 export default class allianceAPI extends BaseApi {
   // 동맹 목록 조회 API
-  async getAlliances(): Promise<ITraveler[] | null> {
+  async getAlliances(): Promise<ITraveler[]> {
     try {
       const response = await this.fetcher.get(ALLIANCE_BASE_URL);
       return response.data.data;
