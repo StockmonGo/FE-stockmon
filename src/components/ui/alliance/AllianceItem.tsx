@@ -1,11 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import { ITraveler } from "@/types/member";
 
-export interface ITraveler {
-  nickname: string;
-  travelerId: number;
-}
 type Props = {
   traveler: ITraveler;
   travelerType: "alliance" | "others";
