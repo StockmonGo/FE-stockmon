@@ -11,6 +11,8 @@ import { IStockmonInfo } from "../message/page";
 import allianceAPI from "@/apis/allianceAPI";
 import useSWR from "swr";
 import { ITraveler } from "@/types/member";
+import useExchange from "@/hooks/useExchange";
+import useToast from "@/hooks/useToast";
 
 export interface IStockExchangeInfo {
   travelerId?: number;
@@ -30,6 +32,17 @@ export default function Alliance() {
   const [stockExchange, setStockExchange] = useState<IStockExchangeModalInfo>({
     isOpen: false,
   });
+  const { requestExchange } = useExchange();
+  const { ErrorToast } = useToast();
+  const [alliances, setAlliances] = useState<ITraveler[]>(
+    dummyAlliances.data.alliances
+  );
+  const [searchedTraveler, setSearchedTraveler] = useState<ITraveler>();
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
+  };
 
   const openExchange = (travelerId: number) => {
     //exchange에 필요한 데이터 세팅해서 모달 오픈
@@ -47,18 +60,13 @@ export default function Alliance() {
   const closeExchange = () => {
     setStockExchange({ isOpen: false });
   };
-  const [alliances, setAlliances] = useState<ITraveler[]>(
-    dummyAlliances.data.alliances
-  );
 
-  const [searchedTraveler, setSearchedTraveler] = useState<ITraveler>();
-  const [searchKeyword, setSearchKeyword] = useState<string>("");
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value);
-  };
-
-  const handleConfirmStockExchange = (stockmonId: number) => {
-    //TODO: 동맹에게 교환요청 해당 스톡몬 보내기
+  const handleConfirmStockExchange = async (stockmonId: number) => {
+    try {
+      await requestExchange(stockExchange.travelerId!, stockmonId);
+    } catch (err) {
+      ErrorToast("교환 요청을 실패하였습니다.");
+    }
   };
   return (
     <>

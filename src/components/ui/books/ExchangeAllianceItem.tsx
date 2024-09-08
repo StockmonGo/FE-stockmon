@@ -17,7 +17,7 @@ export default function ExchangeAllianceItem({
       className={`w-full flex py-2 items-center gap-2 ${
         selected && "bg-stock-lemon-300"
       } overflow-y-hidden`}
-      onClick={() => onClickAliance(alliance.id)}
+      onClick={() => onClickAliance(alliance.travelerId)}
     >
       <Avatar name={alliance.nickname} variant="beam" />
       <p>{alliance.nickname}</p>
