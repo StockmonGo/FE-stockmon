@@ -40,7 +40,7 @@ export function useAuth() {
         setAccessToken(res.data.accessToken);
         setUserLocal(auth.nickname);
         cookies.set("accessToken", res.data.accessToken);
-        document.cookie = `auth=${accessToken}`
+        document.cookie = `auth=${accessToken}; path=/;'`
         return auth.nickname;
       }
     } catch (error) {
