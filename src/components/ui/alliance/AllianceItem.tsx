@@ -25,7 +25,7 @@ export default function AllianceItem({
           <>
             <div
               onClick={() =>
-                openExchange( traveler.travelerId)
+                openExchange(traveler.travelerId)
               }
             >
               <Image
