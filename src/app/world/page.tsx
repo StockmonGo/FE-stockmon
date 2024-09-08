@@ -25,13 +25,14 @@ export default function World() {
   const [towerActive, setTowerActive] = useState(false);
   const [stockballs, setStockballs] = useState(0);
   const router = useRouter();
-  const {ErrorToast} = useToast();
+  const { ErrorToast } = useToast();
   const checkStockTower = (towerId: number) => {
-    if (!isClient) return;
-    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
+    const accessToken = JSON.parse(
+      window.localStorage.getItem("accessToken") || ""
+    );
     if (!accessToken) {
-      ErrorToast("로그인 후 이용해주세요!")
-      return
+      ErrorToast("로그인 후 이용해주세요!");
+      return;
     }
     service.getStockTowerInfo(towerId).then((res) => {
       console.log(res);
@@ -64,16 +65,17 @@ export default function World() {
     minLon: number;
   } | null>(null);
   const [isClient, setIsClient] = useState(false);
-  const clickTower = (stockBall:number) => {
-    setStockballs((prev)=>prev+stockBall)
-  }
+  const clickTower = (stockBall: number) => {
+    setStockballs((prev) => prev + stockBall);
+  };
 
   const startGame = (id: number, stockmonId: number) => {
-    if (!isClient) return;
-    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
+    const accessToken = JSON.parse(
+      window.localStorage.getItem("accessToken") || ""
+    );
     if (!accessToken) {
-      ErrorToast("로그인 후 이용해주세요")
-      return
+      ErrorToast("로그인 후 이용해주세요");
+      return;
     }
     setStockmonGame({ id, stockmonId });
     router.push("/game");
@@ -270,7 +272,9 @@ export default function World() {
   }, []);
 
   useEffect(() => {
-    const accessToken = JSON.parse(window.localStorage.getItem("accessToken")||"")
+    const accessToken = JSON.parse(
+      window.localStorage.getItem("accessToken") || ""
+    );
     setIsClient(true);
     if (accessToken) {
       service
