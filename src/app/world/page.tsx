@@ -5,8 +5,10 @@ import TopNavBar from "@/components/ui/world/TopNavBar";
 import React, { useEffect, useRef, useState } from "react";
 import mapAPI from "@/apis/mapAPI";
 import { useAtom } from "jotai";
-import { stockmonGameAtom } from "@/store/store";
+import { accessTokenAtom, stockmonGameAtom } from "@/store/store";
 import { useRouter } from "next/navigation";
+import BeforeInstallPrompt from "@/components/BeforeInstallPrompt";
+import useToast from "@/hooks/useToast";
 
 declare global {
   interface Window {
@@ -23,7 +25,13 @@ export default function World() {
   const [towerActive, setTowerActive] = useState(false);
   const [stockballs, setStockballs] = useState(0);
   const router = useRouter();
+  const accessToken = JSON.parse(window.localStorage.getItem("accessToken")||"")
+  const {ErrorToast} = useToast();
   const checkStockTower = (towerId: number) => {
+    if (!accessToken) {
+      ErrorToast("로그인 후 이용해주세요!")
+      return
+    }
     service.getStockTowerInfo(towerId).then((res) => {
       console.log(res);
       setTowerId(towerId);
@@ -54,8 +62,16 @@ export default function World() {
     maxLon: number;
     minLon: number;
   } | null>(null);
+  const [isClient, setIsClient] = useState(false);
+  const clickTower = (stockBall:number) => {
+    setStockballs((prev)=>prev+stockBall)
+  }
 
   const startGame = (id: number, stockmonId: number) => {
+    if (!accessToken) {
+      ErrorToast("로그인 후 이용해주세요")
+      return
+    }
     setStockmonGame({ id, stockmonId });
     router.push("/game");
   };
@@ -69,7 +85,6 @@ export default function World() {
         const container = document.getElementById("map");
         let map: any;
         let userMarker: any;
-        // let buffer: { maxLat: number; minLat: number; maxLon: number; minLon: number };
 
         // 지도 초기화
         const initializeMap = (latitude: number, longitude: number) => {
@@ -77,7 +92,8 @@ export default function World() {
           const options = {
             center: myLocation,
             level: 2,
-            draggable: false,
+            // TODO: 최종 때는 드래그 못하도록 막기
+            // draggable: false,
           };
 
           map = new window.kakao.maps.Map(container, options);
@@ -251,14 +267,18 @@ export default function World() {
   }, []);
 
   useEffect(() => {
-    service
-      .getStockBallNum()
-      .then((res) => {
-        if (res) {
-          setStockballs(res.stockballs);
-        }
-      })
-      .catch((err) => console.log(err));
+    const accessToken = JSON.parse(window.localStorage.getItem("accessToken")||"")
+    setIsClient(true);
+    if (accessToken) {
+      service
+        .getStockBallNum()
+        .then((res) => {
+          if (res) {
+            setStockballs(res.stockballs);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }, []);
 
   return (
@@ -271,6 +291,7 @@ export default function World() {
             towerId={towerId}
             towerActive={towerActive}
             service={service}
+            clickTower={clickTower}
           />
           <div
             className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
@@ -283,6 +304,7 @@ export default function World() {
           <BottomNavBar />
         </>
       )}
+      {isClient && <BeforeInstallPrompt />}
     </div>
   );
 }
