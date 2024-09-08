@@ -45,10 +45,15 @@ export default function BeforeInstallPrompt() {
   };
 
   useEffect(() => {
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    const isMobile = /Mobi|Android/i.test(window.navigator.userAgent);
+    if (isMobile) {
+      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    }
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      if (isMobile) {
+        window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      }
     };
   }, []);
 
