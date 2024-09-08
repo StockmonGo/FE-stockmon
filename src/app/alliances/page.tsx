@@ -39,6 +39,7 @@ export default function Alliance() {
   );
   const [searchedTraveler, setSearchedTraveler] = useState<ITraveler>();
   const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const [checkModalOpen, setCheckModalOpen] = useState(false);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(event.target.value);
@@ -62,8 +63,12 @@ export default function Alliance() {
   };
 
   const handleConfirmStockExchange = async (stockmonId: number) => {
+    setStockExchange({
+      isOpen: false,
+    });
     try {
       await requestExchange(stockExchange.travelerId!, stockmonId);
+      setCheckModalOpen(true);
     } catch (err) {
       ErrorToast("교환 요청을 실패하였습니다.");
     }
@@ -124,6 +129,12 @@ export default function Alliance() {
         open={stockExchange.isOpen}
         onClose={closeExchange}
         onConfirm={handleConfirmStockExchange}
+      />
+      <Modal
+        title="교환 요청이 완료되었습니다"
+        describe="상대방이 교환할 스톡몬을 선택하면 교환이 이루어집니다."
+        open={checkModalOpen}
+        onClose={() => setCheckModalOpen(false)}
       />
     </>
   );
