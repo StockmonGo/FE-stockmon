@@ -51,6 +51,9 @@ export default function World() {
     minLon: number;
   } | null>(null);
   const [isClient, setIsClient] = useState(false);
+  const clickTower = (stockBall:number) => {
+    setStockballs((prev)=>prev+stockBall)
+  }
 
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
@@ -249,6 +252,7 @@ export default function World() {
             towerId={towerId}
             towerActive={towerActive}
             service={service}
+            clickTower={clickTower}
           />
           <div
             className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"

@@ -8,12 +8,14 @@ type Props = {
   towerId: number;
   towerActive: boolean;
   service: mapAPI;
+  clickTower: (stockBall:number) => void
 };
 export default function StockTowerModal({
   name,
   towerId,
   towerActive,
   service,
+  clickTower
 }: Props) {
   const [stockBallNum, setStockBallNum] = useState(0);
   const [showPeach, setShowPeach] = useState(false);
@@ -33,6 +35,7 @@ export default function StockTowerModal({
           console.log(res);
           if (res) {
             setStockBallNum(res.increasedStockBall);
+            clickTower(res.increasedStockBall)
           }
         });
         setShowPeach(true);
