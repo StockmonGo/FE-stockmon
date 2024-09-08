@@ -85,7 +85,6 @@ export default function World() {
         const container = document.getElementById("map");
         let map: any;
         let userMarker: any;
-        // let buffer: { maxLat: number; minLat: number; maxLon: number; minLon: number };
 
         // 지도 초기화
         const initializeMap = (latitude: number, longitude: number) => {
@@ -93,7 +92,8 @@ export default function World() {
           const options = {
             center: myLocation,
             level: 2,
-            draggable: false,
+            // TODO: 최종 때는 드래그 못하도록 막기
+            // draggable: false,
           };
 
           map = new window.kakao.maps.Map(container, options);
