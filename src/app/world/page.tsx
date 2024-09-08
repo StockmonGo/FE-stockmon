@@ -267,7 +267,7 @@ export default function World() {
   }, []);
 
   useEffect(() => {
-    const accessToken = window.localStorage.getItem("accessToken")
+    const accessToken = JSON.parse(window.localStorage.getItem("accessToken")||"")
     setIsClient(true);
     if (accessToken) {
       service
