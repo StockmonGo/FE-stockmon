@@ -7,11 +7,17 @@ type Props = {
   selected: boolean;
 };
 
-export default function ExchangeAllianceItem({ alliance, onClickAliance, selected }: Props) {
+export default function ExchangeAllianceItem({
+  alliance,
+  onClickAliance,
+  selected,
+}: Props) {
   return (
     <div
-      className={`w-full flex py-2 items-center gap-2 ${selected && "bg-stock-lemon-300"} overflow-y-hidden`}
-      onClick={() => onClickAliance(alliance.travelerId)}
+      className={`w-full flex py-2 items-center gap-2 ${
+        selected && "bg-stock-lemon-300"
+      } overflow-y-hidden`}
+      onClick={() => onClickAliance(alliance.id)}
     >
       <Avatar name={alliance.nickname} variant="beam" />
       <p>{alliance.nickname}</p>
