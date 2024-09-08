@@ -1,4 +1,4 @@
-import { ITraveler } from "../alliance/AllianceItem";
+import { ITraveler } from "@/types/member";
 import ExchangeAllianceItem from "./ExchangeAllianceItem";
 
 type Props = {

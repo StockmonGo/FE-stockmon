@@ -16,7 +16,6 @@ export interface IStockExchangeInfo {
   travelerId?: number;
   stockmon?: IStockmonInfo;
 }
-
 interface IStockExchangeModalInfo extends IStockExchangeInfo {
   isOpen: boolean;
 }
@@ -52,15 +51,21 @@ export default function Alliance() {
     dummyAlliances.data.alliances
   );
 
-  const [searchedTraveler, setSearchedTraveler] = useState<ITraveler>(
-    dummyTraveler.data.traveler
-  );
+  const [searchedTraveler, setSearchedTraveler] = useState<ITraveler>();
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
+  };
+
   const handleConfirmStockExchange = (stockmonId: number) => {
     //TODO: 동맹에게 교환요청 해당 스톡몬 보내기
   };
   return (
     <>
-      <SearchBar placeholder={"닉네임을 입력해주세요"} />
+      <SearchBar
+        placeholder={"닉네임을 입력해주세요"}
+        onChange={handleSearchChange}
+      />
       <div
         className={`w-full bg-stock-blue-200 bg-border-custom-dotted h-4/5 rounded-lg p-3 mt-6`}
       >

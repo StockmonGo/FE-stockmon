@@ -1,5 +1,5 @@
 import Avatar from "boring-avatars";
-import { ITraveler } from "../alliance/AllianceItem";
+import { ITraveler } from "@/types/member";
 
 type Props = {
   alliance: ITraveler;
