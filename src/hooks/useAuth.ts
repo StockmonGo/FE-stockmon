@@ -40,6 +40,7 @@ export function useAuth() {
         setAccessToken(res.data.accessToken);
         setUserLocal(auth.nickname);
         cookies.set("accessToken", res.data.accessToken);
+        document.cookie = `auth=${accessToken}`
         return auth.nickname;
       }
     } catch (error) {
@@ -55,6 +56,7 @@ export function useAuth() {
     setAccessToken("");
     setUserLocal("");
     cookies.remove("accessToken");
+    document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
   }
 
   //TODO: 마운트시 로그인여부체크해서 유저정보 세팅
