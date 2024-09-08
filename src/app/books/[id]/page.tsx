@@ -12,6 +12,7 @@ import Modal from "@/components/ui/Modal";
 import { GiCardExchange } from "react-icons/gi";
 import { useStockBook } from "@/hooks/useStockBook";
 import useExchange from "@/hooks/useExchange";
+import useToast from "@/hooks/useToast";
 
 const chartData = {
   chart: [
@@ -36,6 +37,7 @@ export default function Detail() {
   const [exchangeModalOpen, setExchangeModalOpen] = useState(false);
   const [selectedAlliance, setSelectedAlliance] = useState(0);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
+  const { ErrorToast } = useToast();
 
   if (error) return <Error message={error.message} />;
   if (data === null) {
@@ -65,8 +67,12 @@ export default function Detail() {
   const onConfirm = async () => {
     setExchangeModalOpen(false);
     setSelectedAlliance(0);
-    setCheckModalOpen(true);
-    requestExchange(selectedAlliance, data.stockmonId);
+    try {
+      await requestExchange(selectedAlliance, data.stockmonId);
+      setCheckModalOpen(true);
+    } catch (err) {
+      ErrorToast("교환 요청을 실패하였습니다.");
+    }
   };
 
   return (
