@@ -1,10 +1,11 @@
+"use client";
 import { IStockmonDetailRes } from "@/types/stockmons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "@/app/books/books.css";
 import StockTag from "./StockTag";
-
 import { STOCK_ICONS } from "@/types/stocks";
 import Row from "./Row";
+import { client } from "@/sockets/baseStomp";
 
 type InfoType = "detail" | "summary";
 
@@ -15,6 +16,55 @@ type Props = {
 
 export default function StockmonStock({ data, type }: Props) {
   const Icon = STOCK_ICONS[data.stockType];
+  const [realTimePrice, setRealTimePrice] = useState<string>("-");
+  const [realTimeDiff, setRealTimeDiff] = useState<string>("-");
+  const [priceColor, setPriceColor] = useState<string>("");
+
+  const connect = () => {
+    client.activate();
+    client.onConnect = function (frame: any) {
+      console.log("연결 성공");
+      client.publish({
+        destination: `/app/${data.stockCode}`,
+        body: "Hello world",
+      });
+      client.subscribe(`/${data.stockCode}/greetings`, callback);
+    };
+  };
+
+  const callback = function (message: any) {
+    if (message.body) {
+      console.log("get message ", message.body);
+      const realPrice = JSON.parse(message.body).content;
+      const closingPrice: number = 368000;
+      const diff: number = Number(realPrice) - closingPrice;
+      setRealTimePrice(realPrice);
+
+      if (diff > 0) {
+        setPriceColor("text-red-600");
+        setRealTimeDiff("+" + diff.toString());
+      } else {
+        setPriceColor("text-blue-600");
+        setRealTimeDiff(diff.toString());
+      }
+    } else {
+      setRealTimePrice("-");
+      setRealTimeDiff("-");
+      setPriceColor("text-stock-dark-500");
+    }
+  };
+
+  const disconnect = () => {
+    // client.onDisconnect = function () {
+    //   alert("연결 끊김");
+    // };
+    client.deactivate();
+  };
+
+  useEffect(() => {
+    connect();
+    return () => disconnect();
+  }, []);
 
   return (
     <article className="w-full p-4 flex flex-col gap-3 purple-bubble">
@@ -30,7 +80,7 @@ export default function StockmonStock({ data, type }: Props) {
         {type !== "summary" && (
           <Row>
             <p>포획 평균가</p>
-            <p>{data.stockmonAveragePrice} \</p>
+            <p>{data.stockmonAveragePrice} 원</p>
           </Row>
         )}
         <Row>
@@ -38,19 +88,31 @@ export default function StockmonStock({ data, type }: Props) {
           <p>현재 주가</p>
           <div className="flex flex-col gpa-1 items-end">
             <div className="flex gap-1">
-              <p className="text-red-600">{3400}</p>
-              <p className="">\</p>
+              <p
+                className={
+                  realTimePrice === "-" ? "text-stock-dark-500" : priceColor
+                }
+              >
+                {realTimePrice}
+              </p>
+              <p className="">원</p>
             </div>
             <div className="flex gap-1 text-sm opacity-60">
               <p>(어제보다 </p>
-              <p className="text-red-600">+{1200}</p>
-              <p>\)</p>
+              <p
+                className={
+                  realTimePrice === "-" ? "text-stock-dark-500" : priceColor
+                }
+              >
+                {realTimeDiff}
+              </p>
+              <p>원)</p>
             </div>
           </div>
         </Row>
         <Row>
           <p>종족치</p>
-          <p>{data.stockTotalPrice} \</p>
+          <p>{data.stockTotalPrice / 10000} 만원</p>
         </Row>
       </section>
     </article>

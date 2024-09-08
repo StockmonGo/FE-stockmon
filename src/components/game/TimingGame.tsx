@@ -1,14 +1,20 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 const { useState, useEffect } = React;
 import "./style.scss";
 import useGame from "@/hooks/useGame";
 
 type Props = {
   catchStockmon: () => void;
+  throwStockBall: () => void;
+  imgUrl: string;
 };
 
-export default function TimingGame({ catchStockmon }: Props) {
+export default function TimingGame({
+  catchStockmon,
+  throwStockBall,
+  imgUrl,
+}: Props) {
   const {
     onTargetClick,
     status,
@@ -29,16 +35,22 @@ export default function TimingGame({ catchStockmon }: Props) {
     }, 3000);
   }, [status]);
 
+  const handleTargetClick = () => {
+    //TODO: 포켓볼 사용하여 던짐
+    throwStockBall();
+    onTargetClick();
+  };
+
   useEffect(() => {
-    window.addEventListener("keypress", onTargetClick);
+    window.addEventListener("keypress", handleTargetClick);
     return () => {
-      window.removeEventListener("keypress", onTargetClick);
+      window.removeEventListener("keypress", handleTargetClick);
     };
   }, [aimPosition]);
 
   return (
     <div
-      onClick={() => onTargetClick()}
+      onClick={handleTargetClick}
       className="flex justify-between flex-col h-full items-center p-6"
     >
       <div></div>
@@ -64,11 +76,7 @@ export default function TimingGame({ catchStockmon }: Props) {
           <div className={`fill`} style={{ height: `${gage}px` }}></div>
           <div className="h-outline"></div>
         </div>
-        <img
-          className="m-auto h-full"
-          src="/images/dummy-stockmon.png"
-          alt="스톡몬"
-        />
+        <img className="m-auto h-full" src={imgUrl} alt="스톡몬" />
       </div>
       {/* {status === "Hit" && ( */}
       {status && (

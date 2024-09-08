@@ -20,4 +20,9 @@ export default class authAPI extends BaseApi {
     });
     return response.data;
   }
+
+  async withdraw() {
+    const response = await this.fetcher.delete("/api/core/users/withdraw");
+    return response.data;
+  }
 }
