@@ -5,7 +5,7 @@ import { SuccessResponse } from "@/types/SuccessResponse";
 const EXCHANGE_BASE_URL = "/api/core/stockmons/exchange";
 export default class exchangeAPI extends BaseApi {
   // 교환 요청 목록 조회 API
-  async getExchangeRequests(): Promise<IExchangeRequest[] | null> {
+  async getExchangeRequests(): Promise<IExchangeRequest[]> {
     try {
       const response = await this.fetcher.get(EXCHANGE_BASE_URL + "/request");
       return response.data.stockmons;
