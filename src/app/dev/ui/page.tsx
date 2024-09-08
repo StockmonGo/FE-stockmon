@@ -5,6 +5,7 @@ import DevContainer from "@/components/dev/DevContainer";
 import Background from "./Background";
 import Modal from "@/components/ui/Modal";
 import Avatar from "boring-avatars";
+import useToast from "@/hooks/useToast";
 
 export default function UI() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -12,6 +13,8 @@ export default function UI() {
   const [isModalOpen3, setIsModalOpen3] = useState(false);
   const [isModalDisabled3, setIsModalDisabled3] = useState(true);
   const [isModalOpen4, setIsModalOpen4] = useState(false);
+
+  const { SuccessToast, ErrorToast } = useToast();
 
   return (
     <div>
@@ -136,6 +139,20 @@ export default function UI() {
           <p className="font-ptb">평택반도체입니다. font-ptb 로 사용하세요</p>
           <p className="font-ptr">평택반도체입니다. font-ptr 로 사용하세요</p>
         </div>
+      </DevContainer>
+      <DevContainer title="폰트">
+        <Button
+          text="성공 토스트"
+          onClick={() => {
+            SuccessToast("성공하였습니다.");
+          }}
+        />
+        <Button
+          text="실패 토스트"
+          onClick={() => {
+            ErrorToast("실패하였습니다.");
+          }}
+        />
       </DevContainer>
     </div>
   );
