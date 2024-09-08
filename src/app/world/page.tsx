@@ -231,15 +231,18 @@ export default function World() {
   }, []);
 
   useEffect(() => {
+    const accessToken = window.localStorage.getItem("accessToken")
     setIsClient(true);
-    service
-      .getStockBallNum()
-      .then((res) => {
-        if (res) {
-          setStockballs(res.stockballs);
-        }
-      })
-      .catch((err) => console.log(err));
+    if (accessToken) {
+      service
+        .getStockBallNum()
+        .then((res) => {
+          if (res) {
+            setStockballs(res.stockballs);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }, []);
 
   return (
