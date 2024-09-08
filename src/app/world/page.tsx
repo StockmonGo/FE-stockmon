@@ -25,9 +25,9 @@ export default function World() {
   const [towerActive, setTowerActive] = useState(false);
   const [stockballs, setStockballs] = useState(0);
   const router = useRouter();
-  const accessToken = JSON.parse(window.localStorage.getItem("accessToken")||"")
   const {ErrorToast} = useToast();
   const checkStockTower = (towerId: number) => {
+    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
     if (!accessToken) {
       ErrorToast("로그인 후 이용해주세요!")
       return
@@ -68,6 +68,7 @@ export default function World() {
   }
 
   const startGame = (id: number, stockmonId: number) => {
+    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
     if (!accessToken) {
       ErrorToast("로그인 후 이용해주세요")
       return
