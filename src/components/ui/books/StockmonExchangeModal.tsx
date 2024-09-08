@@ -1,7 +1,10 @@
 import { AiOutlineLoading } from "react-icons/ai";
 import ExchangeAllianceList from "./ExchangeAllianceList";
 import dummyAlliances from "@/../dummy/alliance/alliances.json";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import useSWR from "swr";
+import { ITraveler } from "@/types/member";
+import allianceAPI from "@/apis/allianceAPI";
 
 type Props = {
   open: boolean;
@@ -19,7 +22,10 @@ export default function StockmonExchangeModal({
   onClickAliance,
   selectedAlliance,
 }: Props) {
-  const alliances = dummyAlliances.data.alliances;
+  const service = useMemo(() => new allianceAPI(), []);
+  const { data, error } = useSWR<ITraveler[]>("alliance", () =>
+    service.getAlliances()
+  );
 
   return (
     open && (
@@ -33,12 +39,16 @@ export default function StockmonExchangeModal({
         >
           <header className="w-full py-3 flex flex-col gap-2 text-center text-stock-blue-950 bg-white  rounded-lg">
             <h2 className="font-ptb text-lg">스톡몬 교환</h2>
-            <p className="font-ptr text-sm">스톡몬을 받을 모험가를 선택하세요.</p>
+            <p className="font-ptr text-sm">
+              스톡몬을 받을 모험가를 선택하세요.
+            </p>
           </header>
-          {isLoading && <AiOutlineLoading className="animate-spin m-auto" color={"white"} />}
-          {!isLoading && (
+          {isLoading && (
+            <AiOutlineLoading className="animate-spin m-auto" color={"white"} />
+          )}
+          {!isLoading && data && (
             <ExchangeAllianceList
-              alliances={alliances}
+              alliances={data}
               onClickAliance={onClickAliance}
               selectedAlliance={selectedAlliance}
             />
@@ -47,7 +57,10 @@ export default function StockmonExchangeModal({
             <button onClick={onClose}>
               <img src="/icons/button-close.svg" alt="close" />
             </button>
-            <button onClick={onConfirm} disabled={selectedAlliance == 0 || isLoading}>
+            <button
+              onClick={onConfirm}
+              disabled={selectedAlliance == 0 || isLoading}
+            >
               {selectedAlliance == 0 || isLoading ? (
                 <img src="/icons/button-ok-off.svg" alt="ok-off" />
               ) : (

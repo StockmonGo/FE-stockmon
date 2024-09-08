@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import useSWR from "swr";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
@@ -8,6 +8,7 @@ import StockmonCard from "@/components/ui/books/StockmonCard";
 import StockmonStock from "@/components/ui/books/StockmonStock";
 import StockmonChart from "@/components/ui/books/StockmonChart";
 import StockmonExchangeModal from "@/components/ui/books/StockmonExchangeModal";
+import exchangeAPI from "@/apis/exchangeAPI";
 import Modal from "@/components/ui/Modal";
 import { GiCardExchange } from "react-icons/gi";
 import { useStockBook } from "@/hooks/useStockBook";
@@ -34,7 +35,7 @@ export default function Detail() {
   const [exchangeModalOpen, setExchangeModalOpen] = useState(false);
   const [selectedAlliance, setSelectedAlliance] = useState(0);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
-
+  const service = useMemo(() => new exchangeAPI(), []);
   if (error) return <Error message={error.message} />;
   if (data === null) {
     return (
@@ -63,8 +64,16 @@ export default function Detail() {
   const onConfirm = () => {
     setExchangeModalOpen(false);
     setSelectedAlliance(0);
-    setCheckModalOpen(true);
     alert("누구한테 교환 요청을 하는가 " + selectedAlliance);
+    sendStockmon();
+  };
+  const sendStockmon = async () => {
+    try{
+      await service.requestExchange(selectedAlliance, data.stockmonId);
+      setCheckModalOpen(true);
+    }catch(error){  
+      console.log("교환 요청 error",error)
+    }
   };
 
   return (
