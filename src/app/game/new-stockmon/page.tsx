@@ -13,8 +13,8 @@ import Button from "@/components/ui/Button";
 
 export default function Game() {
   const searchParams = useSearchParams();
-  const id = searchParams.get("id") as string;
-  const stockPrice = searchParams.get("pr") as string;
+  const id = searchParams!.get("id") as string;
+  const stockPrice = searchParams!.get("pr") as string;
   const [stockmonData, setStockmonData] = useState<ICatchedStockmonRes>();
   const { getStockmonDetail } = useStockBook();
   const { data, error } = useSWR(id, getStockmonDetail);

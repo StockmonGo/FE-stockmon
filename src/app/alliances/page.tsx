@@ -9,6 +9,8 @@ import { IStockmonInfo } from "../message/page";
 import allianceAPI from "@/apis/allianceAPI";
 import useSWR from "swr";
 import { ITraveler } from "@/types/member";
+import useExchange from "@/hooks/useExchange";
+import useToast from "@/hooks/useToast";
 import { IModal } from "@/types/modal";
 
 export interface IStockExchangeInfo {
@@ -27,6 +29,9 @@ export default function Alliance() {
   const [stockExchange, setStockExchange] = useState<IStockExchangeModalInfo>({
     isOpen: false,
   });
+  const { requestExchange } = useExchange();
+  const { ErrorToast } = useToast();
+  const [checkModalOpen, setCheckModalOpen] = useState(false);
   const [modal, setModal] = useState<IModal>({
     isOpen: false,
     content: "",
@@ -50,8 +55,14 @@ export default function Alliance() {
     });
   };
 
-  const handleConfirmStockExchange = (stockmonId: number) => {
-    //TODO: 동맹에게 교환요청 해당 스톡몬 보내기
+  const handleConfirmStockExchange = async (stockmonId: number) => {
+    closeExchange();
+    try {
+      await requestExchange(stockExchange.travelerId!, stockmonId);
+      setCheckModalOpen(true);
+    } catch (err) {
+      ErrorToast("교환 요청을 실패하였습니다.");
+    }
   };
 
   const closeExchange = () => {
@@ -177,6 +188,12 @@ export default function Alliance() {
         open={stockExchange.isOpen}
         onClose={closeExchange}
         onConfirm={handleConfirmStockExchange}
+      />
+      <Modal
+        title="교환 요청이 완료되었습니다"
+        describe="상대방이 교환할 스톡몬을 선택하면 교환이 이루어집니다."
+        open={checkModalOpen}
+        onClose={() => setCheckModalOpen(false)}
       />
     </>
   );

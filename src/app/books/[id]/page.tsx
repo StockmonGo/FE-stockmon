@@ -11,6 +11,8 @@ import StockmonExchangeModal from "@/components/ui/books/StockmonExchangeModal";
 import Modal from "@/components/ui/Modal";
 import { GiCardExchange } from "react-icons/gi";
 import { useStockBook } from "@/hooks/useStockBook";
+import useExchange from "@/hooks/useExchange";
+import useToast from "@/hooks/useToast";
 
 const chartData = {
   chart: [
@@ -26,6 +28,7 @@ const chartData = {
 export default function Detail() {
   const params = useParams();
   const { getStockmonDetail, getStockmonChart } = useStockBook();
+  const { requestExchange } = useExchange();
   const { data, error } = useSWR(params?.id, getStockmonDetail);
   // const { data: chartData, error: chartError } = useSWR(
   //   data?.stockCode || "",
@@ -34,6 +37,7 @@ export default function Detail() {
   const [exchangeModalOpen, setExchangeModalOpen] = useState(false);
   const [selectedAlliance, setSelectedAlliance] = useState(0);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
+  const { ErrorToast } = useToast();
 
   if (error) return <Error message={error.message} />;
   if (data === null) {
@@ -60,11 +64,15 @@ export default function Detail() {
     setExchangeModalOpen(false);
     setSelectedAlliance(0);
   };
-  const onConfirm = () => {
+  const onConfirm = async () => {
     setExchangeModalOpen(false);
     setSelectedAlliance(0);
-    setCheckModalOpen(true);
-    alert("누구한테 교환 요청을 하는가 " + selectedAlliance);
+    try {
+      await requestExchange(selectedAlliance, data.stockmonId);
+      setCheckModalOpen(true);
+    } catch (err) {
+      ErrorToast("교환 요청을 실패하였습니다.");
+    }
   };
 
   return (

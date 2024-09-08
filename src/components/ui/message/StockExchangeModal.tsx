@@ -105,12 +105,20 @@ export default function StockExchangeModal({
             )}
           </div>
           <footer className="flex justify-center gap-16">
-            <button onClick={onClose}>
+            <button
+              onClick={() => {
+                setChoiceStockmon(undefined);
+                onClose();
+              }}
+            >
               <img src="/icons/button-close.svg" alt="close" />
             </button>
             <button
               onClick={() => {
-                !isDisabled && onConfirm(choiceStockmon);
+                if (!isDisabled) {
+                  setChoiceStockmon(undefined);
+                  onConfirm(choiceStockmon);
+                }
               }}
               disabled={isDisabled}
             >
