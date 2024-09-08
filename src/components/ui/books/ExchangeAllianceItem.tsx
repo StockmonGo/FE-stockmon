@@ -1,5 +1,5 @@
 import Avatar from "boring-avatars";
-import { ITraveler } from "../alliance/AllianceItem";
+import { ITraveler } from "@/types/member";
 
 type Props = {
   alliance: ITraveler;
@@ -7,10 +7,16 @@ type Props = {
   selected: boolean;
 };
 
-export default function ExchangeAllianceItem({ alliance, onClickAliance, selected }: Props) {
+export default function ExchangeAllianceItem({
+  alliance,
+  onClickAliance,
+  selected,
+}: Props) {
   return (
     <div
-      className={`w-full flex py-2 items-center gap-2 ${selected && "bg-stock-lemon-300"} overflow-y-hidden`}
+      className={`w-full flex py-2 items-center gap-2 ${
+        selected && "bg-stock-lemon-300"
+      } overflow-y-hidden`}
       onClick={() => onClickAliance(alliance.travelerId)}
     >
       <Avatar name={alliance.nickname} variant="beam" />
