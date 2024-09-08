@@ -26,9 +26,4 @@ export default class authAPI extends BaseApi {
     const response = await this.fetcher.delete("/api/core/users/withdraw");
     return response.data;
   }
-
-  async getUser(nickname: string): Promise<ITraveler | null> {
-    const response = await this.fetcher.get(`/api/core/users?name=` + nickname);
-    return response.data.traveler;
-  }
 }

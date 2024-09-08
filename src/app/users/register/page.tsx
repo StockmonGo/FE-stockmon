@@ -2,6 +2,7 @@
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/hooks/useAuth";
+import { IModal } from "@/types/modal";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,12 +17,6 @@ const inputCSS =
   "border rounded-lg px-3 py-2 w-full border-stock-dark-200 my-1";
 const errorCSS = "text-stock-red h-4";
 
-interface IModal {
-  isOpen: boolean;
-  content: string;
-  title?: string;
-  onClick: () => void;
-}
 export default function Register() {
   const {
     register,

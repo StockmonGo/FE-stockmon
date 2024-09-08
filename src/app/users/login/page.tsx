@@ -2,6 +2,7 @@
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/hooks/useAuth";
+import { IModal } from "@/types/modal";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -10,13 +11,6 @@ type FormData = {
   nickname: string;
   password: string;
 };
-interface IModal {
-  isOpen: boolean;
-  content: string;
-  title?: string;
-  onClick: () => void;
-}
-
 export default function Login() {
   const {
     register,

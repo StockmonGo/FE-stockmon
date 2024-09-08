@@ -28,7 +28,7 @@ export default class allianceAPI extends BaseApi {
   async requestAlliance(travelerId: number): Promise<SuccessResponse<null>> {
     try {
       const response = await this.fetcher.post(ALLIANCE_BASE_URL + "/request", {
-        travelerId,
+        targetTravelerId: travelerId,
       });
       return new SuccessResponse(response.status, "요청 성공", null);
     } catch (error) {
@@ -58,5 +58,9 @@ export default class allianceAPI extends BaseApi {
     } catch (error) {
       handleApiError(error);
     }
+  }
+  async getUser(nickname: string): Promise<ITraveler | null> {
+    const response = await this.fetcher.get(`/api/core/users?name=` + nickname);
+    return response.data.data;
   }
 }
