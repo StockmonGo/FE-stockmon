@@ -32,12 +32,20 @@ export class BaseApi {
 // 공통 에러 처리
 export function handleApiError(error: any): never {
   if (axios.isAxiosError(error)) {
-    if (error.response?.data.status === HttpStatusCode.BadRequest) {
-      throw new Error("로그인이 만료되었습니다.");
+    if (error.response?.status === HttpStatusCode.BadRequest) {
+      // throw new Error("로그인이 만료되었습니다.");
+      throw new Error(error.response?.data.message);
+    }
+
+    if (
+      error.response?.status &&
+      error.response?.status < HttpStatusCode.InternalServerError
+    ) {
+      throw new Error("잘못된 요청입니다.");
     }
 
     console.error("Axios 에러:", error.response?.data.message || error.message);
-    throw new Error("Axios 에러가 발생하였습니다.");
+    throw new Error("서버 오류가 발생하였습니다.");
   } else {
     console.error("알 수 없는 에러:", error);
     throw new Error("알 수 없는 에러가 발생하였습니다.");

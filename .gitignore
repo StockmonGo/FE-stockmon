@@ -40,4 +40,7 @@ next-env.d.ts
 public/sw.js
 public/workbox-*.js
 
+# package
+package-lock.json
+
 .env
