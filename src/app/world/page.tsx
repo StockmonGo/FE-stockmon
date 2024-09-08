@@ -25,7 +25,7 @@ export default function World() {
   const [towerActive, setTowerActive] = useState(false);
   const [stockballs, setStockballs] = useState(0);
   const router = useRouter();
-  const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
+  const accessToken = JSON.parse(window.localStorage.getItem("accessToken")||"")
   const {ErrorToast} = useToast();
   const checkStockTower = (towerId: number) => {
     if (!accessToken) {
