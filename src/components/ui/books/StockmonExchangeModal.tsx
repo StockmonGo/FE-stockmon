@@ -1,11 +1,9 @@
 "use client";
 import { AiOutlineLoading } from "react-icons/ai";
 import ExchangeAllianceList from "./ExchangeAllianceList";
-import { useMemo, useState, useEffect } from "react";
-import useSWR from "swr";
-import { ITraveler } from "@/types/member";
-import allianceAPI from "@/apis/allianceAPI";
+import { useState, useEffect } from "react";
 import useAlliance from "@/hooks/useAlliance";
+import { ITraveler } from "@/types/member";
 import Modal from "../Modal";
 import { useRouter } from "next/navigation";
 import useToast from "@/hooks/useToast";
@@ -31,6 +29,7 @@ export default function StockmonExchangeModal({
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
   const [allianceModalOpen, setAllianceModalOpen] = useState(false);
   const [listModalOpen, setListModalOpen] = useState(false);
+  const { getAlliances } = useAlliance();
   const { ErrorToast } = useToast();
 
   useEffect(() => {
@@ -111,7 +110,7 @@ export default function StockmonExchangeModal({
                 <ExchangeAllianceList
                   alliances={alliances}
                   onClickAliance={onClickAliance}
-                  selectedAlliance={0}
+                  selectedAlliance={selectedAlliance}
                 />
               )}
               <footer className="flex justify-center gap-16">
@@ -135,7 +134,4 @@ export default function StockmonExchangeModal({
       </>
     )
   );
-}
-function getAlliances() {
-  throw new Error("Function not implemented.");
 }
