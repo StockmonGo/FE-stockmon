@@ -59,18 +59,15 @@ export default function useGame() {
     const insideRight = aimPosition < targetPosition + targetSize / 2;
     const insidePerfectLeft = aimPosition > targetPosition - targetSize / 6;
     const insidePerfectRight = aimPosition < targetPosition + targetSize / 6;
+    let curGage = gage;
     if (insidePerfectLeft && insidePerfectRight) {
       setLevel(level + 1);
       setStatus("Perfect");
-      setGage((prev) => {
-        return prev - 70 >= 0 ? prev - 70 : 0;
-      });
+      curGage = gage - 70 >= 0 ? gage - 70 : 0;
     } else if (insideLeft && insideRight) {
       setLevel(level + 1);
       setStatus("Good");
-      setGage((prev) => {
-        return prev - 25 >= 0 ? prev - 25 : 0;
-      });
+      curGage = gage - 25 >= 0 ? gage - 25 : 0;
       setSpeed(speed * 1.3);
     } else {
       setLevel(1);
@@ -80,18 +77,19 @@ export default function useGame() {
     }
 
     setDisable(true);
-
+    setGage(curGage);
     setTimeout(() => {
-      setStatus(null);
-      setDisable(false);
-      generateTarget();
-      setAimPosition(START_AIM_POSITION);
+      if (curGage > 0) {
+        setStatus(null);
+        setDisable(false);
+        generateTarget();
+        setAimPosition(START_AIM_POSITION);
+      }
     }, 3000);
   };
 
   useEffect(() => {
     if (!disable) {
-      console.log("stop");
       moveAim();
     }
 
