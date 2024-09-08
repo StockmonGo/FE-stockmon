@@ -1,13 +1,16 @@
 "use client";
 
-import AllianceItem, { ITraveler } from "@/components/ui/alliance/AllianceItem";
+import AllianceItem from "@/components/ui/alliance/AllianceItem";
 import Modal from "@/components/ui/Modal";
 import SearchBar from "@/components/ui/SearchBar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import dummyAlliances from "@/../dummy/alliance/alliances.json";
 import dummyTraveler from "@/../dummy/alliance/searchTraveler.json";
 import StockExchangeModal from "@/components/ui/message/StockExchangeModal";
 import { IStockmonInfo } from "../message/page";
+import allianceAPI from "@/apis/allianceAPI";
+import useSWR from "swr";
+import { ITraveler } from "@/types/member";
 
 export interface IStockExchangeInfo {
   travelerId?: number;
@@ -19,6 +22,10 @@ interface IStockExchangeModalInfo extends IStockExchangeInfo {
 }
 
 export default function Alliance() {
+  const service = useMemo(() => new allianceAPI(), []);
+  const { data, error } = useSWR<ITraveler[]>("alliance", () =>
+    service.getAlliances()
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   //TODO: 커스텀훅으로 뺼까?
   const [stockExchange, setStockExchange] = useState<IStockExchangeModalInfo>({
@@ -58,8 +65,8 @@ export default function Alliance() {
         className={`w-full bg-stock-blue-200 bg-border-custom-dotted h-4/5 rounded-lg p-3 mt-6`}
       >
         <div className="w-full bg-stock-lemon-50 h-full rounded-lg p-2 overflow-scroll">
-          {alliances &&
-            alliances.map((data, idx) => {
+          {data &&
+            data.map((data, idx) => {
               return (
                 <AllianceItem
                   key={data.travelerId}
@@ -84,9 +91,13 @@ export default function Alliance() {
             </div>
           )}
           {searchedTraveler && (
-            <AllianceItem traveler={searchedTraveler} travelerType={"others"} addAlliance={addAlliance}
-            deleteAlliance={deleteAlliance}
-            openExchange={openExchange}/>
+            <AllianceItem
+              traveler={searchedTraveler}
+              travelerType={"others"}
+              addAlliance={addAlliance}
+              deleteAlliance={deleteAlliance}
+              openExchange={openExchange}
+            />
           )}
         </div>
       </div>

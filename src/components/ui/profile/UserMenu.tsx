@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 type Props = {
   accountNumber?: string;
 };
-
 export default function UserMenu({ accountNumber }: Props) {
   const [accountModalSee, setAccountModalSee] = useState(false);
   const [infoModalSee, setInfoModalSee] = useState(false);
+  const [withdrawModalSee, setWithdrawModalSee] = useState(false);
   const service = new memberAPI();
   const router = useRouter();
-  const { signOut } = useAuth();
+  const { signOut, withdraw } = useAuth();
   const connectAccount = () => {
     service.getAccountStatus().then((res) => {
       console.log(res);
@@ -31,12 +31,25 @@ export default function UserMenu({ accountNumber }: Props) {
   const onInfoClose = () => {
     setInfoModalSee(false);
   };
+  const onWithdrawClose = () => {
+    setWithdrawModalSee(false);
+  };
   const createAccount = () => {
     service.createAccount().then((res) => {
       console.log(res);
     });
   };
-  // TODO 각자의 함수 생성하기
+  const accountWithdraw = () => {
+    withdraw().then((res) => {
+      console.log(res);
+      if (res.result === "success") {
+        router.replace("/users/register");
+      } else {
+        //TODO: 에러. 탈퇴실패!
+      }
+    });
+  };
+
   const menuItems = [
     {
       text: "계좌 연결하기",
@@ -55,7 +68,9 @@ export default function UserMenu({ accountNumber }: Props) {
     },
     {
       text: "회원탈퇴",
-      onClick: () => {},
+      onClick: () => {
+        setWithdrawModalSee(true);
+      },
     },
   ];
 
@@ -84,6 +99,14 @@ export default function UserMenu({ accountNumber }: Props) {
         open={infoModalSee}
         title="연동된 계좌"
         describe={accountNumber}
+      />
+      <Modal
+        onClose={onWithdrawClose}
+        open={withdrawModalSee}
+        title="회원 탈퇴"
+        describe="정말로 탈퇴하시겠습니까?"
+        onConfirm={accountWithdraw}
+        hasClose={true}
       />
     </div>
   );

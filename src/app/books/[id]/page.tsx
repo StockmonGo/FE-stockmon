@@ -26,7 +26,7 @@ const chartData = {
 export default function Detail() {
   const params = useParams();
   const { getStockmonDetail, getStockmonChart } = useStockBook();
-  const { data, error } = useSWR(params.id, getStockmonDetail);
+  const { data, error } = useSWR(params?.id, getStockmonDetail);
   // const { data: chartData, error: chartError } = useSWR(
   //   data?.stockCode || "",
   //   getStockmonChart

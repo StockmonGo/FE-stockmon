@@ -50,6 +50,22 @@ export function useAuth() {
       }
     }
   }
+  // POST 탈퇴
+  async function withdraw() {
+    try {
+      const res = await service.withdraw();
+      if (res) {
+        setAccessToken("");
+        setUserLocal("");
+        return res;
+      }
+    } catch (error) {
+      //TODO: 에러 메세지 전달
+      if (axios.isAxiosError(error)) {
+        throw Error(error.response?.data.message);
+      }
+    }
+  }
 
   //logout 유저정보 clear
   async function signOut() {
@@ -69,5 +85,6 @@ export function useAuth() {
     signIn,
     signUp,
     signOut,
+    withdraw,
   };
 }

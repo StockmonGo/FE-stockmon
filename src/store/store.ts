@@ -10,3 +10,5 @@ export const buffetAtom = atom({ maxLat: 0, minLat: 0, maxLon: 0, minLon: 0 });
 // Set the string key and the initial value
 export const userLocalAtom = atomWithStorage("user", "");
 export const accessTokenAtom = atomWithStorage("accessToken", "");
+
+export const stockmonGameAtom = atom({ id: -1, stockmonId: -1 });

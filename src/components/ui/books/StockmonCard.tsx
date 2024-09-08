@@ -29,10 +29,10 @@ export default function StockmonCard({ data }: Props) {
   }, [animate]);
   return (
     <article className="w-full p-5 font-ptb text-lg bg-border-custom-dotted bg-stock-blue-200">
-      <figure className="aspect-square flex flex-col justify-between gap- p-5 bg-[url('/images/bgStamp.svg')] bg-no-repeat bg-cover">
+      <figure className="w-full aspect-square flex flex-col justify-between gap- p-5 bg-[url('/images/bgStamp.svg')] bg-no-repeat bg-cover">
         <p className="text-stock-dark-300">No.{data.stockCode}</p>
         <img
-          className={`w-2/3 mx-auto ${animate ? "gelatine" : ""}`}
+          className={`w-40 aspect-square mx-auto ${animate ? "gelatine" : ""}`}
           src={`${process.env.NEXT_PUBLIC_S3_URL}/${data.stockmonId}.png`}
           alt={data.stockmonName}
           onClick={handleImgClick}
@@ -42,7 +42,7 @@ export default function StockmonCard({ data }: Props) {
           <button
             className="p-2 px-3 rounded-lg text-stock-dark-500 bg-somsatang-gradient"
             onClick={() => {
-              router.push(`/books/${params.id}/collection`);
+              router.push(`/books/${params?.id}/collection`);
             }}
           >
             x{data.catchCount}
