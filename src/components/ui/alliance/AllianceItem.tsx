@@ -6,15 +6,13 @@ import { ITraveler } from "@/types/member";
 type Props = {
   traveler: ITraveler;
   travelerType: "alliance" | "others";
-  addAlliance: (travelerId: number) => void;
-  deleteAlliance: (travelerId: number) => void;
+  addAlliance: (nickname: string, travelerId: number) => void;
   openExchange: (travelerId: number) => void;
 };
 export default function AllianceItem({
   traveler,
   travelerType,
   addAlliance,
-  deleteAlliance,
   openExchange,
 }: Props) {
   return (
@@ -25,7 +23,11 @@ export default function AllianceItem({
       <div className="btn-box flex flex-row gap-3">
         {travelerType === "alliance" && (
           <>
-            <div onClick={() => openExchange(traveler.travelerId)}>
+            <div
+              onClick={() =>
+                openExchange(traveler.travelerId)
+              }
+            >
               <Image
                 src={"/icons/exchange-alliance.svg"}
                 alt={"교환"}
@@ -33,18 +35,20 @@ export default function AllianceItem({
                 height={36}
               />
             </div>
-            <div onClick={() => deleteAlliance(traveler.travelerId)}>
+            {/* <div onClick={() => deleteAlliance(traveler.nickname,traveler.travelerId)}>
               <Image
                 src={"/icons/delete-alliance.svg"}
                 alt={"동맹 끊기"}
                 width={36}
                 height={36}
               />
-            </div>
+            </div> */}
           </>
         )}
         {travelerType === "others" && (
-          <div onClick={() => addAlliance(traveler.travelerId)}>
+          <div
+            onClick={() => addAlliance(traveler.nickname, traveler.travelerId)}
+          >
             <Image
               src={"/icons/add-alliance.svg"}
               alt={"동맹 신청"}
