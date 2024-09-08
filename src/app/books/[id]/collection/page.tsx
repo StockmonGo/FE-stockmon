@@ -1,6 +1,6 @@
 "use client";
-import { redirect, useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import React, { useState } from "react";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import useSWR from "swr";
@@ -12,6 +12,7 @@ import NewPoint from "@/components/ui/NewPoint";
 import { useStockBook } from "@/hooks/useStockBook";
 import memberAPI from "@/apis/memberAPI";
 import { IAccountInfoRes } from "@/types/member";
+import useToast from "@/hooks/useToast";
 
 export default function Collection() {
   const router = useRouter();
@@ -25,6 +26,7 @@ export default function Collection() {
   const [accountModalOpen, setAccountModalOpen] = useState(false);
   const [getStockModalOpen, setGetStockModalOpen] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
+  const { ErrorToast, SuccessToast } = useToast();
 
   if (stockmonError) return <Error message={stockmonError.message} />;
   if (!stockmonData) {
@@ -47,10 +49,10 @@ export default function Collection() {
     try {
       await memberService.createAccount();
       setAccountModalOpen(false);
-      alert("계좌 개설이 완료되었습니다!");
+      SuccessToast("계좌 개설이 완료되었습니다.");
       setGetStockModalOpen(true);
     } catch (err) {
-      alert("계좌 개설 중 에러가 발생하였습니다.");
+      ErrorToast("계좌 개설을 실패하였습니다.");
       setAccountModalOpen(false);
     }
   };
@@ -59,10 +61,10 @@ export default function Collection() {
     try {
       await postStockExchange(stockmonData.stockCode);
       setGetStockModalOpen(false);
-      alert(stockmonData.stockCode + "을(를) 받았습니다!");
+      SuccessToast(`${stockmonData.stockCode} 을(를) 받았습니다!`);
       router.refresh();
     } catch (err) {
-      alert("주식 받기 중 에러가 발생하였습니다.");
+      ErrorToast();
       setGetStockModalOpen(false);
     }
   };
@@ -117,7 +119,7 @@ export default function Collection() {
         <RealStockExchangeModal
           open={getStockModalOpen}
           onClose={handleCloseGetStockModal}
-          image={stockmonData.imageUrl}
+          image={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmonData.stockmonId}.png`}
           stockmonName={stockmonData.stockmonName}
         />
       </footer>

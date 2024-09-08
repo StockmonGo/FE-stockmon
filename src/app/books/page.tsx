@@ -20,7 +20,17 @@ export default function Books() {
   let stockmonList: React.ReactNode = <StockmonList isLoading />;
 
   if (error) {
-    return <Error message={error.message} />;
+    return (
+      <div className="w-full h-full overflow-x-hidden overflow-y-scroll">
+        <div className="fixed w-full h-full overflow-hidden z-0">
+          <div
+            className="bg-cover bg-center w-full h-full fixed z-[-1]"
+            style={{ backgroundImage: "url('/images/bg.jpg')" }}
+          ></div>
+          <Error message={error.message} />
+        </div>
+      </div>
+    );
   }
   if (data && data.stockmons) {
     countHeader = <CountHeader count={data.stockmons.length} />;
