@@ -5,9 +5,10 @@ import TopNavBar from "@/components/ui/world/TopNavBar";
 import React, { useEffect, useRef, useState } from "react";
 import mapAPI from "@/apis/mapAPI";
 import { useAtom } from "jotai";
-import { stockmonGameAtom } from "@/store/store";
+import { accessTokenAtom, stockmonGameAtom } from "@/store/store";
 import { useRouter } from "next/navigation";
 import BeforeInstallPrompt from "@/components/BeforeInstallPrompt";
+import useToast from "@/hooks/useToast";
 
 declare global {
   interface Window {
@@ -24,7 +25,13 @@ export default function World() {
   const [towerActive, setTowerActive] = useState(false);
   const [stockballs, setStockballs] = useState(0);
   const router = useRouter();
+  const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
+  const {ErrorToast} = useToast();
   const checkStockTower = (towerId: number) => {
+    if (!accessToken) {
+      ErrorToast("로그인 후 이용해주세요!")
+      return
+    }
     service.getStockTowerInfo(towerId).then((res) => {
       console.log(res);
       setTowerId(towerId);
@@ -61,6 +68,10 @@ export default function World() {
   }
 
   const startGame = (id: number, stockmonId: number) => {
+    if (!accessToken) {
+      ErrorToast("로그인 후 이용해주세요")
+      return
+    }
     setStockmonGame({ id, stockmonId });
     router.push("/game");
   };
