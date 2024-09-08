@@ -18,9 +18,9 @@ export default function ExchangeAllianceList({
         {alliances.map((alliance) => (
           <ExchangeAllianceItem
             alliance={alliance}
-            key={alliance.id}
+            key={alliance.travelerId}
             onClickAliance={onClickAliance}
-            selected={selectedAlliance == alliance.id}
+            selected={selectedAlliance == alliance.travelerId}
           />
         ))}
       </div>
