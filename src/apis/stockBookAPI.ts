@@ -1,5 +1,5 @@
 import {
-  IChartRes,
+  IChartItemRes,
   IStockmonDetailRes,
   IStockmonsRes,
 } from "@/types/stockmons";
@@ -31,9 +31,9 @@ export default class stockBookAPI extends BaseApi {
   }
 
   // 각 스톡몬 차트 조회 API
-  async getStockmonChart(id: string): Promise<IChartRes | null> {
+  async getStockmonChart(id: string): Promise<IChartItemRes[] | null> {
     try {
-      const response = await this.fetcher.get(`/api/core/stockmons/${id}`);
+      const response = await this.fetcher.get(`/api/stock/chart/${id}`);
 
       return response.data.data;
     } catch (error) {
