@@ -241,6 +241,11 @@ export default function World() {
             getMapInfo(latitude, longitude);
             setMapLoading(false);
 
+            // 1분 간격으로 정보를 가져오기
+            const intervalId = setInterval(() => {
+              getMapInfo(latitude, longitude);
+            }, 60 * 1000);
+
             // 그 후 watchPosition
             navigator.geolocation.watchPosition(
               (position) => {
@@ -266,6 +271,7 @@ export default function World() {
               (err) => console.log(err),
               { enableHighAccuracy: true }
             );
+            return () => clearInterval(intervalId);
           });
         } else {
           console.log("Geolocation API를 지원하지 않습니다.");
