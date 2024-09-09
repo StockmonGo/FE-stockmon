@@ -61,7 +61,7 @@ export default function Collection() {
     try {
       await postStockExchange(stockmonData.stockCode);
       setGetStockModalOpen(false);
-      SuccessToast(`${stockmonData.stockCode} 을(를) 받았습니다!`);
+      SuccessToast(`${stockmonData.stockName} 을(를) 받았습니다!`);
       router.refresh();
     } catch (err) {
       ErrorToast();
