@@ -3,6 +3,8 @@ import React, { useCallback } from "react";
 const { useState, useEffect } = React;
 import "./style.scss";
 import useGame from "@/hooks/useGame";
+import "animate.css";
+import "@/app/animations.css";
 
 type Props = {
   catchStockmon: () => void;
@@ -76,7 +78,12 @@ export default function TimingGame({
           <div className={`fill`} style={{ height: `${gage}px` }}></div>
           <div className="h-outline"></div>
         </div>
-        <img className="m-auto h-full" src={imgUrl} alt="스톡몬" />
+        <img
+          className="catch-stokcmon-bounce  h-full"
+          src={imgUrl}
+          alt="스톡몬"
+        />
+        <div className="stockmon-shadow w-24 h-10 m-auto bg-stock-dark-600 bg-opacity-20"></div>
       </div>
       {/* {status === "Hit" && ( */}
       {status && (

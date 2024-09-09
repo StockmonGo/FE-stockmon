@@ -44,6 +44,36 @@
   }
 }
 
+@keyframes catch-stokcmon-bounce {
+  0%,
+  100% {
+    transform: translateY(0); /* 원래 위치 */
+  }
+  50% {
+    transform: translateY(-20px); /* 위로 20px 이동 */
+  }
+}
+
+.catch-stokcmon-bounce {
+  animation: catch-stokcmon-bounce 2s infinite; /* 1초마다 반복 */
+}
+
+/* 스톡몬 그림자 */
+@keyframes catch-stockmon-pulse {
+  0%,
+  100% {
+    transform: scale(1); /* 원래 크기 */
+  }
+  50% {
+    transform: scale(0.8); /* 절반 크기로 작아짐 */
+  }
+}
+
+.stockmon-shadow {
+  border-radius: 100px/ 60px;
+  animation: catch-stockmon-pulse 2s infinite ease-in-out; /* 2초 동안 애니메이션 반복 */
+}
+
 /*코인*/
 i {
   /*   positioning */
