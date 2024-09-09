@@ -8,7 +8,7 @@ const AIM_WIDTH = 1;
 const DEFAULT_TARGET_SIZE = 30;
 type STATUS = "Miss" | "Good" | "Perfect";
 const MAX_GAGE = 70;
-const DEFAULT_AIM_SPEED = 0.5;
+const DEFAULT_AIM_SPEED = 1;
 const START_AIM_POSITION = 2;
 const randomIntFromInterval = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
