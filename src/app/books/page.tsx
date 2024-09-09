@@ -45,6 +45,7 @@ export default function Books() {
 
   return (
     <CommonLayout
+      routeUrl="/world"
       title={"도감"}
       header={
         <div className="flex flex-col gap-2">
