@@ -15,7 +15,7 @@ export default class allianceAPI extends BaseApi {
   }
 
   // 동맹 요청 목록 조회 API
-  async getAllianceRequests(): Promise<IAllianceRequest[] | null> {
+  async getAllianceRequests(): Promise<IAllianceRequest[]> {
     try {
       const response = await this.fetcher.get(ALLIANCE_BASE_URL + "/request");
       return response.data.data;

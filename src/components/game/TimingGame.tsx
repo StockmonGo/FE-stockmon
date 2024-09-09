@@ -3,6 +3,10 @@ import React, { useCallback } from "react";
 const { useState, useEffect } = React;
 import "./style.scss";
 import useGame from "@/hooks/useGame";
+import "animate.css";
+import "@/app/animations.css";
+import Confetti from "./Confetti";
+import useVibrate from "@/hooks/useVibrate";
 
 type Props = {
   catchStockmon: () => void;
@@ -26,17 +30,23 @@ export default function TimingGame({
     gage,
   } = useGame();
   const [animNum, setAnimNum] = useState<Number>();
+  const [confettiAnimation, setConfettiAnimation] = useState(false);
+  const { vibrate } = useVibrate();
 
   useEffect(() => {
     setAnimNum(Math.floor(Math.random() * 10));
 
     setTimeout(() => {
-      if (gage <= 0) catchStockmon();
+      if (gage <= 0) {
+        setConfettiAnimation(true);
+        catchStockmon();
+      }
     }, 3000);
   }, [status]);
 
   const handleTargetClick = () => {
     //TODO: 포켓볼 사용하여 던짐
+    vibrate([200]);
     throwStockBall();
     onTargetClick();
   };
@@ -76,9 +86,17 @@ export default function TimingGame({
           <div className={`fill`} style={{ height: `${gage}px` }}></div>
           <div className="h-outline"></div>
         </div>
-        <img className="m-auto h-full" src={imgUrl} alt="스톡몬" />
+        <img
+          className="catch-stokcmon-bounce  h-full"
+          src={imgUrl}
+          alt="스톡몬"
+        />
+        <div className="stockmon-shadow w-24 h-10 m-auto bg-stock-dark-600 bg-opacity-20"></div>
       </div>
       {/* {status === "Hit" && ( */}
+      {/* Confetti 애니메이션 */}
+      {/* {status === "Perfect" && <Confetti />} */}
+      {confettiAnimation && <Confetti />}
       {status && (
         <div
           className={` ${

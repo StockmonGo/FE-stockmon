@@ -11,6 +11,19 @@ export default function useExchange() {
     },
     [service]
   );
-
-  return { requestExchange };
+  const acceptExchange = useCallback(
+    async (noticeId: number, travelerStockmonId: number) => {
+      const res = await service.acceptExchange(noticeId, travelerStockmonId);
+      return res;
+    },
+    [service]
+  );
+  const rejectExchange = useCallback(
+    async (noticeId: number) => {
+      const res = await service.rejectExchange(noticeId);
+      return res;
+    },
+    [service]
+  );
+  return { requestExchange,acceptExchange,rejectExchange};
 }

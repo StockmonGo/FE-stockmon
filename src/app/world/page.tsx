@@ -9,6 +9,7 @@ import { accessTokenAtom, stockmonGameAtom } from "@/store/store";
 import { useRouter } from "next/navigation";
 import BeforeInstallPrompt from "@/components/BeforeInstallPrompt";
 import Modal from "@/components/ui/Modal";
+import LoadingMap from "@/components/ui/world/LoadingMap";
 
 declare global {
   interface Window {
@@ -27,8 +28,12 @@ export default function World() {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [mapLoading, setMapLoading] = useState(true);
+
   const checkStockTower = (towerId: number) => {
-    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
+    const accessToken = JSON.parse(
+      window.localStorage.getItem("accessToken") || ""
+    );
     const auth = document.cookie;
 
     if (!accessToken || !auth) {
@@ -71,7 +76,9 @@ export default function World() {
   };
 
   const startGame = (id: number, stockmonId: number) => {
-    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
+    const accessToken = JSON.parse(
+      window.localStorage.getItem("accessToken") || ""
+    );
     const auth = document.cookie;
     if (!accessToken || !auth) {
       setShowLoginModal(true);
@@ -232,6 +239,7 @@ export default function World() {
             initializeMap(latitude, longitude);
             calcBuffer(latitude, longitude);
             getMapInfo(latitude, longitude);
+            setMapLoading(false);
 
             // 그 후 watchPosition
             navigator.geolocation.watchPosition(
@@ -273,7 +281,9 @@ export default function World() {
   }, []);
 
   useEffect(() => {
-    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
+    const accessToken = JSON.parse(
+      window.localStorage.getItem("accessToken") || ""
+    );
     const auth = document.cookie;
 
     setIsClient(true);
@@ -291,6 +301,7 @@ export default function World() {
 
   return (
     <div className="static grid justify-items-center">
+      {mapLoading && <LoadingMap />}
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
       {towerModalSee ? (
         <>
