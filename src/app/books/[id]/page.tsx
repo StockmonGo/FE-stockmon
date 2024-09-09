@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import useSWR from "swr";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
@@ -8,6 +8,7 @@ import StockmonCard from "@/components/ui/books/StockmonCard";
 import StockmonStock from "@/components/ui/books/StockmonStock";
 import StockmonChart from "@/components/ui/books/StockmonChart";
 import StockmonExchangeModal from "@/components/ui/books/StockmonExchangeModal";
+import exchangeAPI from "@/apis/exchangeAPI";
 import Modal from "@/components/ui/Modal";
 import { GiCardExchange } from "react-icons/gi";
 import { useStockBook } from "@/hooks/useStockBook";

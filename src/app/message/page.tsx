@@ -1,77 +1,243 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MessageItem from "../../components/ui/message/MessageItem";
-import dummyNotice from "../../../dummy/notice/notices.json";
 import { TbMessageDots } from "react-icons/tb";
 import StockExchangeModal from "@/components/ui/message/StockExchangeModal";
-export interface INotice {
-  noticeId: number;
-  type: number; // 1:동맹 2:교환
-  optionType: number; //1. 수락/거절 있는경우. 동맹 교환 모두 이경우
-  travelerId: number;
-  stockmonId?: number;
-  stockmonName?: string;
-  nickname: string;
-  imageUrl?: string;
-  timestamp: string;
-}
+import allianceAPI from "@/apis/allianceAPI";
+import useSWR, { mutate } from "swr";
+import exchangeAPI from "@/apis/exchangeAPI";
+import { IAllianceRequest } from "@/types/alliances";
+import { IExchangeRequest } from "@/types/exchanges";
+import Loading from "@/components/ui/Loading";
+import Modal from "@/components/ui/Modal";
+import { IModal } from "@/types/modal";
+import useExchange from "@/hooks/useExchange";
+import useToast from "@/hooks/useToast";
+
 export interface IStockmonInfo {
   stockmonId?: number;
   stockmonName?: string;
   stockmonImageUrl?: string;
 }
-export interface IStockExchangeInfo {
-  noticeId?: number;
-  stockmon?: IStockmonInfo;
-}
 
-interface IStockExchangeModalInfo extends IStockExchangeInfo {
+type noticeType = "동맹" | "교환";
+export interface INoticeItem {
+  senderNickname: string;
+  noticeId: number;
+  noticeType: noticeType;
+  senderStockmonId?: number;
+  senderStockmonName?: string;
+  createdDateTimeStamp: number;
+}
+interface IStockExchangeModalInfo extends INoticeItem {
   isOpen: boolean;
 }
 export default function Message() {
-  const [data, setData] = useState<INotice[]>();
-  //TODO: 커스텀훅으로 뺼까?
+  const serviceAlliance = useMemo(() => new allianceAPI(), []);
+  const serviceExchange = useMemo(() => new exchangeAPI(), []);
+  const { ErrorToast, SuccessToast } = useToast();
+  const { acceptExchange, rejectExchange } = useExchange();
+  const [notices, setNotices] = useState<INoticeItem[]>([]);
+  const {
+    data: dataExchange,
+    isLoading: loadingExchange,
+    error: errorExchange,
+    mutate: mutateExchange,
+  } = useSWR<IExchangeRequest[]>("exchangeRequest", () =>
+    serviceExchange.getExchangeRequests()
+  );
+  const {
+    data: dataAlliance,
+    isLoading: loadingAllaince,
+    error: errorAlliance,
+    mutate: mutateAlliance,
+  } = useSWR<IAllianceRequest[]>("allianceRequest", () =>
+    serviceAlliance.getAllianceRequests()
+  );
   const [stockExchange, setStockExchange] = useState<IStockExchangeModalInfo>({
     isOpen: false,
+    senderNickname: "",
+    noticeId: -1,
+    noticeType: "교환",
+    senderStockmonId: -1,
+    senderStockmonName: "",
+    createdDateTimeStamp: -1,
+  });
+  const [modal, setModal] = useState<IModal>({
+    isOpen: false,
+    content: "",
+    onClick: () => {},
   });
 
-  const handleExchangeOpen = (stockExchangeInfo: IStockExchangeInfo) => {
+  const closeModal = () => {
+    setModal({
+      isOpen: false,
+      content: "",
+      onClick: () => {},
+    });
+  };
+
+  //교환 모달 오픈
+  const handleExchangeOpen = (stockExchangeInfo: INoticeItem) => {
     //exchange에 필요한 데이터 세팅해서 모달 오픈
     setStockExchange({
       isOpen: true,
       ...stockExchangeInfo,
     });
+    console.log("왜 안들어가", stockExchangeInfo);
   };
+  //교환 모달 닫기
   const handleExchangeClose = () => {
-    setStockExchange({ isOpen: false });
+    setStockExchange({
+      isOpen: false,
+      senderNickname: "",
+      noticeId: -1,
+      noticeType: "교환",
+      senderStockmonId: -1,
+      senderStockmonName: "",
+      createdDateTimeStamp: -1,
+    });
   };
-  const handleConfirmStockExchange = (stockmonId: number) => {
-    //TODO: 교환요청 수락. 해당 스톡몬 보내기
+  //교환 모달에서 교환 수락
+  const handleConfirmStockExchange = async (stockmonId: number) => {
+    try {
+      await acceptExchange(stockExchange.noticeId, stockmonId);
+      handleExchangeClose();
+      SuccessToast("교환 완료되었습니다.");
+    } catch (error) {
+      ErrorToast("교환 실패했습니다.");
+    } finally {
+      mutate("exchangeRequest");
+    }
   };
-  const handleConfirm = (noticeInfo: INotice) => {
+  const handleConfirm = (noticeInfo: INoticeItem) => {
     console.log("confirm: ", noticeInfo);
     //TODO: 교환팝업이면 handleExchangeOpen 실행, 동맹팝업이면 동맹요청 실행
-    if (noticeInfo.type === 1) return;
-    if (noticeInfo.type === 2) handleExchangeOpen(noticeInfo);
+    if (noticeInfo.noticeType === "동맹")
+      return acceptAlliance(noticeInfo.noticeId);
+    if (noticeInfo.noticeType === "교환") return handleExchangeOpen(noticeInfo);
   };
-  const handleCancel = () => {};
+  const handleCancel = (noticeInfo: INoticeItem) => {
+    if (noticeInfo.noticeType === "동맹")
+      return handleRejectAlliance(noticeInfo.noticeId);
+    if (noticeInfo.noticeType === "교환")
+      return handleRejectExchange(noticeInfo.noticeId);
+  };
+  const acceptAlliance = async (noticeId: number) => {
+    try {
+      await serviceAlliance.acceptAlliance(noticeId);
+      setModal({
+        isOpen: true,
+        content: "동맹을 수락했습니다.",
+        onClick: closeModal,
+      });
+    } catch (error: any) {
+      setModal({
+        isOpen: true,
+        title: "실패",
+        content: error.toString(),
+        onClick: closeModal,
+      });
+    } finally {
+      mutate("allianceRequest");
+    }
+  };
+  const handleRejectAlliance = async (noticeId: number) => {
+    try {
+      await serviceAlliance.rejectAlliance(noticeId);
+      setModal({
+        isOpen: true,
+        content: "동맹을 거절했습니다.",
+        onClick: closeModal,
+      });
+    } catch (error) {
+    } finally {
+      mutate("allianceRequest");
+    }
+  };
+  const handleRejectExchange = async (noticeId: number) => {
+    try {
+      await rejectExchange(noticeId);
+    } catch (error) {
+    } finally {
+      mutate("exchangeRequest");
+    }
+  };
 
   useEffect(() => {
-    if (dummyNotice) {
-      setData(dummyNotice.data.notices);
-      // setData([]);
-    }
-  }, []);
+    if (dataAlliance)
+      setNotices(
+        notices
+          .concat(
+            dataAlliance.map((data: IAllianceRequest) => {
+              return {
+                senderNickname: data.nickName,
+                noticeType: "동맹",
+                noticeId: data.noticeId,
+                createdDateTimeStamp: new Date(data.createdAt).getTime(),
+              };
+            })
+          )
+          .sort((a, b) => b.createdDateTimeStamp - a.createdDateTimeStamp)
+      );
+  }, [dataAlliance]);
+
+  useEffect(() => {
+    if (dataExchange)
+      setNotices(
+        notices
+          .concat(
+            dataExchange.map((data: IExchangeRequest) => {
+              return {
+                senderNickname: data.senderNickname,
+                noticeType: "교환",
+                senderStockmonId: data.senderStockmonId,
+                senderStockmonName: data.senderStockmonName,
+                noticeId: data.noticeId,
+                createdDateTimeStamp: new Date(data.createAt).getTime(),
+              };
+            })
+          )
+          .sort((a, b) => b.createdDateTimeStamp - a.createdDateTimeStamp)
+      );
+  }, [dataExchange]);
+  const noticeList = useMemo(() => {
+    const a: INoticeItem[] | undefined = dataExchange?.map(
+      (data: IExchangeRequest) => {
+        return {
+          senderNickname: data.senderNickname,
+          noticeType: "교환",
+          senderStockmonId: data.senderStockmonId,
+          senderStockmonName: data.senderStockmonName,
+          noticeId: data.noticeId,
+          createdDateTimeStamp: new Date(data.createAt).getTime(),
+        };
+      }
+    );
+    const b: INoticeItem[] | undefined = dataAlliance?.map(
+      (data: IAllianceRequest) => {
+        return {
+          senderNickname: data.nickName,
+          noticeType: "동맹",
+          noticeId: data.noticeId,
+          createdDateTimeStamp: new Date(data.createdAt).getTime(),
+        };
+      }
+    );
+    return a
+      ?.concat(b || [])
+      .sort((a, b) => b.createdDateTimeStamp - a.createdDateTimeStamp);
+  }, [dataExchange, dataAlliance]);
   return (
     <>
       <div
         className={`w-full bg-stock-blue-200 bg-border-custom-dotted ${
-          data && data?.length > 0 ? "h-full" : "h-56"
+          noticeList && noticeList.length > 0 ? "h-full" : "h-56"
         } rounded-lg p-3`}
       >
         <div className="w-full bg-stock-lemon-50 h-full rounded-lg p-2 overflow-scroll">
-          {data &&
-            data.map((notice) => {
+          {noticeList &&
+            noticeList.map((notice) => {
               return (
                 <MessageItem
                   key={notice.noticeId}
@@ -81,7 +247,7 @@ export default function Message() {
                 />
               );
             })}
-          {data && data.length === 0 && (
+          {noticeList && noticeList.length === 0 && (
             <div className="flex items-center flex-col justify-center h-full">
               <TbMessageDots className="text-stock-blue-400" size={120} />
               <p className="font-ptr text-lg text-stock-blue-400">
@@ -91,15 +257,20 @@ export default function Message() {
           )}
         </div>
       </div>
-      <StockExchangeModal
-        open={stockExchange.isOpen}
-        onClose={handleExchangeClose}
-        onConfirm={handleConfirmStockExchange}
-        stockmon={{
-          name: "삼성전자몬",
-          id: 1,
-          imgUrl: "/images/dummy-stockmon.png",
-        }}
+      {stockExchange.isOpen && (
+        <StockExchangeModal
+          open={stockExchange.isOpen}
+          onClose={handleExchangeClose}
+          onConfirm={handleConfirmStockExchange}
+          stockmonId={stockExchange.senderStockmonId}
+          stockmonName={stockExchange.senderStockmonName}
+        />
+      )}
+      <Modal
+        open={modal.isOpen}
+        onClose={modal.onClick}
+        title={modal.title}
+        describe={modal.content}
       />
     </>
   );
