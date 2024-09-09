@@ -24,7 +24,6 @@ export default function StockmonStock({ data, type }: Props) {
   const connect = () => {
     client.activate();
     client.onConnect = function (frame: any) {
-      console.log("연결 성공");
       client.publish({
         destination: `/app/${data.stockCode}`,
         body: "Hello world",
@@ -35,10 +34,8 @@ export default function StockmonStock({ data, type }: Props) {
 
   const callback = function (message: any) {
     if (message.body) {
-      console.log("get message ", message.body);
       const realPrice = JSON.parse(message.body).content;
-      const closingPrice: number = data.stockClosedPrice;
-      const diff: number = Number(realPrice) - closingPrice;
+      const diff: number = Number(realPrice) - data.stockClosedPrice;
       setRealTimePrice(realPrice);
 
       if (diff > 0) {
@@ -57,7 +54,7 @@ export default function StockmonStock({ data, type }: Props) {
 
   const disconnect = () => {
     // client.onDisconnect = function () {
-    //   alert("연결 끊김");
+    //   console.log("연결 끊김");
     // };
     client.deactivate();
   };
