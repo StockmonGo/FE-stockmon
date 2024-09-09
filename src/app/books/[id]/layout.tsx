@@ -19,7 +19,7 @@ export default function BookDetailLayout({
     >
       <div className="max-w-xl w-xl h-screen mx-auto">{children}</div>
       <footer className="fixed left-0 right-0 bottom-6 w-full flex justify-center z-10">
-        <BtnClose />
+        <BtnClose routeUrl="/books" />
       </footer>
     </div>
   );
