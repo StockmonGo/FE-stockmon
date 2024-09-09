@@ -49,7 +49,7 @@ export default function StockExchangeModal({
                 교환할 스톡몬을 선택해주세요.
               </p>
             </div>
-            {stockmonName&&stockmonId && (
+            {stockmonName && stockmonId && (
               <div>
                 <div className="max-w-20">
                   <img

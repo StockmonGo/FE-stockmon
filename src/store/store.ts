@@ -12,3 +12,5 @@ export const userLocalAtom = atomWithStorage("user", "");
 export const accessTokenAtom = atomWithStorage("accessToken", "");
 
 export const stockmonGameAtom = atom({ id: -1, stockmonId: -1 });
+
+export const realTimeStockPriceAtom = atom<number>();

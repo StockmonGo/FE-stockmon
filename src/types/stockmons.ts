@@ -25,6 +25,7 @@ export interface IStockmonDetailRes {
   stockCode: string;
   catchCount: number;
   stockmonAveragePrice: number;
+  stockClosedPrice: number;
   stockTotalPrice: number;
   stockMarket: string;
   chart: {
