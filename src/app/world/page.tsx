@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import BeforeInstallPrompt from "@/components/BeforeInstallPrompt";
 import Modal from "@/components/ui/Modal";
 import LoadingMap from "@/components/ui/world/LoadingMap";
+import { setScreenSize } from "@/utils/screen";
 import { useCookies } from "next-client-cookies";
 
 declare global {
@@ -83,6 +84,7 @@ export default function World() {
     router.push("/game");
   };
   useEffect(() => {
+    setScreenSize();
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
     kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_JS_KEY}&autoload=false`;
