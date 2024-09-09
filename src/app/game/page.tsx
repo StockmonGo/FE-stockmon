@@ -5,14 +5,17 @@ import PeachCount from "@/components/ui/game/PeachCount";
 import { stockmonGameAtom } from "@/store/store";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import React, { useEffect, useState } from "react";
+import useToast from "@/hooks/useToast";
 
 type GAME_STATUS = "playing" | "done";
 export default function Game() {
   const [gameStatus, setGameStatus] = useState<GAME_STATUS>("playing");
   const router = useRouter();
+  const { SuccessToast } = useToast();
   const [usedStockball, setUsedStockball] = useState(0);
   const [stockmonGame] = useAtom(stockmonGameAtom);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,8 +26,14 @@ export default function Game() {
       return prev + 1;
     });
   };
-  // TODO: 선택한 스톡몬 id 가져와서 노출 catchStockmon에 api붙히기
-  // TODO: 잡은 스톡몬 정보 NewStockmon에 뿌려주기
+  //스톡볼 소모만 하고 잡기 실패
+  const handleFailCatch = async () => {
+    SuccessToast("도망갈게요!");
+    //setGameStatus("done");
+    const res = await service.throwStockball(usedStockball);
+    console.log("fail catch res:", res);
+    router.push(`/world`);
+  };
 
   const handleCatch = async () => {
     if (isLoading) return;
@@ -59,7 +68,21 @@ export default function Game() {
       <div className="max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
         <main className="flex-1 w-full h-full">
           <div className="h-full">
-            <PeachCount usingStockball={usedStockball} />
+            <div>
+              <div
+                className="fixed min-w-28 left-[12px] top-4"
+                onClick={() => handleFailCatch()}
+              >
+                <Image
+                  alt="exit"
+                  src="/icons/icon-exit.svg"
+                  width={40}
+                  height={40}
+                  className=""
+                />
+              </div>
+              <PeachCount usingStockball={usedStockball} />
+            </div>
             <TimingGame
               throwStockBall={throwStockBall}
               catchStockmon={handleCatch}

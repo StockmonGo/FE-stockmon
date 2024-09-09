@@ -9,7 +9,6 @@ type Props = {
 export default function PeachCount({ usingStockball }: Props) {
   const [stockballs, setStockballs] = useState(0);
   const service = new mapAPI();
-  //TODO: 스톡볼 카운트 수정해야해!!!
   useEffect(() => {
     service
       .getStockBallNum()
