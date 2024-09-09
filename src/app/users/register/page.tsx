@@ -1,4 +1,5 @@
 "use client";
+import memberAPI from "@/apis/memberAPI";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/hooks/useAuth";
@@ -33,6 +34,7 @@ export default function Register() {
     title: "",
     onClick: () => {},
   });
+  const service = new memberAPI();
 
   const closeModal = () => {
     setModal({
@@ -53,7 +55,7 @@ export default function Register() {
           isOpen: true,
           content: `${res}님 회원가입을 축하합니다!`,
           onClick: () => {
-            router.push("/world");
+            router.push("/tutorial");
           },
         });
       }
