@@ -37,7 +37,7 @@ export default function StockmonStock({ data, type }: Props) {
     if (message.body) {
       console.log("get message ", message.body);
       const realPrice = JSON.parse(message.body).content;
-      const closingPrice: number = 368000;
+      const closingPrice: number = data.stockClosedPrice;
       const diff: number = Number(realPrice) - closingPrice;
       setRealTimePrice(realPrice);
 
