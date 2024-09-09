@@ -32,6 +32,21 @@
   }
 }
 
+@keyframes skeleton-pulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+.skeleton-animate-pulse {
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 .my-animate-pulse {
   animation: red-pulse 0.7s infinite ease-in-out alternate;
 }
@@ -59,7 +74,7 @@
 }
 
 /* 스톡몬 그림자 */
-@keyframes catch-stockmon-pulse {
+@keyframes stockmon-shadow {
   0%,
   100% {
     transform: scale(1); /* 원래 크기 */
@@ -71,7 +86,7 @@
 
 .stockmon-shadow {
   border-radius: 100px/ 60px;
-  animation: catch-stockmon-pulse 2s infinite ease-in-out; /* 2초 동안 애니메이션 반복 */
+  animation: stockmon-shadow 2s infinite ease-in-out; /* 2초 동안 애니메이션 반복 */
 }
 
 /*코인*/
