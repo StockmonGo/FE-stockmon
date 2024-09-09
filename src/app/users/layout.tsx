@@ -14,8 +14,10 @@ export default function UsersLayout({
   return (
     // <div className="w-screen max-w-xl h-screen bg-[url('/images/bg.jpg')] flex flex-col items-center justify-center p-6 space-y-6 font-ptr">
     <CommonLayout useButton={false}>
-      <img src="/images/logo-160x160.png" alt="로고" className="m-auto mb-4" />
-      {children}
+      <div className="p-6">
+        <img src="/images/logo-160x160.png" alt="로고" className="m-auto mb-4" />
+        {children}
+      </div>
     </CommonLayout>
     // </div>
   );
