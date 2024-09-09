@@ -79,7 +79,7 @@ export default function StockExchangeModal({
                     <div
                       key={stockmon.id}
                       className={`m-auto p-1 ${
-                        choiceStockmon === stockmon.id && "bg-stock-lemon-100"
+                        choiceStockmon === stockmon.id && "bg-stock-lemon-300"
                       }`}
                       onClick={() => {
                         handleStockmonClick(stockmon.id);
