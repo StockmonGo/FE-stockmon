@@ -44,6 +44,10 @@ export default function StockmonChart({ data, error }: Props) {
           vertLines: { color: "#D1D1D1" },
           horzLines: { color: "#D1D1D1" },
         },
+        handleScroll: {
+          vertTouchDrag: false,
+          horzTouchDrag: true, // 수평 스크롤은 가능
+        },
       });
 
       const lineSeries = chart.addLineSeries({
@@ -68,6 +72,7 @@ export default function StockmonChart({ data, error }: Props) {
         localization: {
           priceFormatter: myPriceFormatter,
         },
+        autoSize: false,
       });
 
       // 차트 리사이징 처리
@@ -76,6 +81,13 @@ export default function StockmonChart({ data, error }: Props) {
           chartContainerRef.current?.clientWidth || 0,
           chartContainerRef.current?.clientHeight || 0
         );
+        chart.applyOptions({
+          timeScale: {
+            barSpacing: chartContainerRef.current?.clientWidth
+              ? chartContainerRef.current?.clientWidth / 5
+              : 10,
+          },
+        });
       };
 
       window.addEventListener("resize", handleResize);
