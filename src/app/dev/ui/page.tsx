@@ -6,6 +6,7 @@ import Background from "./Background";
 import Modal from "@/components/ui/Modal";
 import Avatar from "boring-avatars";
 import useToast from "@/hooks/useToast";
+import useVibrate from "@/hooks/useVibrate";
 
 export default function UI() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -15,6 +16,11 @@ export default function UI() {
   const [isModalOpen4, setIsModalOpen4] = useState(false);
 
   const { SuccessToast, ErrorToast } = useToast();
+  const { vibrate } = useVibrate();
+
+  const handleVibration = () => {
+    vibrate([200, 100, 200]);
+  };
 
   return (
     <div>
@@ -133,7 +139,7 @@ export default function UI() {
           ></Modal>
         </div>
       </DevContainer>
-      <DevContainer title="폰트">
+      <DevContainer title="토스트">
         <div>
           <p>기본 폰트입니다.</p>
           <p className="font-ptb">평택반도체입니다. font-ptb 로 사용하세요</p>
@@ -153,6 +159,9 @@ export default function UI() {
             ErrorToast("실패하였습니다.");
           }}
         />
+      </DevContainer>
+      <DevContainer title="진동">
+        <Button text="진동" onClick={handleVibration} />
       </DevContainer>
     </div>
   );
