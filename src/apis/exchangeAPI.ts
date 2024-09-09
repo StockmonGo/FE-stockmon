@@ -8,7 +8,7 @@ export default class exchangeAPI extends BaseApi {
   async getExchangeRequests(): Promise<IExchangeRequest[]> {
     try {
       const response = await this.fetcher.get(EXCHANGE_BASE_URL + "/request");
-      return response.data.stockmons;
+      return response.data.data.stockmons;
     } catch (error) {
       handleApiError(error);
     }
@@ -16,12 +16,12 @@ export default class exchangeAPI extends BaseApi {
 
   // 교환 요청
   async requestExchange(
-    travelerId: number,
+    receiverId: number,
     travelerStockmonId: number
   ): Promise<SuccessResponse<null>> {
     try {
       const response = await this.fetcher.post(EXCHANGE_BASE_URL + "/request", {
-        travelerId,
+        receiverId,
         travelerStockmonId,
       });
       return new SuccessResponse(response.status, "요청 성공", null);

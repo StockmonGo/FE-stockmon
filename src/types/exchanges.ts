@@ -3,5 +3,6 @@ export interface IExchangeRequest {
   senderId: number;
   senderNickname: string;
   senderStockmonId: number;
+  senderStockmonName: string;
   createAt: string;
 }

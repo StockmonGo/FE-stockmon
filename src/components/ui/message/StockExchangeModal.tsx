@@ -1,32 +1,31 @@
 "use client";
 import React, { useState } from "react";
-import dummyStock from "@/../dummy/books/books.json";
+import { useStockBook } from "@/hooks/useStockBook";
+import useSWR from "swr";
 type Props = {
   open: boolean;
   onClose: () => void;
   onConfirm: (stockmonId: number) => void;
-  stockmon?: IStockmon;
+  stockmonId?: number;
+  stockmonName?: string;
 };
-
-interface IStockmon {
-  id: number;
-  name: string;
-  imgUrl: string;
-}
 
 export default function StockExchangeModal({
   open,
   onClose,
   onConfirm,
-  stockmon,
+  stockmonId,
+  stockmonName,
 }: Props) {
-  const [stockmons, setStockmons] = useState<IStockmon[]>(dummyStock.stockmons); //내가 보유한 스톡몬들
   const [choiceStockmon, setChoiceStockmon] = useState<number>();
-
+  const { getStockmonDetail, getStockmons } = useStockBook();
+  const { data: stockmonList, error: stockmonListError } = useSWR(
+    "stockmons",
+    getStockmons
+  );
   const handleStockmonClick = (id: number) => {
     setChoiceStockmon(id);
   };
-
   const isDisabled = typeof choiceStockmon === "undefined";
 
   return (
@@ -40,8 +39,8 @@ export default function StockExchangeModal({
           onClick={(e) => e.stopPropagation()}
         >
           <header
-            className={`w-full py-3 flex flex-row gap-2  text-stock-blue-950 rounded-lg ${
-              stockmon ? "justify-between" : "justify-center text-center"
+            className={`w-full py-3 flex flex-row gap-2 text-stock-blue-950 rounded-lg ${
+              stockmonId ? "justify-between" : "justify-center text-center"
             } items-center`}
           >
             <div className="">
@@ -50,48 +49,54 @@ export default function StockExchangeModal({
                 교환할 스톡몬을 선택해주세요.
               </p>
             </div>
-            {stockmon && (
+            {stockmonName&&stockmonId && (
               <div>
-                <div>
-                  <img src={stockmon.imgUrl} alt="스톡몬" />
+                <div className="max-w-20">
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmonId}.png`}
+                    alt="스톡몬"
+                  />
                 </div>
                 <p className="text-xs font-ptr text-center text-stock-dark-800 pt-1">
-                  {stockmon.name}
+                  {stockmonName}
                 </p>
               </div>
             )}
           </header>
           <div
-            className="w-full bg-stock-lemon-50 bg-border-custom-dotted-thin  p-[1px]"
+            className="w-full bg-stock-lemon-50 bg-border-custom-dotted-thin  p-[1px] content-start"
             style={{
               aspectRatio: "1/1",
             }}
           >
-            {stockmons.length > 0 && (
+            {stockmonList && stockmonList?.stockmons.length > 0 && (
               <div
-                className="w-full h-full overflow-y-scroll grid grid-cols-3 gap-2 px-3 py-6"
+                className="w-full h-full overflow-y-scroll grid grid-cols-3 gap-2 px-3 py-6 content-start"
                 style={{
                   aspectRatio: "1/1",
                 }}
               >
-                {stockmons.map((stockmon) => {
+                {stockmonList.stockmons.map((stockmon) => {
                   return (
                     <div
                       key={stockmon.id}
-                      className={`m-auto p-1 ${
+                      className={`m-auto p-1 max-w-24 ${
                         choiceStockmon === stockmon.id && "bg-stock-lemon-100"
                       }`}
                       onClick={() => {
                         handleStockmonClick(stockmon.id);
                       }}
                     >
-                      <img src="/images/dummy-stockmon.png" alt="" />
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmon.id}.png`}
+                        alt=""
+                      />
                     </div>
                   );
                 })}
               </div>
             )}
-            {stockmons.length === 0 && (
+            {stockmonList?.stockmons.length === 0 && (
               <div className="flex items-center justify-center h-full">
                 <div className="flex flex-col items-center justify-center">
                   <p className="text-lg text-stock-blue-400 font-ptr">
