@@ -8,7 +8,7 @@ import { useAtom } from "jotai";
 import { accessTokenAtom, stockmonGameAtom } from "@/store/store";
 import { useRouter } from "next/navigation";
 import BeforeInstallPrompt from "@/components/BeforeInstallPrompt";
-import useToast from "@/hooks/useToast";
+import Modal from "@/components/ui/Modal";
 
 declare global {
   interface Window {
@@ -25,13 +25,14 @@ export default function World() {
   const [towerActive, setTowerActive] = useState(false);
   const [stockballs, setStockballs] = useState(0);
   const router = useRouter();
-  const { ErrorToast } = useToast();
+  const [isLogin, setIsLogin] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const checkStockTower = (towerId: number) => {
     const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
     const auth = document.cookie;
 
     if (!accessToken || !auth) {
-      ErrorToast("로그인 후 이용해주세요!");
+      setShowLoginModal(true);
       return;
     }
     service.getStockTowerInfo(towerId).then((res) => {
@@ -73,7 +74,7 @@ export default function World() {
     const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
     const auth = document.cookie;
     if (!accessToken || !auth) {
-      ErrorToast("로그인 후 이용해주세요");
+      setShowLoginModal(true);
       return;
     }
     setStockmonGame({ id, stockmonId });
@@ -276,11 +277,14 @@ export default function World() {
 
     setIsClient(true);
     if (accessToken && auth) {
+      setIsLogin(true);
       service.getStockBallNum().then((res) => {
         if (res) {
           setStockballs(res.stockballs);
         }
       });
+    } else {
+      setIsLogin(false);
     }
   }, []);
 
@@ -308,6 +312,16 @@ export default function World() {
         </>
       )}
       {isClient && <BeforeInstallPrompt />}
+      <Modal
+        open={!isLogin && showLoginModal}
+        onClose={() => {
+          setShowLoginModal(false);
+        }}
+        onConfirm={() => router.push("/users/login")}
+        hasClose={true}
+        title="로그인 후 이용가능합니다"
+        describe="로그인 페이지로 이동하시겠습니까?"
+      />
     </div>
   );
 }
