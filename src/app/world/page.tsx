@@ -116,6 +116,7 @@ export default function World() {
             position: myLocation,
             image: markerImage,
             map: map,
+            zIndex: 10,
           });
         };
 
