@@ -5,6 +5,7 @@ import "./style.scss";
 import useGame from "@/hooks/useGame";
 import "animate.css";
 import "@/app/animations.css";
+import Confetti from "./Confetti";
 
 type Props = {
   catchStockmon: () => void;
@@ -28,12 +29,16 @@ export default function TimingGame({
     gage,
   } = useGame();
   const [animNum, setAnimNum] = useState<Number>();
+  const [confettiAnimation, setConfettiAnimation] = useState(false);
 
   useEffect(() => {
     setAnimNum(Math.floor(Math.random() * 10));
 
     setTimeout(() => {
-      if (gage <= 0) catchStockmon();
+      if (gage <= 0) {
+        setConfettiAnimation(true);
+        catchStockmon();
+      }
     }, 3000);
   }, [status]);
 
@@ -86,6 +91,9 @@ export default function TimingGame({
         <div className="stockmon-shadow w-24 h-10 m-auto bg-stock-dark-600 bg-opacity-20"></div>
       </div>
       {/* {status === "Hit" && ( */}
+      {/* Confetti 애니메이션 */}
+      {/* {status === "Perfect" && <Confetti />} */}
+      {confettiAnimation && <Confetti />}
       {status && (
         <div
           className={` ${
