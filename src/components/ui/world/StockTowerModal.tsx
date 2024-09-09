@@ -70,7 +70,7 @@ export default function StockTowerModal({
         <div
           className={`${firstCss} z-10 ${
             active ? "border-stock-red" : "border-stock-dark-500"
-          } absolute max-w-xl border-[100px] w-screen min-w-[450px] scale-x-[1.9] scale-y-110 rounded-full h-full fixed top-0 transform flex justify-center items-center`}
+          } absolute max-w-xl border-[100px] w-screen min-w-[360px] scale-x-[1.9] scale-y-110 rounded-full h-full fixed top-0 transform flex justify-center items-center`}
         >
           {active ? (
             <img
