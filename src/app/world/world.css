@@ -19,6 +19,25 @@
   }
 }
 
+@keyframes bounce-peach {
+  0% {
+    transform: translateY(-330px) translateX(-40px);
+  }
+  20% {
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+  80% {
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .flip {
   backface-visibility: visible !important;
   animation: flip 2s ease infinite;

@@ -88,20 +88,19 @@ export default function StockTowerModal({
           )}
         </div>
       </div>
-
       {showPeach && (
-        <>
+        <div className="fixed flex bottom-10 w-full justify-center gap-20">
           <img
             src="/images/peach.svg"
             alt="복숭아"
-            className="bounce w-14 h-14 z-20 fixed bottom-4 right-20"
+            className="bounce w-14 h-14 z-20 fixed bottom-4 right-24"
           />
           <img
             src="/images/peach.svg"
             alt="복숭아"
             className="bounce2 w-14 h-14 z-20 fixed bottom-4 left-24"
           />
-        </>
+        </div>
       )}
     </>
   );
