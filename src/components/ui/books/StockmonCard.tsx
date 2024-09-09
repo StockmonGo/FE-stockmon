@@ -38,14 +38,14 @@ export default function StockmonCard({ data }: Props) {
           onClick={handleImgClick}
         />
         <div className="relative text-right">
-          {data.catchCount >= COLLECTION_MAX && <NewPoint />}
           <button
-            className="p-2 px-3 rounded-lg text-stock-dark-500 bg-somsatang-gradient"
+            className="relative p-2 px-3 rounded-lg text-stock-dark-500 bg-somsatang-gradient shadow-lg shadow-purple-200"
             onClick={() => {
               router.push(`/books/${params?.id}/collection`);
             }}
           >
-            x{data.catchCount}
+            {data.catchCount >= COLLECTION_MAX && <NewPoint />}
+            <i>{/* 흰 슬라이드 애니메이션 */}</i>x{data.catchCount}
           </button>
         </div>
       </figure>
