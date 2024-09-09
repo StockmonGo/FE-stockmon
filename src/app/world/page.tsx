@@ -75,7 +75,12 @@ export default function World() {
     setStockballs((prev) => prev + stockBall);
   };
 
-  const startGame = (id: number, stockmonId: number) => {
+  const startGame = (
+    id: number,
+    stockmonId: number,
+    lat: number,
+    lon: number
+  ) => {
     const accessToken = JSON.parse(
       window.localStorage.getItem("accessToken") || ""
     );
@@ -85,7 +90,7 @@ export default function World() {
       return;
     }
     setStockmonGame({ id, stockmonId });
-    router.push("/game");
+    router.push(`/game?lat=${lat}&lon=${lon}`);
   };
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
@@ -204,7 +209,9 @@ export default function World() {
                   //TODO: 게임이동
                   startGame(
                     stockmonPositions[i].worldId,
-                    stockmonPositions[i].stockmonId
+                    stockmonPositions[i].stockmonId,
+                    latitude,
+                    longitude
                   );
                   console.log(
                     "click stockmon",

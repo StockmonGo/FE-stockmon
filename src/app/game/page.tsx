@@ -4,11 +4,11 @@ import TimingGame from "@/components/game/TimingGame";
 import PeachCount from "@/components/ui/game/PeachCount";
 import { stockmonGameAtom } from "@/store/store";
 import { useAtom } from "jotai";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import useToast from "@/hooks/useToast";
 
 type GAME_STATUS = "playing" | "done";
@@ -26,6 +26,9 @@ export default function Game() {
     () => stockballs - usedStockball,
     [stockballs, usedStockball]
   );
+  const searchParams = useSearchParams();
+  const lon = searchParams!.get("lon") as string;
+  const lat = searchParams!.get("lat") as string;
   const throwStockBall = () => {
     if (stockballCnt <= 0) {
       return ErrorToast("사용할 복숭아가 없어요..");
@@ -47,6 +50,7 @@ export default function Game() {
   const handleCatch = async () => {
     if (isLoading) return;
     try {
+      console.log("lat:", lat, " lon:", lon);
       setIsLoading(true);
       setGameStatus("done");
       console.log("이게 오래걸려서 로딩");
@@ -76,41 +80,43 @@ export default function Game() {
       .catch((err) => console.log(err));
   }, []);
   return (
-    <div className="w-full h-full overflow-x-hidden overflow-y-scroll">
-      <div className="fixed w-full h-full overflow-hidden z-0">
-        <div
-          className="bg-cover bg-center w-full h-full fixed z-[-1]"
-          style={{ backgroundImage: "url('/images/bg-game.jpg')" }}
-        ></div>
-      </div>
-      <div className="max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
-        <main className="flex-1 w-full h-full">
-          <div className="h-full">
-            <div>
-              <div
-                className="fixed min-w-28 left-[12px] top-4"
-                onClick={() => handleFailCatch()}
-              >
-                <Image
-                  alt="exit"
-                  src="/icons/icon-exit.svg"
-                  width={40}
-                  height={40}
-                  className=""
-                />
+    <Suspense>
+      <div className="w-full h-full overflow-x-hidden overflow-y-scroll">
+        <div className="fixed w-full h-full overflow-hidden z-0">
+          <div
+            className="bg-cover bg-center w-full h-full fixed z-[-1]"
+            style={{ backgroundImage: "url('/images/bg-game.jpg')" }}
+          ></div>
+        </div>
+        <div className="max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
+          <main className="flex-1 w-full h-full">
+            <div className="h-full">
+              <div>
+                <div
+                  className="fixed min-w-28 left-[12px] top-4"
+                  onClick={() => handleFailCatch()}
+                >
+                  <Image
+                    alt="exit"
+                    src="/icons/icon-exit.svg"
+                    width={40}
+                    height={40}
+                    className=""
+                  />
+                </div>
+                <PeachCount stockballCnt={stockballCnt} />
               </div>
-              <PeachCount stockballCnt={stockballCnt} />
+              <TimingGame
+                remainStockBall={stockballCnt}
+                throwStockBall={throwStockBall}
+                catchStockmon={handleCatch}
+                imgUrl={stockmonImgSrc}
+              />
             </div>
-            <TimingGame
-              remainStockBall={stockballCnt}
-              throwStockBall={throwStockBall}
-              catchStockmon={handleCatch}
-              imgUrl={stockmonImgSrc}
-            />
-          </div>
-        </main>
-        <footer className="w-full flex justify-center"></footer>
+          </main>
+          <footer className="w-full flex justify-center"></footer>
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

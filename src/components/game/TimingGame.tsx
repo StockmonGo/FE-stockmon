@@ -47,13 +47,10 @@ export default function TimingGame({
   }, [status]);
 
   const handleTargetClick = () => {
+    if (disable || remainStockBall <= 0) return;
     //TODO: 포켓볼 사용하여 던짐
     vibrate([200]);
     throwStockBall();
-    if (disable || remainStockBall <= 0) {
-      return;
-    }
-    //TODO: 포켓볼 사용하여 던짐
     onTargetClick();
   };
 
