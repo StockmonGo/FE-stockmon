@@ -3,6 +3,7 @@ import { COLLECTION_MAX, IStockmonDetailRes } from "@/types/stockmons";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import "@/app/animations.css";
+import "animate.css";
 import NewPoint from "../NewPoint";
 
 type Props = {
@@ -18,6 +19,7 @@ export default function StockmonCard({ data }: Props) {
     setAnimate(true);
   };
 
+  // 이미지 클릭시 뽀잉하는 애니메이션
   useEffect(() => {
     if (animate) {
       const timeout = setTimeout(() => {
@@ -27,8 +29,9 @@ export default function StockmonCard({ data }: Props) {
       return () => clearTimeout(timeout);
     }
   }, [animate]);
+
   return (
-    <article className="w-full p-5 font-ptb text-lg bg-border-custom-dotted bg-stock-blue-200">
+    <article className="animate__animated animate__flipInY w-full p-5 font-ptb text-lg bg-border-custom-dotted bg-stock-blue-200">
       <figure className="w-full aspect-square flex flex-col justify-between gap- p-5 bg-[url('/images/bgStamp.svg')] bg-no-repeat bg-cover">
         <p className="text-stock-dark-300">No.{data.stockCode}</p>
         <img
