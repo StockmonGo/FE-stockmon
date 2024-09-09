@@ -1,11 +1,13 @@
 "use client";
+import memberAPI from "@/apis/memberAPI";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Tutorial() {
   const [step, setStep] = useState(1);
   const router = useRouter();
+  const service = new memberAPI();
   const nextStep = () => {
     if (step == 5) {
       router.push("/world");
@@ -25,6 +27,12 @@ export default function Tutorial() {
   };
   const imgs = generateImageUrls();
 
+  useEffect(() => {
+    service
+      .didTutorial()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div className="w-screen h-screen bg-[url('/images/bg.jpg')] relative grid justify-items-center">
       <div className="absolute right-6 top-6 h-fit w-fit">
