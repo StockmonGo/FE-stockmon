@@ -1,16 +1,18 @@
 import { IChartItemRes } from "@/types/stockmons";
 import React, { useEffect, useRef } from "react";
 import { createChart } from "lightweight-charts";
+import { Skeleton } from "../Skeleton";
 
 type Props = {
-  data: IChartItemRes[];
+  data: IChartItemRes[] | null | undefined;
+  error: any;
 };
 
-export default function StockmonChart({ data }: Props) {
+export default function StockmonChart({ data, error }: Props) {
   const chartContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (chartContainerRef.current) {
+    if (data && chartContainerRef.current) {
       const chart = createChart(chartContainerRef.current, {
         width: chartContainerRef.current.clientWidth,
         height: chartContainerRef.current.clientHeight,
@@ -64,7 +66,7 @@ export default function StockmonChart({ data }: Props) {
         chart.remove();
       };
     }
-  }, []);
+  }, [data]);
 
   return (
     <article className="relative w-full p-4 bg-white border-4 border-dashed border-[#98DFAF]">
@@ -76,8 +78,8 @@ export default function StockmonChart({ data }: Props) {
       <div className="absolute py-2 px-8 -top-2 -right-2 rotate-3 font-ptb text-lg text-stock-dark-400 border-2 border-[#98DFAF] bg-[#ECFFEE]">
         월별 차트
       </div>
-      <div className="w-full h-60 mt-8 text-center bg-stock-dark-200">
-        {!data && `차트가 없어요`}
+      <div className="w-full h-60 mt-8 text-center">
+        {(!data || error) && <Skeleton className="w-full h-full rounded-lg" />}
         <div ref={chartContainerRef} className="w-full h-full"></div>
       </div>
     </article>

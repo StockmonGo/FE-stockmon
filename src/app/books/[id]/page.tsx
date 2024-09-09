@@ -15,26 +15,15 @@ import { useStockBook } from "@/hooks/useStockBook";
 import useExchange from "@/hooks/useExchange";
 import useToast from "@/hooks/useToast";
 
-const chartData = {
-  chart: [
-    { time: "2023-01-01", value: 2300 },
-    { time: "2023-02-01", value: 2200 },
-    { time: "2023-03-01", value: 2350 },
-    { time: "2023-06-01", value: 2450 },
-    { time: "2023-07-01", value: 2120 },
-    { time: "2023-08-01", value: 2680 },
-  ],
-};
-
 export default function Detail() {
   const params = useParams();
   const { getStockmonDetail, getStockmonChart } = useStockBook();
   const { requestExchange } = useExchange();
   const { data, error } = useSWR(params?.id, getStockmonDetail);
-  // const { data: chartData, error: chartError } = useSWR(
-  //   data?.stockCode || "",
-  //   getStockmonChart
-  // );
+  const { data: chartData, error: chartError } = useSWR(
+    data?.stockCode || "",
+    getStockmonChart
+  );
   const [exchangeModalOpen, setExchangeModalOpen] = useState(false);
   const [selectedAlliance, setSelectedAlliance] = useState(0);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
@@ -80,7 +69,7 @@ export default function Detail() {
     <div className="flex flex-col gap-5 pb-20 items-center">
       <StockmonCard data={data} />
       <StockmonStock data={data} />
-      <StockmonChart data={chartData.chart} />
+      <StockmonChart data={chartData} error={chartError} />
       <StockmonExchangeModal
         onClose={onClose}
         onConfirm={onConfirm}
