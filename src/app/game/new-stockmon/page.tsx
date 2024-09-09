@@ -57,7 +57,7 @@ export default function Game() {
               />
               <Button
                 onClick={() => {
-                  router.push("/books");
+                  router.push(`/books/${data.stockmonId}`);
                 }}
                 text={"도감으로 보러가기"}
               ></Button>
