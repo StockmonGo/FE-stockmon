@@ -7,6 +7,8 @@ import { STOCK_ICONS } from "@/types/stocks";
 import Row from "./Row";
 import { client } from "@/sockets/baseStomp";
 import { formatNumber } from "@/utils/nums";
+import { useAtom, useSetAtom } from "jotai";
+import { realTimeStockPriceAtom } from "@/store/store";
 
 type InfoType = "detail" | "summary";
 
@@ -20,6 +22,7 @@ export default function StockmonStock({ data, type }: Props) {
   const [realTimePrice, setRealTimePrice] = useState<string>("-");
   const [realTimeDiff, setRealTimeDiff] = useState<string>("-");
   const [priceColor, setPriceColor] = useState<string>("");
+  const setRealTimeStockPrice = useSetAtom(realTimeStockPriceAtom);
 
   const connect = () => {
     client.activate();
@@ -37,6 +40,7 @@ export default function StockmonStock({ data, type }: Props) {
       const realPrice = JSON.parse(message.body).content;
       const diff: number = Number(realPrice) - data.stockClosedPrice;
       setRealTimePrice(realPrice);
+      setRealTimeStockPrice(Number(realPrice));
 
       if (diff > 0) {
         setPriceColor("text-red-600");

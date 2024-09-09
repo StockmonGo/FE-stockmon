@@ -2,17 +2,36 @@ import { IChartItemRes } from "@/types/stockmons";
 import React, { useEffect, useRef } from "react";
 import { createChart } from "lightweight-charts";
 import { Skeleton } from "../Skeleton";
+import { useAtomValue } from "jotai";
+import { realTimeStockPriceAtom } from "@/store/store";
 
 type Props = {
   data: IChartItemRes[] | null | undefined;
   error: any;
 };
 
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+}
+
 export default function StockmonChart({ data, error }: Props) {
   const chartContainerRef = useRef<HTMLDivElement>(null);
+  const realTimeStockPrice = useAtomValue(realTimeStockPriceAtom);
+  const today = getTodayDate();
 
   useEffect(() => {
     if (data && chartContainerRef.current) {
+      const found = data.find((item) => item.time === today);
+      if (found && realTimeStockPrice) {
+        found.value = realTimeStockPrice;
+      }
+
       const chart = createChart(chartContainerRef.current, {
         width: chartContainerRef.current.clientWidth,
         height: chartContainerRef.current.clientHeight,
@@ -66,7 +85,7 @@ export default function StockmonChart({ data, error }: Props) {
         chart.remove();
       };
     }
-  }, [data]);
+  }, [data, realTimeStockPrice]);
 
   return (
     <article className="relative w-full p-4 bg-white border-4 border-dashed border-[#98DFAF]">
