@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import BeforeInstallPrompt from "@/components/BeforeInstallPrompt";
 import Modal from "@/components/ui/Modal";
 import LoadingMap from "@/components/ui/world/LoadingMap";
+import { useCookies } from "next-client-cookies";
 
 declare global {
   interface Window {
@@ -29,14 +30,11 @@ export default function World() {
   const [isLogin, setIsLogin] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [mapLoading, setMapLoading] = useState(true);
+  const cookies = useCookies();
 
   const checkStockTower = (towerId: number) => {
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("accessToken") || ""
-    );
-    const auth = document.cookie;
-
-    if (!accessToken || !auth) {
+    const accessToken = cookies.get("accessToken");
+    if (!accessToken) {
       setShowLoginModal(true);
       return;
     }
@@ -76,11 +74,8 @@ export default function World() {
   };
 
   const startGame = (id: number, stockmonId: number) => {
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("accessToken") || ""
-    );
-    const auth = document.cookie;
-    if (!accessToken || !auth) {
+    const accessToken = cookies.get("accessToken");
+    if (!accessToken) {
       setShowLoginModal(true);
       return;
     }
@@ -287,13 +282,9 @@ export default function World() {
   }, []);
 
   useEffect(() => {
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("accessToken") || ""
-    );
-    const auth = document.cookie;
-
+    const accessToken = cookies.get("accessToken");
     setIsClient(true);
-    if (accessToken && auth) {
+    if (accessToken) {
       setIsLogin(true);
       service.getStockBallNum().then((res) => {
         if (res) {
