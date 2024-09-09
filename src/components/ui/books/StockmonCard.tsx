@@ -3,6 +3,7 @@ import { COLLECTION_MAX, IStockmonDetailRes } from "@/types/stockmons";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import "@/app/animations.css";
+import "animate.css";
 import NewPoint from "../NewPoint";
 
 type Props = {
@@ -18,6 +19,7 @@ export default function StockmonCard({ data }: Props) {
     setAnimate(true);
   };
 
+  // 이미지 클릭시 뽀잉하는 애니메이션
   useEffect(() => {
     if (animate) {
       const timeout = setTimeout(() => {
@@ -27,8 +29,9 @@ export default function StockmonCard({ data }: Props) {
       return () => clearTimeout(timeout);
     }
   }, [animate]);
+
   return (
-    <article className="w-full p-5 font-ptb text-lg bg-border-custom-dotted bg-stock-blue-200">
+    <article className="animate__animated animate__flipInY w-full p-5 font-ptb text-lg bg-border-custom-dotted bg-stock-blue-200">
       <figure className="w-full aspect-square flex flex-col justify-between gap- p-5 bg-[url('/images/bgStamp.svg')] bg-no-repeat bg-cover">
         <p className="text-stock-dark-300">No.{data.stockCode}</p>
         <img
@@ -38,14 +41,14 @@ export default function StockmonCard({ data }: Props) {
           onClick={handleImgClick}
         />
         <div className="relative text-right">
-          {data.catchCount >= COLLECTION_MAX && <NewPoint />}
           <button
-            className="p-2 px-3 rounded-lg text-stock-dark-500 bg-somsatang-gradient"
+            className="relative p-2 px-3 rounded-lg text-stock-dark-500 bg-somsatang-gradient shadow-lg shadow-purple-200"
             onClick={() => {
               router.push(`/books/${params?.id}/collection`);
             }}
           >
-            x{data.catchCount}
+            {data.catchCount >= COLLECTION_MAX && <NewPoint />}
+            <i>{/* 흰 슬라이드 애니메이션 */}</i>x{data.catchCount}
           </button>
         </div>
       </figure>
