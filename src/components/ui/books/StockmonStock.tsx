@@ -6,6 +6,7 @@ import StockTag from "./StockTag";
 import { STOCK_ICONS } from "@/types/stocks";
 import Row from "./Row";
 import { client } from "@/sockets/baseStomp";
+import { formatNumber } from "@/utils/nums";
 
 type InfoType = "detail" | "summary";
 
@@ -80,7 +81,7 @@ export default function StockmonStock({ data, type }: Props) {
         {type !== "summary" && (
           <Row>
             <p>포획 평균가</p>
-            <p>{data.stockmonAveragePrice} 원</p>
+            <p>{formatNumber(data.stockmonAveragePrice)} 원</p>
           </Row>
         )}
         <Row>
@@ -93,7 +94,9 @@ export default function StockmonStock({ data, type }: Props) {
                   realTimePrice === "-" ? "text-stock-dark-500" : priceColor
                 }
               >
-                {realTimePrice}
+                {isNaN(Number(realTimePrice))
+                  ? realTimePrice
+                  : formatNumber(Number(realTimePrice))}
               </p>
               <p className="">원</p>
             </div>
@@ -104,7 +107,9 @@ export default function StockmonStock({ data, type }: Props) {
                   realTimePrice === "-" ? "text-stock-dark-500" : priceColor
                 }
               >
-                {realTimeDiff}
+                {isNaN(Number(realTimeDiff))
+                  ? realTimeDiff
+                  : formatNumber(Number(realTimeDiff))}
               </p>
               <p>원)</p>
             </div>
@@ -112,7 +117,7 @@ export default function StockmonStock({ data, type }: Props) {
         </Row>
         <Row>
           <p>종족치</p>
-          <p>{data.stockTotalPrice / 10000} 만원</p>
+          <p>{formatNumber(data.stockTotalPrice / 10000)} 만원</p>
         </Row>
       </section>
     </article>
