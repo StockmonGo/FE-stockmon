@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useStockBook } from "@/hooks/useStockBook";
 import useSWR from "swr";
+import { formatNumber } from "@/utils/nums";
 type Props = {
   open: boolean;
   onClose: () => void;
@@ -80,7 +81,7 @@ export default function StockExchangeModal({
                   return (
                     <div
                       key={stockmon.id}
-                      className={`m-auto p-1 max-w-24 ${
+                      className={`m-auto p-1 max-w-24 relative flex flex-col min-h-[112px] items-center justify-end ${
                         choiceStockmon === stockmon.id && "bg-stock-lemon-100"
                       }`}
                       onClick={() => {
@@ -88,9 +89,26 @@ export default function StockExchangeModal({
                       }}
                     >
                       <img
+                        className="flex-1"
                         src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmon.id}.png`}
                         alt=""
+                        style={{
+                          aspectRatio: "1/1",
+                        }}
                       />
+                      <p className="font-ptr text-center text-slate-700 text-sm">
+                        {stockmon.name}
+                      </p>
+                      {choiceStockmon === stockmon.id && (
+                        <div className="absolute -translate-y-1/2 top-1/2 bg-slate-700 rounded p-1 bg-opacity-40">
+                          <p className="font-ptr text-center text-slate-50 text-sm ">
+                            {"[평단가]"}
+                          </p>
+                          <p className="font-ptr text-center text-slate-50 text-sm">
+                            {formatNumber(stockmon.stockAveragePrice)}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
