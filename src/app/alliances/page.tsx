@@ -74,6 +74,7 @@ export default function Alliance() {
   const [debouncedQuery, setDebouncedQuery] = useState(searchKeyword);
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(event.target.value);
+    if (event.target.value === "") setSearchedTraveler(undefined);
   };
 
   const searchUser = async () => {
