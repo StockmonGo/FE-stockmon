@@ -12,4 +12,5 @@ export interface IAccountInfoRes {
 export interface IMemberRes extends IAccountInfoRes {
   nickname: string;
   accountNumber: string | null;
+  tutorialWatched: boolean;
 }

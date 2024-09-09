@@ -3,6 +3,7 @@ import "./globals.css";
 import "./star.scss";
 import { Noto_Sans_KR } from "next/font/google";
 import { Providers } from "../components/providers";
+import { CookiesProvider } from 'next-client-cookies/server';
 
 const notoSansKr = Noto_Sans_KR({
   // preload: true, 기본값
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html>
       <link rel="manifest" href="/manifest.json" />
       <body className={notoSansKr.className}>
-        <Providers>{children}</Providers>
+        <CookiesProvider>
+          <Providers>{children}</Providers>
+        </CookiesProvider>
       </body>
     </html>
   );
