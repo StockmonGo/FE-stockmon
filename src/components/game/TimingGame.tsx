@@ -12,12 +12,14 @@ type Props = {
   catchStockmon: () => void;
   throwStockBall: () => void;
   imgUrl: string;
+  remainStockBall: number;
 };
 
 export default function TimingGame({
   catchStockmon,
   throwStockBall,
   imgUrl,
+  remainStockBall,
 }: Props) {
   const {
     onTargetClick,
@@ -45,18 +47,12 @@ export default function TimingGame({
   }, [status]);
 
   const handleTargetClick = () => {
+    if (disable || remainStockBall <= 0) return;
     //TODO: 포켓볼 사용하여 던짐
     vibrate([200]);
     throwStockBall();
     onTargetClick();
   };
-
-  useEffect(() => {
-    window.addEventListener("keypress", handleTargetClick);
-    return () => {
-      window.removeEventListener("keypress", handleTargetClick);
-    };
-  }, [aimPosition]);
 
   return (
     <div

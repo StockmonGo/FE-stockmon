@@ -8,14 +8,14 @@ type Props = {
   towerId: number;
   towerActive: boolean;
   service: mapAPI;
-  clickTower: (stockBall:number) => void
+  clickTower: (stockBall: number) => void;
 };
 export default function StockTowerModal({
   name,
   towerId,
   towerActive,
   service,
-  clickTower
+  clickTower,
 }: Props) {
   const [stockBallNum, setStockBallNum] = useState(0);
   const [showPeach, setShowPeach] = useState(false);
@@ -35,7 +35,7 @@ export default function StockTowerModal({
           console.log(res);
           if (res) {
             setStockBallNum(res.increasedStockBall);
-            clickTower(res.increasedStockBall)
+            clickTower(res.increasedStockBall);
           }
         });
         setShowPeach(true);
@@ -51,11 +51,10 @@ export default function StockTowerModal({
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setFirstCss("left-1/2");
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    // const timer = setTimeout(() => {
+    //   setFirstCss("left-1/2");
+    // }, 2000);
+    // return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -71,7 +70,7 @@ export default function StockTowerModal({
         <div
           className={`${firstCss} z-10 ${
             active ? "border-stock-red" : "border-stock-dark-500"
-          } absolute max-w-[654px] border-[100px] w-screen min-w-[450px] scale-x-[1.7] scale-y-110 rounded-full h-full fixed top-0 transform -translate-x-1/2 flex justify-center items-center`}
+          } absolute max-w-xl border-[100px] w-screen min-w-[360px] scale-x-[1.9] scale-y-110 rounded-full h-full fixed top-0 transform flex justify-center items-center`}
         >
           {active ? (
             <img
@@ -89,20 +88,19 @@ export default function StockTowerModal({
           )}
         </div>
       </div>
-
       {showPeach && (
-        <>
+        <div className="fixed flex bottom-10 w-full justify-center gap-20">
           <img
             src="/images/peach.svg"
             alt="복숭아"
-            className="bounce w-14 h-14 z-20 fixed bottom-4 right-20"
+            className="bounce w-14 h-14 z-20 fixed bottom-4 right-24"
           />
           <img
             src="/images/peach.svg"
             alt="복숭아"
             className="bounce2 w-14 h-14 z-20 fixed bottom-4 left-24"
           />
-        </>
+        </div>
       )}
     </>
   );
