@@ -45,4 +45,18 @@ export default class memberAPI extends BaseApi {
       }
     }
   }
+
+  async didTutorial(): Promise<SuccessResponse<null>> {
+    try {
+      const resp = await this.fetcher.post("/api/core/users/tutorial");
+      return new SuccessResponse(resp.status, "튜토리얼 완료", null);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data);
+        throw Error(error.response?.data.message);
+      } else {
+        throw Error("알 수 없는 에러 발생");
+      }
+    }
+  }
 }

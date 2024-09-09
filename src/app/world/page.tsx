@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import BeforeInstallPrompt from "@/components/BeforeInstallPrompt";
 import Modal from "@/components/ui/Modal";
 import LoadingMap from "@/components/ui/world/LoadingMap";
+import { setScreenSize } from "@/utils/screen";
+import { useCookies } from "next-client-cookies";
 
 declare global {
   interface Window {
@@ -29,14 +31,11 @@ export default function World() {
   const [isLogin, setIsLogin] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [mapLoading, setMapLoading] = useState(true);
+  const cookies = useCookies();
 
   const checkStockTower = (towerId: number) => {
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("accessToken") || ""
-    );
-    const auth = document.cookie;
-
-    if (!accessToken || !auth) {
+    const accessToken = cookies.get("accessToken");
+    if (!accessToken) {
       setShowLoginModal(true);
       return;
     }
@@ -76,11 +75,8 @@ export default function World() {
   };
 
   const startGame = (id: number, stockmonId: number) => {
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("accessToken") || ""
-    );
-    const auth = document.cookie;
-    if (!accessToken || !auth) {
+    const accessToken = cookies.get("accessToken");
+    if (!accessToken) {
       setShowLoginModal(true);
       return;
     }
@@ -88,6 +84,7 @@ export default function World() {
     router.push("/game");
   };
   useEffect(() => {
+    setScreenSize();
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
     kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_JS_KEY}&autoload=false`;
@@ -123,6 +120,7 @@ export default function World() {
             position: myLocation,
             image: markerImage,
             map: map,
+            zIndex: 10,
           });
         };
 
@@ -240,6 +238,11 @@ export default function World() {
             getMapInfo(latitude, longitude);
             setMapLoading(false);
 
+            // 1분 간격으로 정보를 가져오기
+            const intervalId = setInterval(() => {
+              getMapInfo(latitude, longitude);
+            }, 60 * 1000);
+
             // 그 후 watchPosition
             navigator.geolocation.watchPosition(
               (position) => {
@@ -265,6 +268,7 @@ export default function World() {
               (err) => console.log(err),
               { enableHighAccuracy: true }
             );
+            return () => clearInterval(intervalId);
           });
         } else {
           console.log("Geolocation API를 지원하지 않습니다.");
@@ -280,13 +284,9 @@ export default function World() {
   }, []);
 
   useEffect(() => {
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("accessToken") || ""
-    );
-    const auth = document.cookie;
-
+    const accessToken = cookies.get("accessToken");
     setIsClient(true);
-    if (accessToken && auth) {
+    if (accessToken) {
       setIsLogin(true);
       service.getStockBallNum().then((res) => {
         if (res) {

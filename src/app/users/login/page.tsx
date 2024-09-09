@@ -1,4 +1,5 @@
 "use client";
+import memberAPI from "@/apis/memberAPI";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/hooks/useAuth";
@@ -28,6 +29,7 @@ export default function Login() {
     title: "",
     onClick: () => {},
   });
+  const service = new memberAPI();
 
   const closeModal = () => {
     setModal({
@@ -43,7 +45,14 @@ export default function Login() {
         password: data.password,
       });
       if (res) {
-        router.push("/world");
+        // 튜토리얼 안 했으면 튜토리얼로 보내기
+        service.getMemberProfile().then((profile) => {
+          if (!profile?.tutorialWatched) {
+            router.push("/tutorial");
+          } else {
+            router.push("/world");
+          }
+        });
       }
     } catch (error: any) {
       console.log("error fail login");
