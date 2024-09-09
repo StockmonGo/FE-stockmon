@@ -27,10 +27,10 @@ export default function World() {
   const router = useRouter();
   const { ErrorToast } = useToast();
   const checkStockTower = (towerId: number) => {
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("accessToken") || ""
-    );
-    if (!accessToken) {
+    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
+    const auth = document.cookie;
+
+    if (!accessToken || !auth) {
       ErrorToast("로그인 후 이용해주세요!");
       return;
     }
@@ -70,10 +70,9 @@ export default function World() {
   };
 
   const startGame = (id: number, stockmonId: number) => {
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("accessToken") || ""
-    );
-    if (!accessToken) {
+    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
+    const auth = document.cookie;
+    if (!accessToken || !auth) {
       ErrorToast("로그인 후 이용해주세요");
       return;
     }
@@ -272,19 +271,16 @@ export default function World() {
   }, []);
 
   useEffect(() => {
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("accessToken") || ""
-    );
+    const accessToken = JSON.parse(window.localStorage.getItem("accessToken") || "");
+    const auth = document.cookie;
+
     setIsClient(true);
-    if (accessToken) {
-      service
-        .getStockBallNum()
-        .then((res) => {
-          if (res) {
-            setStockballs(res.stockballs);
-          }
-        })
-        .catch((err) => console.log(err));
+    if (accessToken && auth) {
+      service.getStockBallNum().then((res) => {
+        if (res) {
+          setStockballs(res.stockballs);
+        }
+      });
     }
   }, []);
 
