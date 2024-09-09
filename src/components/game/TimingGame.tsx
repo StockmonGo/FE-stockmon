@@ -6,6 +6,7 @@ import useGame from "@/hooks/useGame";
 import "animate.css";
 import "@/app/animations.css";
 import Confetti from "./Confetti";
+import useVibrate from "@/hooks/useVibrate";
 
 type Props = {
   catchStockmon: () => void;
@@ -30,6 +31,7 @@ export default function TimingGame({
   } = useGame();
   const [animNum, setAnimNum] = useState<Number>();
   const [confettiAnimation, setConfettiAnimation] = useState(false);
+  const { vibrate } = useVibrate();
 
   useEffect(() => {
     setAnimNum(Math.floor(Math.random() * 10));
@@ -44,6 +46,7 @@ export default function TimingGame({
 
   const handleTargetClick = () => {
     //TODO: 포켓볼 사용하여 던짐
+    vibrate([200]);
     throwStockBall();
     onTargetClick();
   };

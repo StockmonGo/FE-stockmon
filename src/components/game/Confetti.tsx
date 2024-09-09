@@ -1,11 +1,13 @@
-// Confetti.tsx
+import useVibrate from "@/hooks/useVibrate";
 import React, { useRef, useEffect } from "react";
 
 const Confetti: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isActive, setIsActive] = React.useState(true); // 상태를 true로 설정
+  const { vibrate } = useVibrate();
 
   useEffect(() => {
+    vibrate([500]);
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
