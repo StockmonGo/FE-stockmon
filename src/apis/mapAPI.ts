@@ -87,7 +87,7 @@ export default class mapAPI extends BaseApi {
     }
   }
 
-  async throwStockball(
+  async throwStockballs(
     usedStockballs: number
   ): Promise<ICatchedStockmonRes | null> {
     try {

@@ -8,29 +8,38 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import useToast from "@/hooks/useToast";
 
 type GAME_STATUS = "playing" | "done";
 export default function Game() {
   const [gameStatus, setGameStatus] = useState<GAME_STATUS>("playing");
   const router = useRouter();
-  const { SuccessToast } = useToast();
-  const [usedStockball, setUsedStockball] = useState(0);
-  const [stockmonGame] = useAtom(stockmonGameAtom);
-  const [isLoading, setIsLoading] = useState(false);
-  const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${stockmonGame.stockmonId}.png`;
   const service = new mapAPI();
+  const [stockmonGame] = useAtom(stockmonGameAtom);
+  const { SuccessToast, ErrorToast } = useToast();
+  const [usedStockball, setUsedStockball] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [stockballs, setStockballs] = useState(0);
+  const stockmonImgSrc = `${process.env.NEXT_PUBLIC_S3_URL}/${stockmonGame.stockmonId}.png`;
+  const stockballCnt = useMemo(
+    () => stockballs - usedStockball,
+    [stockballs, usedStockball]
+  );
   const throwStockBall = () => {
+    if (stockballCnt <= 0) {
+      return ErrorToast("사용할 복숭아가 없어요..");
+    }
     setUsedStockball((prev) => {
       return prev + 1;
     });
   };
+
   //스톡볼 소모만 하고 잡기 실패
   const handleFailCatch = async () => {
     SuccessToast("도망갈게요!");
     //setGameStatus("done");
-    const res = await service.throwStockball(usedStockball);
+    const res = await service.throwStockballs(usedStockball);
     console.log("fail catch res:", res);
     router.push(`/world`);
   };
@@ -56,7 +65,16 @@ export default function Game() {
       setIsLoading(false);
     }
   };
-
+  useEffect(() => {
+    service
+      .getStockBallNum()
+      .then((res) => {
+        if (res) {
+          setStockballs(res.stockballs);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div className="w-full h-full overflow-x-hidden overflow-y-scroll">
       <div className="fixed w-full h-full overflow-hidden z-0">
@@ -81,9 +99,10 @@ export default function Game() {
                   className=""
                 />
               </div>
-              <PeachCount usingStockball={usedStockball} />
+              <PeachCount stockballCnt={stockballCnt} />
             </div>
             <TimingGame
+              remainStockBall={stockballCnt}
               throwStockBall={throwStockBall}
               catchStockmon={handleCatch}
               imgUrl={stockmonImgSrc}
