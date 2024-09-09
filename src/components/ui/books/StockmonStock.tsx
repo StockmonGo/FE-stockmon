@@ -44,10 +44,10 @@ export default function StockmonStock({ data, type }: Props) {
 
       if (diff > 0) {
         setPriceColor("text-red-600");
-        setRealTimeDiff("+" + diff.toString());
+        setRealTimeDiff("+" + formatNumber(diff));
       } else {
         setPriceColor("text-blue-600");
-        setRealTimeDiff(diff.toString());
+        setRealTimeDiff(formatNumber(diff));
       }
     } else {
       setRealTimePrice("-");
@@ -86,7 +86,6 @@ export default function StockmonStock({ data, type }: Props) {
           </Row>
         )}
         <Row>
-          {/*TODO: 소켓 연결하기*/}
           <p>현재 주가</p>
           <div className="flex flex-col gpa-1 items-end">
             <div className="flex gap-1">
@@ -108,9 +107,7 @@ export default function StockmonStock({ data, type }: Props) {
                   realTimePrice === "-" ? "text-stock-dark-500" : priceColor
                 }
               >
-                {isNaN(Number(realTimeDiff))
-                  ? realTimeDiff
-                  : formatNumber(Number(realTimeDiff))}
+                {realTimeDiff}
               </p>
               <p>원)</p>
             </div>
