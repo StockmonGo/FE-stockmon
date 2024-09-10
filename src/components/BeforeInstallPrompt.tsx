@@ -10,11 +10,11 @@ const defaultBeforeInstallPromptEvent: BeforeInstallPromptEvent = {
 };
 
 const isIOSPromptActive = () => {
-  const isActive = JSON.parse(localStorage.getItem("iosInstalled") || "true");
+  const isActive = JSON.parse(localStorage.getItem("iosInstalled") || "false");
   if (isActive) {
-    return defaultBeforeInstallPromptEvent;
+    return null;
   }
-  return null;
+  return defaultBeforeInstallPromptEvent;
 };
 
 export default function BeforeInstallPrompt() {
@@ -35,7 +35,7 @@ export default function BeforeInstallPrompt() {
   };
 
   const handleCancelClick = () => {
-    localStorage.setItem("iosInstalled", "false");
+    localStorage.setItem("iosInstalled", "true");
     setDeferredPrompt(null);
   };
 
