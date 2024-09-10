@@ -14,6 +14,9 @@ const notoSansKr = Noto_Sans_KR({
 export const metadata: Metadata = {
   title: "Stockmon world",
   description: "it`s Stockmon World",
+  icons: {
+    icon: "/images/logo-48x48.png",
+  },
 };
 
 export default function RootLayout({
@@ -23,6 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html>
+      <title>StockmonWorld</title>
       <link rel="manifest" href="/manifest.json" />
       <body className={notoSansKr.className}>
         <CookiesProvider>
