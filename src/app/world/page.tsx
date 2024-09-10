@@ -285,7 +285,6 @@ export default function World() {
   }, []);
 
   useEffect(() => {
-    reload();
     const accessToken = cookies.get("accessToken");
     setIsClient(true);
     if (accessToken) {
@@ -299,22 +298,7 @@ export default function World() {
       setIsLogin(false);
     }
   }, []);
-  const reload = () => {
-    setTimeout(() => {
-      const mapElement = document.getElementById("map");
 
-      // mapElement가 존재하고 자식 요소가 없는 경우
-      if (mapElement && mapElement.children.length === 0) {
-        console.log("No children in #map, reloading page...");
-        window.location.reload();
-      } else {
-        console.log(
-          "Children exist in #map or element does not exist, no reload.",
-          mapElement
-        );
-      }
-    }, 5000);
-  };
   return (
     <div className="static flex flex-col items-center justify-items-center h-full">
       <div id="map" className="w-screen h-full max-w-xl opacity-85"></div>
