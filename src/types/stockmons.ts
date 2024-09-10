@@ -56,3 +56,12 @@ export interface ICatchedStockmonReq {
   stockmonId: number;
   usedStockballs: number;
 }
+
+export interface IStockmonFeel {
+  id: number;
+  good: boolean;
+}
+
+export interface IYardStockmonRes {
+  stockmons: IStockmonFeel[];
+}
