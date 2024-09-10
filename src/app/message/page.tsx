@@ -37,7 +37,7 @@ export default function Message() {
   const serviceExchange = useMemo(() => new exchangeAPI(), []);
   const { ErrorToast, SuccessToast } = useToast();
   const { acceptExchange, rejectExchange } = useExchange();
-  const [notices, setNotices] = useState<INoticeItem[]>([]);
+
   const {
     data: dataExchange,
     isLoading: loadingExchange,
@@ -111,8 +111,6 @@ export default function Message() {
     }
   };
   const handleConfirm = (noticeInfo: INoticeItem) => {
-    console.log("confirm: ", noticeInfo);
-    //TODO: 교환팝업이면 handleExchangeOpen 실행, 동맹팝업이면 동맹요청 실행
     if (noticeInfo.noticeType === "동맹")
       return acceptAlliance(noticeInfo.noticeId);
     if (noticeInfo.noticeType === "교환") return handleExchangeOpen(noticeInfo);
@@ -163,46 +161,8 @@ export default function Message() {
       mutate("exchangeRequest");
     }
   };
-
-  useEffect(() => {
-    if (dataAlliance)
-      setNotices(
-        notices
-          .concat(
-            dataAlliance.map((data: IAllianceRequest) => {
-              return {
-                senderNickname: data.nickName,
-                noticeType: "동맹",
-                noticeId: data.noticeId,
-                createdDateTimeStamp: new Date(data.createdAt).getTime(),
-              };
-            })
-          )
-          .sort((a, b) => b.createdDateTimeStamp - a.createdDateTimeStamp)
-      );
-  }, [dataAlliance]);
-
-  useEffect(() => {
-    if (dataExchange)
-      setNotices(
-        notices
-          .concat(
-            dataExchange.map((data: IExchangeRequest) => {
-              return {
-                senderNickname: data.senderNickname,
-                noticeType: "교환",
-                senderStockmonId: data.senderStockmonId,
-                senderStockmonName: data.senderStockmonName,
-                noticeId: data.noticeId,
-                createdDateTimeStamp: new Date(data.createAt).getTime(),
-              };
-            })
-          )
-          .sort((a, b) => b.createdDateTimeStamp - a.createdDateTimeStamp)
-      );
-  }, [dataExchange]);
   const noticeList = useMemo(() => {
-    const a: INoticeItem[] | undefined = dataExchange?.map(
+    const exchanges: INoticeItem[] | undefined = dataExchange?.map(
       (data: IExchangeRequest) => {
         return {
           senderNickname: data.senderNickname,
@@ -214,7 +174,7 @@ export default function Message() {
         };
       }
     );
-    const b: INoticeItem[] | undefined = dataAlliance?.map(
+    const allainces: INoticeItem[] | undefined = dataAlliance?.map(
       (data: IAllianceRequest) => {
         return {
           senderNickname: data.nickName,
@@ -224,8 +184,8 @@ export default function Message() {
         };
       }
     );
-    return a
-      ?.concat(b || [])
+    return exchanges
+      ?.concat(allainces || [])
       .sort((a, b) => b.createdDateTimeStamp - a.createdDateTimeStamp);
   }, [dataExchange, dataAlliance]);
   return (

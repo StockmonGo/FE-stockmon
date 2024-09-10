@@ -1,4 +1,3 @@
-import CommonLayout from "@/components/ui/CommonLayout";
 import { Metadata } from "next";
 import React from "react";
 

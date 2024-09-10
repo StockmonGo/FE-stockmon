@@ -25,9 +25,9 @@ export default function CommonLayout({
         ></div>
         <Twinkle />
       </div>
-      <div className="p-6 max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
+      <div className="px-6 max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
         {header && (
-          <header className="w-full">
+          <header className="w-full pt-6">
             <h2 className="text-center text-stock-dark-800 text-xl font-bold py-2">
               {title}
             </h2>
@@ -36,7 +36,7 @@ export default function CommonLayout({
         )}
         <main className="flex-1 w-full h-full overflow-scroll">{children}</main>
         {useButton && (
-          <footer className="w-full flex justify-center">
+          <footer className="w-full flex justify-center fixed z-10 bottom-6">
             <BtnClose routeUrl={routeUrl} />
           </footer>
         )}

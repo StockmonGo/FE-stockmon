@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import React from "react";
-import CommonLayout from "../../components/ui/CommonLayout";
 import Twinkle from "../../components/ui/Twinkle";
 export const metadata: Metadata = {
   title: "User",

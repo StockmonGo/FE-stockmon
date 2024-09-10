@@ -75,14 +75,19 @@ export default function World() {
     setStockballs((prev) => prev + stockBall);
   };
 
-  const startGame = (id: number, stockmonId: number) => {
+  const startGame = (
+    id: number,
+    stockmonId: number,
+    lat: number,
+    lon: number
+  ) => {
     const accessToken = cookies.get("accessToken");
     if (!accessToken) {
       setShowLoginModal(true);
       return;
     }
     setStockmonGame({ id, stockmonId });
-    router.push("/game");
+    router.push(`/game?lat=${lat}&lon=${lon}`);
   };
   useEffect(() => {
     setScreenSize();
@@ -203,7 +208,9 @@ export default function World() {
                   //TODO: 게임이동
                   startGame(
                     stockmonPositions[i].worldId,
-                    stockmonPositions[i].stockmonId
+                    stockmonPositions[i].stockmonId,
+                    latitude,
+                    longitude
                   );
                   console.log(
                     "click stockmon",
@@ -285,6 +292,7 @@ export default function World() {
   }, []);
 
   useEffect(() => {
+    reload();
     const accessToken = cookies.get("accessToken");
     setIsClient(true);
     if (accessToken) {
@@ -298,7 +306,19 @@ export default function World() {
       setIsLogin(false);
     }
   }, []);
-
+  const reload = () =>{
+    setTimeout(() => {
+      const mapElement = document.getElementById('map');
+  
+      // mapElement가 존재하고 자식 요소가 없는 경우
+      if (mapElement && mapElement.children.length === 0) {
+        console.log('No children in #map, reloading page...');
+        window.location.reload();
+      } else {
+        console.log('Children exist in #map or element does not exist, no reload.',mapElement);
+      }
+    }, 5000);  
+  }
   return (
     <div className="static grid justify-items-center">
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
