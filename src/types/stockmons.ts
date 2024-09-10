@@ -49,6 +49,7 @@ export interface ICatchedStockmonRes {
   stockMarket: string;
   description: string;
   stockCode: string;
+  isFirst: boolean;
 }
 
 export interface ICatchedStockmonReq {
