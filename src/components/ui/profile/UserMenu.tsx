@@ -48,7 +48,7 @@ export default function UserMenu({ accountNumber }: Props) {
         openStockModal(res.stockName, res.stockId, res.stockCode);
       }
     } catch (error) {
-      ErrorToast("계좌 생성에 실패했어요");
+      ErrorToast("계좌 생성에 실패했어요.");
       onAccountClose();
     }
   };
@@ -67,7 +67,7 @@ export default function UserMenu({ accountNumber }: Props) {
         router.replace("/users/register");
       } else {
         //TODO: 에러. 탈퇴실패!
-        ErrorToast("탈퇴 실패했어요");
+        ErrorToast("탈퇴 실패했어요.");
       }
     });
   };
@@ -84,8 +84,16 @@ export default function UserMenu({ accountNumber }: Props) {
     {
       text: "로그아웃",
       onClick: () => {
-        signOut();
-        router.push("/users/login");
+        signOut()
+          .then(() => {
+            SuccessToast("로그아웃 되었습니다.");
+          })
+          .catch(() => {
+            ErrorToast("로그아웃을 실패했어요.");
+          })
+          .finally(() => {
+            router.push("/users/login");
+          });
       },
     },
     {

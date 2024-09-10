@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 
 type Props = {
@@ -24,6 +25,17 @@ export default function Modal({
   title,
   describe,
 }: Props) {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
+
   return (
     open && (
       <div
