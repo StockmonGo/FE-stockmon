@@ -25,14 +25,11 @@ export default function Game() {
   const stockTypeName = searchParams!.get("stn") as string;
   const stockCode = searchParams!.get("std") as string;
   const isFirst = searchParams!.get("first") as string;
-  const [stockmonData, setStockmonData] = useState<ICatchedStockmonRes>();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const service = new memberAPI();
-  const { data, mutate } = useSWR("account", () => {
+  const { data } = useSWR("account", () => {
     return service.getAccountStatus();
   });
-  const { getStockmonDetail } = useStockBook();
-  // const { data, error } = useSWR(id, getStockmonDetail);
   const router = useRouter();
   // 계좌가 아직 없는데 isFirst면 모달을 띄워준다.
   // if (error) return <Error message={error.message} />;
@@ -43,10 +40,9 @@ export default function Game() {
       "has Account? :",
       data?.hasAccount
     );
-    if (isFirst == 'true' && data?.hasAccount === false) {
+    if (isFirst == "true" && data?.hasAccount === false) {
       setIsOpenModal(true);
     }
-  
   }, [data, isFirst]);
   if (id === null) {
     return (

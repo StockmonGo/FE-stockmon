@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../Modal";
 import memberAPI from "@/apis/memberAPI";
 import { useAuth } from "@/hooks/useAuth";
-import { useRouter } from "next/navigation";
-import useSWR from "swr";
+import { useRouter, useSearchParams } from "next/navigation";
+import useSWR, { mutate } from "swr";
 import useToast from "@/hooks/useToast";
 
 type Props = {
@@ -20,9 +20,11 @@ export default function UserMenu({ accountNumber }: Props) {
     stockCode: "",
     isOpen: false,
   });
+  const searchParams = useSearchParams();
+  const isCreate = searchParams!.get("create") as string;
   const service = new memberAPI();
   const { SuccessToast, ErrorToast } = useToast();
-  const { data, mutate } = useSWR("account", () => {
+  const { data } = useSWR("account", () => {
     return service.getAccountStatus();
   });
   const { data: stocks } = useSWR("stocks", () => {
@@ -50,6 +52,9 @@ export default function UserMenu({ accountNumber }: Props) {
     } catch (error) {
       ErrorToast("계좌 생성에 실패했어요.");
       onAccountClose();
+    } finally {
+      mutate("account");
+      mutate("stocks");
     }
   };
   const getAccountInfo = () => {
@@ -103,6 +108,7 @@ export default function UserMenu({ accountNumber }: Props) {
       },
     },
   ];
+
   const openStockModal = (
     stockName: string,
     stockmonId: number,
@@ -123,6 +129,11 @@ export default function UserMenu({ accountNumber }: Props) {
       isOpen: false,
     });
   };
+  useEffect(() => {
+    if (isCreate == "true") {
+      getAccountInfo();
+    }
+  }, [isCreate]);
   return (
     <div className="w-full h-fit bg-white/40 rounded-lg p-3">
       {menuItems.map((item, index) => (
