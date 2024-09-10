@@ -13,7 +13,7 @@ import { useCallback, useMemo } from "react";
 export default function Yard() {
   const service = new yardAPI();
   const { data, error } = useSWR<IYardStockmonRes | null>("memberProfile", () => service.getYardStockmon());
-  const getRandomPosition = (max: number) => Math.floor(Math.random() * max) + "px";
+  const getRandomPosition = (max: number) => Math.floor(Math.random() * (max - 50)) + 50 + "px";
 
   if (!data) {
     return <Loading />;
