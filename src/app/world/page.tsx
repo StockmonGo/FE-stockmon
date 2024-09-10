@@ -102,8 +102,7 @@ export default function World() {
           const options = {
             center: myLocation,
             level: 2,
-            // TODO: 최종 때는 드래그 못하도록 막기
-            // draggable: false,
+            draggable: false,
           };
 
           map = new window.kakao.maps.Map(container, options);
