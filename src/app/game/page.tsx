@@ -58,6 +58,8 @@ export default function Game() {
         worldId: stockmonGame.id,
         stockmonId: stockmonGame.stockmonId,
         usedStockballs: usedStockball,
+        latitude: +lat,
+        longitude: +lon,
       });
       if (res) {
         console.log("catch res:", res);
