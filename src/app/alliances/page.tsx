@@ -129,7 +129,7 @@ export default function Alliance() {
         onChange={handleSearchChange}
       />
       <div
-        className={`w-full bg-stock-blue-200 bg-border-custom-dotted h-4/5 rounded-lg p-3 mt-6`}
+        className={`w-full bg-stock-blue-200 bg-border-custom-dotted h-3/4 rounded-lg p-3 mt-6`}
       >
         <div className="w-full bg-stock-lemon-50 h-full rounded-lg p-2 overflow-scroll">
           {!searchKeyword &&

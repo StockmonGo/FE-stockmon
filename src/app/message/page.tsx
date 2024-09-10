@@ -191,9 +191,7 @@ export default function Message() {
   return (
     <>
       <div
-        className={`w-full bg-stock-blue-200 bg-border-custom-dotted ${
-          noticeList && noticeList.length > 0 ? "h-full" : "h-56"
-        } rounded-lg p-3`}
+        className={`w-full h-[90%] bg-stock-blue-200 bg-border-custom-dotted  rounded-lg p-3`}
       >
         <div className="w-full bg-stock-lemon-50 h-full rounded-lg p-2 overflow-scroll">
           {noticeList &&
