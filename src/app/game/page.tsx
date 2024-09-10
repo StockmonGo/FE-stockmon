@@ -83,14 +83,14 @@ export default function Game() {
   }, []);
   return (
     <Suspense>
-      <div className="w-full h-full overflow-x-hidden overflow-y-scroll">
+      <div className="w-full h-screen-small overflow-x-hidden overflow-y-hidden">
         <div className="fixed w-full h-full overflow-hidden z-0">
           <div
             className="bg-cover bg-center w-full h-full fixed z-[-1]"
             style={{ backgroundImage: "url('/images/bg-game.jpg')" }}
           ></div>
         </div>
-        <div className="max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
+        <div className="max-w-xl w-xl h-screen-small relative z-1 m-auto flex flex-col items-center justify-between gap-6">
           <main className="flex-1 w-full h-full">
             <div className="h-full">
               <div>
