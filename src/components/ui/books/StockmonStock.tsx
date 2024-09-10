@@ -115,7 +115,7 @@ export default function StockmonStock({ data, type }: Props) {
         </Row>
         <Row>
           <p>종족치</p>
-          <p>{formatNumber(data.stockTotalPrice / 10000)} 만원</p>
+          <p>{formatNumber(data.stockTotalPrice / 100_000_000)} 억원</p>
         </Row>
       </section>
     </article>
