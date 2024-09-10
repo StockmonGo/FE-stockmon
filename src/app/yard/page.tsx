@@ -20,8 +20,8 @@ export default function Yard() {
   }
 
   return (
-    <div className="w-full h-full flex justify-center">
-      <div className="w-screen max-w-xl h-screen bg-[url('/images/yardBg.png')] bg-cover bg-no-repeat relative flex justify-center">
+    <div className="w-full h-screen-small flex justify-center">
+      <div className="w-screen max-w-xl h-full bg-[url('/images/yardBg.png')] bg-cover bg-no-repeat relative flex justify-center">
         {data?.stockmons.map((item) => {
           const top = getRandomPosition(500);
           const left = getRandomPosition(300);

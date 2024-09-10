@@ -75,6 +75,9 @@ const config: Config = {
         "border-custom-dotted-thin": `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%2396A7FFFF' stroke-width='4' stroke-dasharray='18%2c18' stroke-dashoffset='73' stroke-linecap='square'/%3e%3c/svg%3e")`,
         "border-custom-dotted": `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%2396A7FFFF' stroke-width='6' stroke-dasharray='18%2c18' stroke-dashoffset='78' stroke-linecap='square'/%3e%3c/svg%3e")`,
       },
+      height: {
+        "screen-small": "100svh",
+      },
     },
   },
   plugins: [],
