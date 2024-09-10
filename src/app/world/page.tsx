@@ -51,8 +51,8 @@ export default function World() {
         const timeDifference =
           currentTimeDate.getTime() - spinnedAtDate.getTime();
 
-        // 5분 넘었으면 돌릴 수 있음
-        if (timeDifference > 5 * 60 * 1000) {
+        // 3분 넘었으면 돌릴 수 있음
+        if (timeDifference > 3 * 60 * 1000) {
           setTowerActive(true);
         } else {
           setTowerActive(false);
