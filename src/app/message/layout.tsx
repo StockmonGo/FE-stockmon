@@ -11,9 +11,9 @@ export default function MessageLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <CommonLayout title={"알림"}>
-    <div className="p-6">
-    {children}
-    </div>
-    </CommonLayout>;
+  return (
+    <CommonLayout title={"알림"}>
+      <div className="w-full h-full p-6">{children}</div>
+    </CommonLayout>
+  );
 }

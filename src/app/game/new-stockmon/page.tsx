@@ -22,6 +22,7 @@ export default function Game() {
   const desc = searchParams!.get("desc") as string;
   const market = searchParams!.get("market") as string;
   const stockType = searchParams!.get("st") as string;
+  const stockTypeName = searchParams!.get("stn") as string;
   const stockCode = searchParams!.get("std") as string;
   const isFirst = searchParams!.get("first") as string;
   const [stockmonData, setStockmonData] = useState<ICatchedStockmonRes>();
@@ -75,7 +76,7 @@ export default function Game() {
                   description={desc}
                 />
                 <NewStockmonInfo
-                  stockTypeName={stockType}
+                  stockTypeName={stockTypeName}
                   stockName={name}
                   stockMarket={market}
                   stockTotalPrice={+tpr}

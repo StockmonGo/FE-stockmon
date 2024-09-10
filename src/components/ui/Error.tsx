@@ -23,7 +23,7 @@ export default function Error({
           <img className="w-full aspect-square" src={imgUrl} alt="스톡몬" />
         </div>
       )}
-      <div className="w-4/5 break-all mx-6 text-center text-stock-dark-600 text-lg">
+      <div className="w-4/5 break-keep mx-6 text-center text-stock-dark-600 text-lg">
         {message}
       </div>
       <div> {children && children}</div>

@@ -79,6 +79,8 @@ export default function StockExchangeModal({
                 }}
               >
                 {stockmonList.stockmons.map((stockmon) => {
+                  if (stockmon.catchCount === 0) return;
+
                   return (
                     <div
                       key={stockmon.id}
@@ -89,6 +91,9 @@ export default function StockExchangeModal({
                         handleStockmonClick(stockmon.id);
                       }}
                     >
+                      <p className="absolute top-2 right-2 text-stock-blue-800 bg-somsatang-gradient bg-opacity-50 px-2 text-center rounded-full">
+                        {stockmon.catchCount}
+                      </p>
                       <img
                         className="h-[88px] w-[88px]"
                         src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmon.id}.png`}
@@ -98,7 +103,7 @@ export default function StockExchangeModal({
                         {stockmon.name}
                       </p>
                       {choiceStockmon === stockmon.id && (
-                        <div className="absolute -translate-y-1/2 top-1/2 bg-slate-700 rounded p-1 bg-opacity-40">
+                        <div className="absolute -translate-y-1/2 top-1/2 bg-slate-700 rounded p-1 bg-opacity-70">
                           <p className="font-ptr text-center text-slate-50 text-sm ">
                             {"[평단가]"}
                           </p>

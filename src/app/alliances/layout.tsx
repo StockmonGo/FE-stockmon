@@ -12,10 +12,8 @@ export default function MessageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <CommonLayout title={"동맹"} >
-      <div className="p-6">
-        {children}
-      </div>
+    <CommonLayout title={"동맹"}>
+      <div className="w-full h-full p-6">{children}</div>
     </CommonLayout>
   );
 }
