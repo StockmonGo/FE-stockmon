@@ -167,6 +167,9 @@ export default function UserMenu({ accountNumber }: Props) {
         title="연동된 계좌"
         describe={accountNumber}
       >
+        <p className="text-stock-slate-900 font-ptb text-start w-full px-2">
+          획득 주식 내역
+        </p>
         {stocks && (
           <div className="bg-slate-50 w-full rounded-md p-2 max-h-44 overflow-scroll px-4">
             {stocks.stocks.map((stock, idx) => {
