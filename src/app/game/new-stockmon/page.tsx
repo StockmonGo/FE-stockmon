@@ -36,16 +36,17 @@ export default function Game() {
   // 계좌가 아직 없는데 isFirst면 모달을 띄워준다.
   // if (error) return <Error message={error.message} />;
   useEffect(() => {
-    if (isFirst && data?.hasAccount === false) {
-      console.log(
-        "계좌 없음! isFrist:",
-        isFirst,
-        "has Account? :",
-        data?.hasAccount
-      );
+    console.log(
+      "계좌상황! isFrist:",
+      isFirst,
+      "has Account? :",
+      data?.hasAccount
+    );
+    if (isFirst == 'true' && data?.hasAccount === false) {
       setIsOpenModal(true);
     }
-  }, []);
+  
+  }, [data, isFirst]);
   if (id === null) {
     return (
       <div
@@ -94,7 +95,7 @@ export default function Game() {
       </div>
       <Modal
         open={isOpenModal}
-        title={"첫 획득!"}
+        title={"획득!"}
         describe={"주식계좌를 개설하고 주식을 획득하세요!"}
         onConfirm={() => {
           router.push("/profile?create=true");
