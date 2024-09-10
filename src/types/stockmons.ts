@@ -55,4 +55,6 @@ export interface ICatchedStockmonReq {
   worldId: number;
   stockmonId: number;
   usedStockballs: number;
+  latitude: number;
+  longitude: number;
 }
