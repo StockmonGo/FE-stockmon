@@ -7,7 +7,7 @@ const Confetti: React.FC = () => {
   const { vibrate } = useVibrate();
 
   useEffect(() => {
-    vibrate([500]);
+    vibrate([200, 100, 400]);
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
