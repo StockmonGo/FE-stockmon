@@ -19,7 +19,7 @@ export default function Tutorial() {
     router.push("/world");
   };
   const generateImageUrls = () => {
-    const urls: Record<number, string> = {};
+    const urls: Record<string, string> = {};
     for (let i = 1; i <= 5; i++) {
       urls[i] = `/images/tutorial${i}.svg`;
     }
@@ -34,14 +34,16 @@ export default function Tutorial() {
       .catch((err) => console.log(err));
   }, []);
   return (
-    <div className="w-screen h-screen bg-[url('/images/bg.jpg')] relative grid justify-items-center">
-      <div className="absolute right-6 top-6 h-fit w-fit">
-        <Button onClick={nextStep} text={step === 5 ? "시작하기" : "다음으로"} />
+    <div className="w-screen h-screen bg-[url('/images/bg.jpg')] relative grid justify-items-center relative">
+      <div className="w-full max-w-xl flex justify-between absolute p-4">
+        <div className="w-fit h-fit">
+          <Button onClick={skipTutorial} text="스킵하기" />
+        </div>
+        <div className="w-fit h-fit">
+          <Button onClick={nextStep} text={step === 5 ? "시작하기" : "다음으로"} />
+        </div>
       </div>
-      <img src={imgs[step]} className="max-h-screen w-full h-full object-cover" />
-      <div className="absolute top-6 left-6 h-fit w-fit">
-        <Button onClick={skipTutorial} text="스킵하기" />
-      </div>
+      <img src={imgs[step]} className="max-h-screen h-full object-cover" />
     </div>
   );
 }
