@@ -301,28 +301,29 @@ export default function World() {
 
   return (
     <div className="static grid justify-items-center">
-      {mapLoading && <Loading />}
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
-      {towerModalSee ? (
-        <>
-          <StockTowerModal
-            name={towerName}
-            towerId={towerId}
-            towerActive={towerActive}
-            service={service}
-            clickTower={clickTower}
-          />
-          <div
-            className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
-            onClick={() => setTowerModalSee(false)}
-          ></div>
-        </>
-      ) : (
-        <>
-          <TopNavBar stockballs={stockballs} />
-          <BottomNavBar />
-        </>
-      )}
+      {mapLoading && <Loading />}
+      {!mapLoading &&
+        (towerModalSee ? (
+          <>
+            <StockTowerModal
+              name={towerName}
+              towerId={towerId}
+              towerActive={towerActive}
+              service={service}
+              clickTower={clickTower}
+            />
+            <div
+              className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20 cursor-pointer"
+              onClick={() => setTowerModalSee(false)}
+            ></div>
+          </>
+        ) : (
+          <>
+            <TopNavBar stockballs={stockballs} />
+            <BottomNavBar />
+          </>
+        ))}
       {isClient && <BeforeInstallPrompt />}
       <Modal
         open={!isLogin && showLoginModal}
