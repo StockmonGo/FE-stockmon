@@ -245,26 +245,28 @@ export default function World() {
             setMapLoading(false);
 
             // 그 후 watchPosition
-            watchIdRef.current = navigator.geolocation.watchPosition((position) => {
-              const newLatitude = position.coords.latitude;
-              const newLongitude = position.coords.longitude;
-              // 지도와 마커 업데이트
-              updateUserLocation(newLatitude, newLongitude);
+            watchIdRef.current = navigator.geolocation.watchPosition(
+              (position) => {
+                const newLatitude = position.coords.latitude;
+                const newLongitude = position.coords.longitude;
+                // 지도와 마커 업데이트
+                updateUserLocation(newLatitude, newLongitude);
 
-              if (bufferRef.current) {
-                const { minLat, maxLat, minLon, maxLon } = bufferRef.current;
+                if (bufferRef.current) {
+                  const { minLat, maxLat, minLon, maxLon } = bufferRef.current;
 
-                if (
-                  newLatitude <= minLat ||
-                  newLatitude >= maxLat ||
-                  newLongitude <= minLon ||
-                  newLongitude >= maxLon
-                ) {
-                  getMapInfo(newLatitude, newLongitude);
-                  calcBuffer(newLatitude, newLongitude);
+                  if (
+                    newLatitude <= minLat ||
+                    newLatitude >= maxLat ||
+                    newLongitude <= minLon ||
+                    newLongitude >= maxLon
+                  ) {
+                    getMapInfo(newLatitude, newLongitude);
+                    calcBuffer(newLatitude, newLongitude);
+                  }
                 }
               }
-            });
+            );
           });
         } else {
           console.log("Geolocation API를 지원하지 않습니다.");
@@ -297,21 +299,24 @@ export default function World() {
       setIsLogin(false);
     }
   }, []);
-  const reload = () =>{
+  const reload = () => {
     setTimeout(() => {
-      const mapElement = document.getElementById('map');
-  
+      const mapElement = document.getElementById("map");
+
       // mapElement가 존재하고 자식 요소가 없는 경우
       if (mapElement && mapElement.children.length === 0) {
-        console.log('No children in #map, reloading page...');
+        console.log("No children in #map, reloading page...");
         window.location.reload();
       } else {
-        console.log('Children exist in #map or element does not exist, no reload.',mapElement);
+        console.log(
+          "Children exist in #map or element does not exist, no reload.",
+          mapElement
+        );
       }
-    }, 5000);  
+    }, 5000);
   };
   return (
-    <div className="static grid justify-items-center h-full">
+    <div className="static flex flex-col items-center justify-items-center h-full">
       <div id="map" className="w-screen h-full max-w-xl opacity-85"></div>
       {mapLoading && <Loading />}
       {!mapLoading &&
