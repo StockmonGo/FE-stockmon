@@ -5,11 +5,11 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import NewStockmonInfo from "@/components/game/NewStockmonInfo";
 import { ICatchedStockmonRes } from "@/types/stockmons";
-import Loading from "@/components/ui/Loading";
 import { useStockBook } from "@/hooks/useStockBook";
 import Error from "@/components/ui/Error";
 import useSWR from "swr";
 import Button from "@/components/ui/Button";
+import SimpleLoading from "@/components/ui/SimpleLoading";
 
 export default function Game() {
   const searchParams = useSearchParams();
@@ -32,7 +32,7 @@ export default function Game() {
   }
 
   if (!data) {
-    return <Loading />;
+    return <SimpleLoading />;
   }
   return (
     <div className="h-full">
