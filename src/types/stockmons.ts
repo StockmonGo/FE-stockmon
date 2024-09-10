@@ -58,3 +58,12 @@ export interface ICatchedStockmonReq {
   latitude: number;
   longitude: number;
 }
+
+export interface IStockmonFeel {
+  id: number;
+  good: boolean;
+}
+
+export interface IYardStockmonRes {
+  stockmons: IStockmonFeel[];
+}

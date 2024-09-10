@@ -8,6 +8,8 @@ import useSWR from "swr";
 import Error from "@/components/ui/Error";
 import { IStockmonsRes } from "@/types/stockmons";
 import { useStockBook } from "@/hooks/useStockBook";
+import { useRouter } from "next/navigation";
+import { BsHouseHeart } from "react-icons/bs";
 
 export default function Books() {
   const { getStockmons } = useStockBook();
@@ -16,6 +18,7 @@ export default function Books() {
     getStockmons
   );
   const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const router = useRouter();
   let countHeader: React.ReactNode = <CountHeader isLoading />;
   let stockmonList: React.ReactNode = <StockmonList isLoading />;
 
@@ -58,6 +61,12 @@ export default function Books() {
       }
     >
       {stockmonList}
+      <div
+        className="w-10 h-10 rounded-full bg-white border-blue-400 border-2 fixed bottom-6 right-7 z-50 grid justify-items-center content-center"
+        onClick={() => router.push("/yard")}
+      >
+        <BsHouseHeart size={24} color="#56A4FF" />
+      </div>
     </CommonLayout>
   );
 }

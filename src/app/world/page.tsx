@@ -69,6 +69,7 @@ export default function World() {
     maxLon: number;
     minLon: number;
   } | null>(null);
+  const watchIdRef = useRef<number | null>(null);
   const [isClient, setIsClient] = useState(false);
   const clickTower = (stockBall: number) => {
     setStockballs((prev) => prev + stockBall);
@@ -106,8 +107,7 @@ export default function World() {
           const options = {
             center: myLocation,
             level: 2,
-            // TODO: 최종 때는 드래그 못하도록 막기
-            // draggable: false,
+            draggable: false,
           };
 
           map = new window.kakao.maps.Map(container, options);
@@ -245,37 +245,27 @@ export default function World() {
             getMapInfo(latitude, longitude);
             setMapLoading(false);
 
-            // 1분 간격으로 정보를 가져오기
-            const intervalId = setInterval(() => {
-              getMapInfo(latitude, longitude);
-            }, 60 * 1000);
-
             // 그 후 watchPosition
-            navigator.geolocation.watchPosition(
-              (position) => {
-                const newLatitude = position.coords.latitude;
-                const newLongitude = position.coords.longitude;
-                // 지도와 마커 업데이트
-                updateUserLocation(newLatitude, newLongitude);
+            watchIdRef.current = navigator.geolocation.watchPosition((position) => {
+              const newLatitude = position.coords.latitude;
+              const newLongitude = position.coords.longitude;
+              // 지도와 마커 업데이트
+              updateUserLocation(newLatitude, newLongitude);
 
-                if (bufferRef.current) {
-                  const { minLat, maxLat, minLon, maxLon } = bufferRef.current;
+              if (bufferRef.current) {
+                const { minLat, maxLat, minLon, maxLon } = bufferRef.current;
 
-                  if (
-                    newLatitude <= minLat ||
-                    newLatitude >= maxLat ||
-                    newLongitude <= minLon ||
-                    newLongitude >= maxLon
-                  ) {
-                    getMapInfo(newLatitude, newLongitude);
-                    calcBuffer(newLatitude, newLongitude);
-                  }
+                if (
+                  newLatitude <= minLat ||
+                  newLatitude >= maxLat ||
+                  newLongitude <= minLon ||
+                  newLongitude >= maxLon
+                ) {
+                  getMapInfo(newLatitude, newLongitude);
+                  calcBuffer(newLatitude, newLongitude);
                 }
-              },
-              (err) => console.log(err),
-              { enableHighAccuracy: true }
-            );
-            return () => clearInterval(intervalId);
+              }
+            });
           });
         } else {
           console.log("Geolocation API를 지원하지 않습니다.");
@@ -287,6 +277,9 @@ export default function World() {
     return () => {
       kakaoMapScript.removeEventListener("load", onLoadKakaoAPI);
       document.head.removeChild(kakaoMapScript);
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+      }
     };
   }, []);
 
