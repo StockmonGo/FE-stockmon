@@ -14,3 +14,11 @@ export interface IMemberRes extends IAccountInfoRes {
   accountNumber: string | null;
   tutorialWatched: boolean;
 }
+
+export interface IStock {
+  stockId: number;
+  stockName: string;
+  stockCode: string;
+  stockCount: number;
+  accountNumber: string;
+}
