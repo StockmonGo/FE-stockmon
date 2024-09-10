@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import BeforeInstallPrompt from "@/components/BeforeInstallPrompt";
 import Modal from "@/components/ui/Modal";
 import LoadingMap from "@/components/ui/world/LoadingMap";
-import { setScreenSize } from "@/utils/screen";
 import { useCookies } from "next-client-cookies";
 
 declare global {
@@ -90,7 +89,6 @@ export default function World() {
     router.push(`/game?lat=${lat}&lon=${lon}`);
   };
   useEffect(() => {
-    setScreenSize();
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
     kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_JS_KEY}&autoload=false`;
@@ -310,11 +308,11 @@ export default function World() {
         console.log('Children exist in #map or element does not exist, no reload.',mapElement);
       }
     }, 5000);  
-  }
+  };
   return (
-    <div className="static grid justify-items-center">
+    <div className="static grid justify-items-center h-screen-small">
       {mapLoading && <LoadingMap />}
-      <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
+      <div id="map" className="w-screen h-full max-w-xl opacity-85"></div>
       {towerModalSee ? (
         <>
           <StockTowerModal

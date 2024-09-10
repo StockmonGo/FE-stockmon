@@ -33,9 +33,10 @@ export default function Tutorial() {
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }, []);
+
   return (
-    <div className="w-screen h-screen bg-[url('/images/bg.jpg')] relative grid justify-items-center relative">
-      <div className="w-full max-w-xl flex justify-between absolute p-4">
+    <div className="w-screen max-h-svh h-screen-small bg-[url('/images/bg.jpg')] relative grid justify-items-center">
+      <div className="w-full max-w-xl flex justify-between absolute p-4 h-full">
         <div className="w-fit h-fit">
           <Button onClick={skipTutorial} text="스킵하기" />
         </div>
