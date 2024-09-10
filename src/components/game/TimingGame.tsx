@@ -83,7 +83,7 @@ export default function TimingGame({
           <div className="h-outline"></div>
         </div>
         <img
-          className="catch-stokcmon-bounce  h-full"
+          className="catch-stokcmon-bounce m-auto h-full"
           src={imgUrl}
           alt="스톡몬"
         />

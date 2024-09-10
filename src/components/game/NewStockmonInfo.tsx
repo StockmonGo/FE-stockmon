@@ -34,13 +34,13 @@ export default function NewStockmonInfo(data: Props) {
           <div className="flex flex-col gpa-1 items-end">
             <div className="flex gap-1">
               <p className="text-red-600">{formatNumber(data.stockPrice)}</p>
-              <p className="">\</p>
+              <p className="">원</p>
             </div>
           </div>
         </Row>
         <Row>
           <p>종족치</p>
-          <p>{formatNumber(data.stockTotalPrice)} \</p>
+          <p>{formatNumber(data.stockTotalPrice / 10000)} 만원</p>
         </Row>
       </section>
     </article>

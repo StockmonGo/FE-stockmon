@@ -89,6 +89,36 @@
   animation: stockmon-shadow 2s infinite ease-in-out; /* 2초 동안 애니메이션 반복 */
 }
 
+/* 카드 회전 */
+@keyframes flipInY {
+  from {
+    transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+    opacity: 0;
+  }
+  40% {
+    transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+    opacity: 1;
+  }
+  60% {
+    transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+  }
+  80% {
+    transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+  }
+  to {
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+
+.animated.flipInY {
+  backface-visibility: hidden;
+  transform: "translateZ(0)";
+  -webkit-font-smoothing: subpixel-antialiased;
+  text-rendering: optimizeLegibility;
+  animation: flipInY 1s ease-in-out;
+}
+
 /*코인*/
 i {
   /*   positioning */
