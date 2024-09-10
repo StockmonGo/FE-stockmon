@@ -311,8 +311,8 @@ export default function World() {
     }, 5000);  
   };
   return (
-    <div className="static grid justify-items-center h-screen-small">
-      <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
+    <div className="static grid justify-items-center h-full">
+      <div id="map" className="w-screen h-full max-w-xl opacity-85"></div>
       {mapLoading && <Loading />}
       {!mapLoading &&
         (towerModalSee ? (

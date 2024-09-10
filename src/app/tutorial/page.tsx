@@ -44,7 +44,7 @@ export default function Tutorial() {
           <Button onClick={nextStep} text={step === 6 ? "시작하기" : "다음으로"} />
         </div>
       </div>
-      <img src={imgs[step]} className="max-h-screen h-full object-cover" />
+      <img src={imgs[step]} className="max-h-svh h-full object-cover" />
     </div>
   );
 }
