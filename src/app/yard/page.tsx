@@ -12,7 +12,7 @@ import Loading from "@/components/ui/Loading";
 export default function Yard() {
   const { getStockmons } = useStockBook();
   const { data, error } = useSWR<IStockmonsRes | null>("stockmons", getStockmons);
-  if (error) {
+  const getRandomPosition = (max: number) => Math.floor(Math.random() * max) + "px";
     return <Error message={error.message} />;
   }
 
@@ -23,8 +23,8 @@ export default function Yard() {
   return (
     <div className="w-screen max-w-lg h-screen bg-[url('/images/yardBg.png')] bg-cover bg-no-repeat relative">
       {data.stockmons.map((item) => {
-        const top = randomInt(500) + "px";
-        const left = randomInt(300) + "px";
+        const top = getRandomPosition(500);
+        const left = getRandomPosition(300);
 
         return (
           <div key={item.id} style={{ top, left }} className="bounce w-fit h-fit absolute grid justify-items-center">
