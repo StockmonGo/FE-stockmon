@@ -64,7 +64,7 @@ export default function Game() {
       if (res) {
         console.log("catch res:", res);
         router.push(
-          `/game/new-stockmon?id=${stockmonGame.stockmonId}&pr=${res.stockPrice}`
+          `/game/new-stockmon?id=${stockmonGame.stockmonId}&pr=${res.stockPrice}&tpr=${res.stockTotalPrice}&name=${res.stockmonName}&desc=${res.description}&market=${res.stockMarket}&st=${res.stockType}&std=${res.stockCode}&first=${res.isfirst}`
         );
       }
     } finally {

@@ -10,18 +10,43 @@ import Error from "@/components/ui/Error";
 import useSWR from "swr";
 import Button from "@/components/ui/Button";
 import SimpleLoading from "@/components/ui/SimpleLoading";
+import Modal from "@/components/ui/Modal";
+import memberAPI from "@/apis/memberAPI";
 
 export default function Game() {
   const searchParams = useSearchParams();
   const id = searchParams!.get("id") as string;
-  const stockPrice = searchParams!.get("pr") as string;
+  const pr = searchParams!.get("pr") as string;
+  const tpr = searchParams!.get("tpr") as string;
+  const name = searchParams!.get("name") as string;
+  const desc = searchParams!.get("desc") as string;
+  const market = searchParams!.get("market") as string;
+  const stockType = searchParams!.get("st") as string;
+  const stockCode = searchParams!.get("std") as string;
+  const isFirst = searchParams!.get("first") as string;
   const [stockmonData, setStockmonData] = useState<ICatchedStockmonRes>();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const service = new memberAPI();
+  const { data, mutate } = useSWR("account", () => {
+    return service.getAccountStatus();
+  });
   const { getStockmonDetail } = useStockBook();
-  const { data, error } = useSWR(id, getStockmonDetail);
+  // const { data, error } = useSWR(id, getStockmonDetail);
   const router = useRouter();
-
-  if (error) return <Error message={error.message} />;
-  if (data === null) {
+  // 계좌가 아직 없는데 isFirst면 모달을 띄워준다.
+  // if (error) return <Error message={error.message} />;
+  useEffect(() => {
+    if (isFirst && data?.hasAccount === false) {
+      console.log(
+        "계좌 없음! isFrist:",
+        isFirst,
+        "has Account? :",
+        data?.hasAccount
+      );
+      setIsOpenModal(true);
+    }
+  }, []);
+  if (id === null) {
     return (
       <div
         className={`w-full h-full flex justify-center items-center text-stock-dark-400 text-lg`}
@@ -30,41 +55,55 @@ export default function Game() {
       </div>
     );
   }
+  // if (!data) {
+  //   return <SimpleLoading />;
+  // }
 
-  if (!data) {
-    return <SimpleLoading />;
-  }
   return (
-    <div className="h-full">
-      <div className="max-w-xl w-xl h-screen mx-auto">
-        <div className="flex flex-col gap-5 pb-20 items-center">
-          {data && (
-            <>
-              <img src="/icons/status-new.png" alt="새로 추가" />
-              <NewStockmon
-                stockCode={data.stockCode}
-                stockmonId={data.stockmonId}
-                stockmonName={data.stockmonName}
-                description={data.description}
-              />
-              <NewStockmonInfo
-                stockTypeName={data.stockTypeName}
-                stockName={data.stockmonName}
-                stockMarket={data.stockMarket}
-                stockTotalPrice={data.stockTotalPrice}
-                stockType={data.stockType}
-                stockPrice={+stockPrice}
-              />
-              <Button
-                onClick={() => {
-                  router.push(`/books/${data.stockmonId}`);
-                }}
-                text={"도감으로 보러가기"}
-              ></Button>
-            </>
-          )}
+    <>
+      <div className="h-full">
+        <div className="max-w-xl w-xl h-screen mx-auto">
+          <div className="flex flex-col gap-5 pb-20 items-center">
+            {id && (
+              <>
+                <img src="/icons/status-new.png" alt="새로 추가" />
+                <NewStockmon
+                  stockCode={stockCode}
+                  stockmonId={+id}
+                  stockmonName={name}
+                  description={desc}
+                />
+                <NewStockmonInfo
+                  stockTypeName={stockType}
+                  stockName={name}
+                  stockMarket={market}
+                  stockTotalPrice={+tpr}
+                  stockType={+stockType}
+                  stockPrice={+pr}
+                />
+                <Button
+                  onClick={() => {
+                    router.push(`/books/${id}`);
+                  }}
+                  text={"도감으로 보러가기"}
+                ></Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <Modal
+        open={isOpenModal}
+        title={"첫 획득!"}
+        describe={"주식계좌를 개설하고 주식을 획득하세요!"}
+        onConfirm={() => {
+          router.push("/profile?create=true");
+        }}
+        onClose={() => {
+          setIsOpenModal(false);
+        }}
+        hasClose={true}
+      />
+    </>
   );
 }
