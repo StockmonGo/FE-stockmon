@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import "@/app/animations.css";
 import "animate.css";
 import NewPoint from "../NewPoint";
+import Button from "../Button";
 
 type Props = {
   data: IStockmonDetailRes;
@@ -32,7 +33,7 @@ export default function StockmonCard({ data }: Props) {
 
   return (
     <article className="animated flipInY w-full p-5 font-ptb text-lg bg-border-custom-dotted bg-stock-blue-200">
-      <figure className="w-full aspect-square flex flex-col justify-between gap- p-5 bg-[url('/images/bgStamp.svg')] bg-no-repeat bg-cover">
+      <figure className="w-full aspect-square flex flex-col justify-between p-5 bg-[url('/images/bgStamp.svg')] bg-no-repeat bg-cover">
         <p className="text-stock-dark-300">No.{data.stockCode}</p>
         <img
           className={`w-40 aspect-square mx-auto ${animate ? "gelatine" : ""}`}
@@ -40,16 +41,22 @@ export default function StockmonCard({ data }: Props) {
           alt={data.stockmonName}
           onClick={handleImgClick}
         />
-        <div className="relative text-right">
-          <button
-            className="relative p-2 px-3 rounded-lg text-stock-dark-500 bg-somsatang-gradient shadow-lg shadow-purple-200"
+        <div className="relative w-fit self-end">
+          <i>{/* 흰 슬라이드 애니메이션 */}</i>
+          {data.catchCount >= COLLECTION_MAX && <NewPoint />}
+          <Button
+            className="mb-0"
+            style={{
+              paddingTop: "0.3rem",
+              paddingBottom: "0.3rem",
+              paddingLeft: "0.6rem",
+              paddingRight: "0.6rem",
+            }}
             onClick={() => {
               router.push(`/books/${params?.id}/collection`);
             }}
-          >
-            {data.catchCount >= COLLECTION_MAX && <NewPoint />}
-            <i>{/* 흰 슬라이드 애니메이션 */}</i>x{data.catchCount}
-          </button>
+            text={`x${data.catchCount}`}
+          />
         </div>
       </figure>
       <figcaption className="relative mt-10 p-4 rounded-lg bg-yellow-50">

@@ -4,6 +4,7 @@ import CommonLayout from "@/components/ui/CommonLayout";
 import Loading from "@/components/ui/Loading";
 import UserMenu from "@/components/ui/profile/UserMenu";
 import UserProfile from "@/components/ui/profile/UserProfile";
+import SimpleLoading from "@/components/ui/SimpleLoading";
 import { IMemberRes } from "@/types/member";
 import useSWR from "swr";
 
@@ -21,7 +22,7 @@ export default function Profile() {
   }
 
   if (!member) {
-    return <Loading />;
+    return <SimpleLoading />;
   }
 
   return (

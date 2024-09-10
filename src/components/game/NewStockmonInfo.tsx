@@ -25,7 +25,6 @@ export default function NewStockmonInfo(data: Props) {
           content={Icon && <Icon size={20} />}
           category={data.stockTypeName}
         />
-        <StockTag content={data.stockName} category="종족" />
         <StockTag content={data.stockMarket} category="소속" />
       </section>
       <section className="flex flex-col gap-3 px-7 py-5 bg-white bg-opacity-50 font-ptb text-[#715EB7] text-lg">
@@ -40,7 +39,7 @@ export default function NewStockmonInfo(data: Props) {
         </Row>
         <Row>
           <p>종족치</p>
-          <p>{formatNumber(data.stockTotalPrice / 10000)} 만원</p>
+          <p>{formatNumber(data.stockTotalPrice / 100_000_000)} 억원</p>
         </Row>
       </section>
     </article>

@@ -45,10 +45,10 @@ export default function Modal({
           )}
           {!isLoading && (
             <>
-              <header className="w-full p-3 flex flex-col gap-2 text-center text-stock-blue-950 bg-white rounded-lg break-all">
+              <header className="w-full p-3 flex flex-col gap-2 text-center text-stock-blue-950 bg-white rounded-lg break-keep">
                 {title && <h2 className="font-ptb text-lg">{title}</h2>}
                 {describe && (
-                  <p className="font-ptr text-sm w-full break-all">
+                  <p className="font-ptr text-sm w-full break-keep">
                     {describe}
                   </p>
                 )}

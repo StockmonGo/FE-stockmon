@@ -24,7 +24,7 @@ export default function Loading() {
             <img className="w-1/2 aspect-square" src={imgUrl} alt="스톡몬" />
           )}
           {<AiOutlineLoading className="animate-spin m-auto" color={"gray"} />}
-          <div className="w-4/5 break-all mx-6 text-center text-stock-dark-600 text-lg">
+          <div className="w-4/5 break-keep mx-6 text-center text-stock-dark-600 text-lg">
             {text}
           </div>
           <div></div>
