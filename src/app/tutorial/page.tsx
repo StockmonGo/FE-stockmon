@@ -9,7 +9,7 @@ export default function Tutorial() {
   const router = useRouter();
   const service = new memberAPI();
   const nextStep = () => {
-    if (step == 5) {
+    if (step == 6) {
       router.push("/world");
       return;
     }
@@ -20,7 +20,7 @@ export default function Tutorial() {
   };
   const generateImageUrls = () => {
     const urls: Record<string, string> = {};
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 6; i++) {
       urls[i] = `/images/tutorial${i}.svg`;
     }
     return urls;
