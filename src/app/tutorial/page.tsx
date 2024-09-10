@@ -36,7 +36,7 @@ export default function Tutorial() {
 
   return (
     <div className="w-screen max-h-svh h-screen-small bg-[url('/images/bg.jpg')] relative grid justify-items-center">
-      <div className="w-full max-w-xl flex justify-between absolute p-4 h-full">
+      <div className="w-full max-w-xl flex justify-between absolute px-4 pt-20 h-full">
         <div className="w-fit h-fit">
           <Button onClick={skipTutorial} text="스킵하기" />
         </div>
@@ -44,7 +44,7 @@ export default function Tutorial() {
           <Button onClick={nextStep} text={step === 6 ? "시작하기" : "다음으로"} />
         </div>
       </div>
-      <img src={imgs[step]} className="max-h-screen h-full object-cover" />
+      <img src={imgs[step]} className="max-h-svh h-full object-cover" />
     </div>
   );
 }
