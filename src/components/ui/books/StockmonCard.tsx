@@ -31,7 +31,7 @@ export default function StockmonCard({ data }: Props) {
   }, [animate]);
 
   return (
-    <article className="animate__animated animate__flipInY w-full p-5 font-ptb text-lg bg-border-custom-dotted bg-stock-blue-200">
+    <article className="animated flipInY w-full p-5 font-ptb text-lg bg-border-custom-dotted bg-stock-blue-200">
       <figure className="w-full aspect-square flex flex-col justify-between gap- p-5 bg-[url('/images/bgStamp.svg')] bg-no-repeat bg-cover">
         <p className="text-stock-dark-300">No.{data.stockCode}</p>
         <img

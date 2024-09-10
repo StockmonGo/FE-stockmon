@@ -12,6 +12,7 @@ import Modal from "@/components/ui/Modal";
 import LoadingMap from "@/components/ui/world/LoadingMap";
 import { setScreenSize } from "@/utils/screen";
 import { useCookies } from "next-client-cookies";
+import Loading from "@/components/ui/Loading";
 
 declare global {
   interface Window {
@@ -69,6 +70,7 @@ export default function World() {
     maxLon: number;
     minLon: number;
   } | null>(null);
+  const watchIdRef = useRef<number | null>(null);
   const [isClient, setIsClient] = useState(false);
   const clickTower = (stockBall: number) => {
     setStockballs((prev) => prev + stockBall);
@@ -106,8 +108,7 @@ export default function World() {
           const options = {
             center: myLocation,
             level: 2,
-            // TODO: 최종 때는 드래그 못하도록 막기
-            // draggable: false,
+            draggable: false,
           };
 
           map = new window.kakao.maps.Map(container, options);
@@ -245,37 +246,27 @@ export default function World() {
             getMapInfo(latitude, longitude);
             setMapLoading(false);
 
-            // 1분 간격으로 정보를 가져오기
-            const intervalId = setInterval(() => {
-              getMapInfo(latitude, longitude);
-            }, 60 * 1000);
-
             // 그 후 watchPosition
-            navigator.geolocation.watchPosition(
-              (position) => {
-                const newLatitude = position.coords.latitude;
-                const newLongitude = position.coords.longitude;
-                // 지도와 마커 업데이트
-                updateUserLocation(newLatitude, newLongitude);
+            watchIdRef.current = navigator.geolocation.watchPosition((position) => {
+              const newLatitude = position.coords.latitude;
+              const newLongitude = position.coords.longitude;
+              // 지도와 마커 업데이트
+              updateUserLocation(newLatitude, newLongitude);
 
-                if (bufferRef.current) {
-                  const { minLat, maxLat, minLon, maxLon } = bufferRef.current;
+              if (bufferRef.current) {
+                const { minLat, maxLat, minLon, maxLon } = bufferRef.current;
 
-                  if (
-                    newLatitude <= minLat ||
-                    newLatitude >= maxLat ||
-                    newLongitude <= minLon ||
-                    newLongitude >= maxLon
-                  ) {
-                    getMapInfo(newLatitude, newLongitude);
-                    calcBuffer(newLatitude, newLongitude);
-                  }
+                if (
+                  newLatitude <= minLat ||
+                  newLatitude >= maxLat ||
+                  newLongitude <= minLon ||
+                  newLongitude >= maxLon
+                ) {
+                  getMapInfo(newLatitude, newLongitude);
+                  calcBuffer(newLatitude, newLongitude);
                 }
-              },
-              (err) => console.log(err),
-              { enableHighAccuracy: true }
-            );
-            return () => clearInterval(intervalId);
+              }
+            });
           });
         } else {
           console.log("Geolocation API를 지원하지 않습니다.");
@@ -287,6 +278,9 @@ export default function World() {
     return () => {
       kakaoMapScript.removeEventListener("load", onLoadKakaoAPI);
       document.head.removeChild(kakaoMapScript);
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+      }
     };
   }, []);
 
@@ -320,28 +314,29 @@ export default function World() {
   }
   return (
     <div className="static grid justify-items-center">
-      {mapLoading && <LoadingMap />}
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
-      {towerModalSee ? (
-        <>
-          <StockTowerModal
-            name={towerName}
-            towerId={towerId}
-            towerActive={towerActive}
-            service={service}
-            clickTower={clickTower}
-          />
-          <div
-            className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20"
-            onClick={() => setTowerModalSee(false)}
-          ></div>
-        </>
-      ) : (
-        <>
-          <TopNavBar stockballs={stockballs} />
-          <BottomNavBar />
-        </>
-      )}
+      {mapLoading && <Loading />}
+      {!mapLoading &&
+        (towerModalSee ? (
+          <>
+            <StockTowerModal
+              name={towerName}
+              towerId={towerId}
+              towerActive={towerActive}
+              service={service}
+              clickTower={clickTower}
+            />
+            <div
+              className="w-10 h-10 bg-[url('/icons/CloseButton.svg')] fixed bottom-5 z-20 cursor-pointer"
+              onClick={() => setTowerModalSee(false)}
+            ></div>
+          </>
+        ) : (
+          <>
+            <TopNavBar stockballs={stockballs} />
+            <BottomNavBar />
+          </>
+        ))}
       {isClient && <BeforeInstallPrompt />}
       <Modal
         open={!isLogin && showLoginModal}
