@@ -142,7 +142,7 @@ export default function UserMenu({ accountNumber }: Props) {
         title="계좌 생성 완료!"
         onConfirm={closeStockModal}
       >
-        <div className="flex flex-col items-center text-center">
+        <div className="flex flex-col items-center text-center break-all">
           <img
             width={120}
             height={120}
