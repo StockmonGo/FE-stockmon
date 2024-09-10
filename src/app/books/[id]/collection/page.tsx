@@ -13,6 +13,7 @@ import { useStockBook } from "@/hooks/useStockBook";
 import memberAPI from "@/apis/memberAPI";
 import { IAccountInfoRes } from "@/types/member";
 import useToast from "@/hooks/useToast";
+import SimpleLoading from "@/components/ui/SimpleLoading";
 
 export default function Collection() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function Collection() {
 
   if (stockmonError) return <Error message={stockmonError.message} />;
   if (!stockmonData) {
-    return <Loading />;
+    return <SimpleLoading />;
   }
 
   const handleExchange = async () => {

@@ -14,6 +14,8 @@ import { GiCardExchange } from "react-icons/gi";
 import { useStockBook } from "@/hooks/useStockBook";
 import useExchange from "@/hooks/useExchange";
 import useToast from "@/hooks/useToast";
+import SimpleLoading from "@/components/ui/SimpleLoading";
+import BtnClose from "@/components/ui/BtnClose";
 
 export default function Detail() {
   const params = useParams();
@@ -41,7 +43,7 @@ export default function Detail() {
   }
 
   if (!data) {
-    return <Loading />;
+    return <SimpleLoading />;
   }
 
   const onClickExchange = () => {
@@ -66,29 +68,39 @@ export default function Detail() {
   };
 
   return (
-    <div className="flex flex-col gap-5 pb-20 items-center">
-      <StockmonCard data={data} />
-      <StockmonStock data={data} />
-      <StockmonChart data={chartData} error={chartError} />
-      <StockmonExchangeModal
-        onClose={onClose}
-        onConfirm={onConfirm}
-        open={exchangeModalOpen}
-        onClickAliance={onClickAliance}
-        selectedAlliance={selectedAlliance}
-      />
-      <div
-        className="w-10 h-10 rounded-full bg-white border-blue-400 border-2 fixed bottom-6 right-7 z-50 grid justify-items-center content-center"
-        onClick={onClickExchange}
-      >
-        <GiCardExchange size={28} color="#56A4FF" />
+    <div
+      className="p-6 pb-24 overflow-scroll bg-cover bg-center w-full h-full fixed z-[-1]"
+      style={{ backgroundImage: "url('/images/bg.jpg')" }}
+    >
+      <div className="max-w-xl w-xl h-screen mx-auto">
+        <div className="flex flex-col gap-5 pb-20 items-center">
+          <StockmonCard data={data} />
+          <StockmonStock data={data} />
+          <StockmonChart data={chartData} error={chartError} />
+          <StockmonExchangeModal
+            onClose={onClose}
+            onConfirm={onConfirm}
+            open={exchangeModalOpen}
+            onClickAliance={onClickAliance}
+            selectedAlliance={selectedAlliance}
+          />
+          <div
+            className="w-10 h-10 rounded-full bg-white border-blue-400 border-2 fixed bottom-6 right-7 z-50 grid justify-items-center content-center"
+            onClick={onClickExchange}
+          >
+            <GiCardExchange size={28} color="#56A4FF" />
+          </div>
+          <Modal
+            title="교환 요청이 완료되었습니다"
+            describe="상대방이 교환할 스톡몬을 선택하면 교환이 이루어집니다."
+            open={checkModalOpen}
+            onClose={() => setCheckModalOpen(false)}
+          />
+        </div>
       </div>
-      <Modal
-        title="교환 요청이 완료되었습니다"
-        describe="상대방이 교환할 스톡몬을 선택하면 교환이 이루어집니다."
-        open={checkModalOpen}
-        onClose={() => setCheckModalOpen(false)}
-      />
+      <footer className="fixed left-0 right-0 bottom-6 w-full flex justify-center z-10">
+        <BtnClose routeUrl="/books" />
+      </footer>
     </div>
   );
 }

@@ -12,6 +12,7 @@ import Modal from "@/components/ui/Modal";
 import LoadingMap from "@/components/ui/world/LoadingMap";
 import { setScreenSize } from "@/utils/screen";
 import { useCookies } from "next-client-cookies";
+import Loading from "@/components/ui/Loading";
 
 declare global {
   interface Window {
@@ -300,7 +301,7 @@ export default function World() {
 
   return (
     <div className="static grid justify-items-center">
-      {mapLoading && <LoadingMap />}
+      {mapLoading && <Loading />}
       <div id="map" className="w-screen h-screen max-w-xl opacity-85"></div>
       {towerModalSee ? (
         <>
