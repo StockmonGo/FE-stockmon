@@ -1,14 +1,11 @@
 "use client";
 import BtnClose from "@/components/ui/BtnClose";
-import { randomInt } from "crypto";
 import "@/app/world/world.css";
 import StockmonFeel from "@/components/ui/yard/StockmonFeel";
 import useSWR from "swr";
-import { IStockmonsRes, IYardStockmonRes } from "@/types/stockmons";
-import Error from "@/components/ui/Error";
+import { IYardStockmonRes } from "@/types/stockmons";
 import Loading from "@/components/ui/Loading";
 import yardAPI from "@/apis/yardAPI";
-import { useCallback, useMemo } from "react";
 
 export default function Yard() {
   const service = new yardAPI();
