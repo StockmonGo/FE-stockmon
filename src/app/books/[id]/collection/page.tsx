@@ -3,7 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { COLLECTION_MAX } from "@/types/stockmons";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
@@ -64,7 +64,7 @@ export default function Collection() {
       await postStockExchange(stockmonData.stockCode);
       setGetStockModalOpen(false);
       SuccessToast(`${stockmonData.stockName} 을(를) 받았습니다!`);
-      router.refresh();
+      params?.id && mutate(params?.id);
     } catch (err) {
       ErrorToast();
       setGetStockModalOpen(false);
