@@ -75,7 +75,6 @@ export default function StockmonStock({ data, type }: Props) {
           content={Icon && <Icon size={20} />}
           category={data.stockTypeName}
         />
-        <StockTag content={data.stockName} category="종족" />
         <StockTag content={data.stockMarket} category="소속" />
       </section>
       <section className="flex flex-col gap-3 px-7 py-5 bg-white bg-opacity-50 font-ptb text-[#715EB7] text-lg">
