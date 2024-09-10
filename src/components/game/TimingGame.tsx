@@ -7,6 +7,7 @@ import "animate.css";
 import "@/app/animations.css";
 import Confetti from "./Confetti";
 import useVibrate from "@/hooks/useVibrate";
+import useToast from "@/hooks/useToast";
 
 type Props = {
   catchStockmon: () => void;
@@ -33,21 +34,35 @@ export default function TimingGame({
   } = useGame();
   const [animNum, setAnimNum] = useState<Number>();
   const [confettiAnimation, setConfettiAnimation] = useState(false);
+  const { ErrorToast } = useToast();
   const { vibrate } = useVibrate();
 
   useEffect(() => {
     setAnimNum(Math.floor(Math.random() * 10));
 
-    setTimeout(() => {
+    const confettiTimeout = setTimeout(() => {
       if (gage <= 0) {
         setConfettiAnimation(true);
-        catchStockmon();
       }
     }, 3000);
+
+    const catchTimeout = setTimeout(() => {
+      if (gage <= 0) {
+        catchStockmon();
+      }
+    }, 5000);
+
+    return () => {
+      clearTimeout(confettiTimeout);
+      clearTimeout(catchTimeout);
+    };
   }, [status]);
 
   const handleTargetClick = () => {
-    if (disable || remainStockBall <= 0) return;
+    if (disable) return;
+    if (remainStockBall <= 0) {
+      return ErrorToast("사용할 복숭아가 없어요..");
+    }
     //TODO: 포켓볼 사용하여 던짐
     vibrate([200]);
     throwStockBall();
@@ -83,7 +98,7 @@ export default function TimingGame({
           <div className="h-outline"></div>
         </div>
         <img
-          className="catch-stokcmon-bounce  h-full"
+          className="catch-stokcmon-bounce m-auto h-full"
           src={imgUrl}
           alt="스톡몬"
         />
@@ -91,7 +106,6 @@ export default function TimingGame({
       </div>
       {/* {status === "Hit" && ( */}
       {/* Confetti 애니메이션 */}
-      {/* {status === "Perfect" && <Confetti />} */}
       {confettiAnimation && <Confetti />}
       {status && (
         <div
