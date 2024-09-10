@@ -20,7 +20,7 @@ export default function UsersLayout({
         ></div>
         <Twinkle />
       </div>
-      <div className="max-w-xl w-xl h-screen relative z-1 m-auto flex flex-col items-center justify-between gap-6">
+      <div className="max-w-xl w-xl h-screen-small relative z-1 m-auto flex flex-col items-center justify-between gap-6">
         <main className="flex-1 w-full h-full overflow-scroll">{children}</main>
       </div>
     </div>

@@ -8,7 +8,7 @@ type Props = {
 
 export default function MobileInstallPrompt({ handleInstallClick, handleCancelClick, platform }: Props) {
   return (
-    <div className="fixed bottom-0 left-0 w-screen max-w-xl h-fit bg-white z-50 grid justify-items-center p-3">
+    <div className="fixed bottom-0 left-0 w-screen max-w-xl h-fit max-h-60 bg-white z-50 grid justify-items-center p-3">
       <div className="flex space-x-3 items-center">
         <img src="/images/logo-96x96.png" alt="로고" className="w-20 h-20" />
         <div>

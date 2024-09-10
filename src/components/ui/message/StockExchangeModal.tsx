@@ -54,6 +54,7 @@ export default function StockExchangeModal({
               <div>
                 <div className="max-w-20">
                   <img
+                    className="h-[88px] w-[88px]"
                     src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmonId}.png`}
                     alt="스톡몬"
                   />
@@ -94,12 +95,9 @@ export default function StockExchangeModal({
                         {stockmon.catchCount}
                       </p>
                       <img
-                        className="flex-1"
+                        className="h-[88px] w-[88px]"
                         src={`${process.env.NEXT_PUBLIC_S3_URL}/${stockmon.id}.png`}
                         alt=""
-                        style={{
-                          aspectRatio: "1/1",
-                        }}
                       />
                       <p className="font-ptr text-center text-slate-700 text-sm">
                         {stockmon.name}

@@ -139,7 +139,7 @@ export default function Register() {
               disabled={!isDirty || !isValid}
             />
           </div>
-          <p className="font-sm text-stock-dark-800 mt-4">
+          <p className="font-sm text-stock-dark-800 mt-2">
             이미 회원이신가요?{" "}
             <span
               className="font-bold cursor-pointer"
