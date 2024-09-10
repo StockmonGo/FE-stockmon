@@ -130,10 +130,10 @@ export default function UserMenu({ accountNumber }: Props) {
     });
   };
   useEffect(() => {
-    if (isCreate == "true") {
+    if (isCreate == "true" && data?.hasAccount === false) {
       getAccountInfo();
     }
-  }, [isCreate]);
+  }, [isCreate, data]);
   return (
     <div className="w-full h-fit bg-white/40 rounded-lg p-3">
       {menuItems.map((item, index) => (
